@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37502.11 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDSCreator", "DDSCreator.csproj", "{FCFB4000-8F7F-4C83-A491-C8AE4E9652DF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FCFB4000-8F7F-4C83-A491-C8AE4E9652DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCFB4000-8F7F-4C83-A491-C8AE4E9652DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCFB4000-8F7F-4C83-A491-C8AE4E9652DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCFB4000-8F7F-4C83-A491-C8AE4E9652DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {85D6B290-A8CC-4466-B340-AD0F0779D031}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,6 @@
+[submodule "ColoredLogger"]
+	path = ColoredLogger
+	url = https://github.com/DeCEll-1/ColoredLogger.git
+[submodule "External/ColoredLogger"]
+	path = External/ColoredLogger
+	url = https://github.com/DeCEll-1/ColoredLogger.git

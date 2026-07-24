@@ -1,0 +1,12 @@
+{
+  "id": "VramOptimizer",
+  "name": "~Vram Optimizer", # better load last ye?
+  "author": "DeCell",
+  "totalConversion": "false",
+  "description": "Vram Optimizer",
+  "gameVersion": "0.98a-RC5",
+  "modPlugin": "DeCell.VOpt.Plugins.ModPlugin",
+  "jars": [
+    "jars/VOpt.jar"
+  ]
+}
