@@ -64,6 +64,9 @@ public class Reflections {
     public static final MethodHandle filesReadAllBytesHandle;
     public static final MethodHandle pathOfStringHandle;
 
+    public static final Class<?> linkOptionArrayClass;
+    public static final MethodHandle filesExistsHandle;
+
     static {
         try {
             fieldClass = Class.forName("java.lang.reflect.Field", false, Class.class.getClassLoader());
@@ -158,6 +161,15 @@ public class Reflections {
                     pathClass,
                     "of",
                     MethodType.methodType(pathClass, String.class, String[].class)
+            );
+
+            linkOptionArrayClass = Class.forName("[Ljava.nio.file.LinkOption;", false, Class.class.getClassLoader());
+
+            // Files.exists(Path, LinkOption...) -> boolean
+            filesExistsHandle = lookup.findStatic(
+                    filesClass,
+                    "exists",
+                    MethodType.methodType(boolean.class, pathClass, linkOptionArrayClass)
             );
 
         } catch (Exception e) {
@@ -519,6 +531,30 @@ public class Reflections {
             return (byte[]) filesReadAllBytesHandle.invoke(pathInstance);
         } catch (Throwable t) {
             throw new RuntimeException("Failed to read bytes from file path: " + filePath, t);
+        }
+    }
+    public static boolean fileExists(Object pathInstance) {
+        if (pathInstance == null) {
+            return false;
+        }
+        try {
+            // Pass an empty LinkOption array
+            Object emptyOptions = java.lang.reflect.Array.newInstance(linkOptionArrayClass.getComponentType(), 0);
+            return (boolean) filesExistsHandle.invoke(pathInstance, emptyOptions);
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to check if file exists", t);
+        }
+    }
+
+    public static boolean fileExists(String filePath) {
+        if (filePath == null || filePath.isEmpty()) {
+            return false;
+        }
+        try {
+            Object pathInstance = pathOfStringHandle.invoke(filePath, new String[0]);
+            return fileExists(pathInstance);
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to check if file path exists: " + filePath, t);
         }
     }
 }

@@ -55,5 +55,16 @@ namespace DDSCreator
             _ => "Unknown"
         };
 
+        public static string FormatCompactNumber(ulong value)
+        {
+            if (value >= 1_000_000_000)
+                return $"{value / 1_000_000_000D:0.#}B";
+            if (value >= 1_000_000)
+                return $"{value / 1_000_000D:0.#}M";
+            if (value >= 1_000)
+                return $"{value / 1_000D:0.#}K";
+
+            return value.ToString();
+        }
     }
 }

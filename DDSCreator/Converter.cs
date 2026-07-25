@@ -1,7 +1,8 @@
 ﻿using BCnEncoder.Encoder;
 using BCnEncoder.Shared;
-using ColoredLogger;
+using DDSCreator.Model;
 using ImageMagick;
+using Spectre.Console;
 using System.Diagnostics;
 
 namespace DDSCreator
@@ -14,7 +15,7 @@ namespace DDSCreator
             string outputFileName = string.IsNullOrWhiteSpace(customOutName) ? $"{fileName}.dds" : customOutName;
             string ddsOutputPath = Path.Combine(toDirectory, outputFileName);
 
-            bool isCached = Program.ExistingMetadataCache.TryGetValue(srcFilePath, out var cachedMeta);
+            bool isCached = Program.ExistingMetadataCache.TryGetValue(srcFilePath, out FileMetadata? cachedMeta);
             bool fileExists = !overwrite && File.Exists(ddsOutputPath) && new FileInfo(ddsOutputPath).Length != 0;
 
             bool shouldSkip = fileExists && (!isCached || File.GetLastWriteTimeUtc(srcFilePath) <= cachedMeta!.DDSCreationDate);
@@ -37,7 +38,7 @@ namespace DDSCreator
                 }
 
                 Program.PixelsAlreadyCached += (ulong)(pWidth * pHeight);
-                Program.TotalPixelsTotal += (ulong)(pWidth * pHeight);
+                Program.TotalPixelsProcessed += (ulong)(pWidth * pHeight);
 
                 return (ddsOutputPath, pWidth, pHeight, true);
             }
@@ -71,11 +72,11 @@ namespace DDSCreator
             }
             catch (Exception ex)
             {
-                Logger.Log(ex.ToString(), LogLevel.Error);
+                Console.WriteLine(ex);
                 throw;
             }
 
-            Program.TotalPixelsTotal += (ulong)(width * height);
+            Program.TotalPixelsProcessed += (ulong)(width * height);
 
             return (ddsOutputPath, width, height, false);
         }

@@ -35,13 +35,28 @@ public class ModPlugin extends BaseModPlugin {
                 .getFile().replace("starsector-core/../", "").replaceFirst("/", "");
         starsectorDirectory = starsectorDirectory.substring(0, starsectorDirectory.indexOf("/mods"));
 
-        String DDSMetadata = Global.getSettings().loadText("dds_metadata.json", "VramOptimizer");
-
-        List<FileMetadata> list = parseFileList(DDSMetadata);
 
         List<ModSpecAPI> mods = Global.getSettings().getModManager().getEnabledModsCopy();
         VOpt.Log("VRAM usage before dds replacement: " + (getTotalTextureVRAM() / 1024 / 1024) + "MB");
+
         for (ModSpecAPI mod : mods) {
+            // we want individual mods to be able to supply their own dds files
+            // so we will check if they have a metadata already
+            String DDSMetadata = "null";
+
+            try {
+                DDSMetadata = Global.getSettings().loadText("DDSCache/" + mod.getDirName() + "/dds_metadata.json", mod.getId());
+            } catch (Exception ignored) {
+                try { // fallback
+                    DDSMetadata = Global.getSettings().loadText("DDSCache/" + mod.getDirName() + "/dds_metadata.json", "VramOptimizer");
+                } catch (Exception ignored1) {
+                }
+            }
+
+            if (Objects.equals(DDSMetadata, "null"))
+                continue; // no metadata so skip it
+
+            List<FileMetadata> list = parseFileList(DDSMetadata);
             for (FileMetadata fileMetadata : list) {
                 if (Objects.equals(fileMetadata.ModID, mod.getId())) {
                     replaceFileInVram(fileMetadata);
@@ -49,7 +64,8 @@ public class ModPlugin extends BaseModPlugin {
             }
         }
 
-        List<FileMetadata> starsectorFiles = list.stream().filter(s -> Objects.equals(s.ModID, "starsector-core")).toList();
+        String DDSMetadata = Global.getSettings().loadText("DDSCache/starsector-core/dds_metadata.json", "VramOptimizer");
+        List<FileMetadata> starsectorFiles = parseFileList(DDSMetadata); // handle starsector specifically
 
         for (FileMetadata starsectorFile : starsectorFiles) {
             replaceFileInVram(starsectorFile);

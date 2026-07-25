@@ -1,1 +1,0 @@
-dotnet build --configuration Release ./External/ColoredLogger

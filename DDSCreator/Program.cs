@@ -1,133 +1,179 @@
-﻿global using ColoredLogger;
-global using static DDSCreator.Consts;
+﻿global using static DDSCreator.Consts;
 global using static DDSCreator.Misc;
+global using static DDSCreator.Program;
+using DDSCreator.Model;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ShellProgressBar;
+using Spectre.Console;
+using System.Linq;
 
 namespace DDSCreator
 {
     internal class Program
     {
-        public static ulong TotalPixelsTotal { get; set; }
+        public static ulong TotalPixelsProcessed { get; set; }
         public static ulong PixelsAlreadyCached { get; set; }
         public static Dictionary<string, FileMetadata> ExistingMetadataCache { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+        public static List<ModInfo> FailedToLoadMods = [];
+        public static List<ModInfo> ValidMods = []; // this is just the mods that have mod_info.json
+        public static List<string> EnabledMods = [];
         static void Main(string[] args)
         {
-            int padding = nameof(StarsectorCodeDir).Length + 3; padding *= -1;
-            new LogBuilder()
-                .C().Write($"{nameof(AppDir)}: ", padding).D().WriteLine(AppDir)
-                .C().Write($"{nameof(ModDir)}: ", padding).D().WriteLine(ModDir)
-                .C().Write($"{nameof(ModsDir)}: ", padding).D().WriteLine(ModsDir)
-                .C().Write($"{nameof(GameDir)}: ", padding).D().WriteLine(GameDir)
-                .C().Write($"{nameof(StarsectorCodeDir)}: ", padding).D().WriteLine(StarsectorCodeDir)
-                .C().Write($"{nameof(CacheDir)}: ", padding).D().WriteLine(CacheDir)
-                .NewLine().Log();
-
-            string outputPath = Path.Combine(ModDir.FullName, "dds_metadata.json");
-
-            if (File.Exists(outputPath))
+            UpdateEnabledMods();
+            UpdateMetadataCache();
+            UpdateValidMods();
+            while (true)
             {
-                try
+                MenuChoice option = AnsiConsole.Prompt(
+                        new SelectionPrompt<MenuChoice>()
+                            .Title("What would you like to do?")
+                            .PageSize(10)
+                            .WrapAround()
+                            .AddChoices(Enum.GetValues<MenuChoice>()
+                    ));
+
+                switch (option)
                 {
-                    string jsonContent = File.ReadAllText(outputPath);
-                    var existingList = JsonConvert.DeserializeObject<List<FileMetadata>>(jsonContent);
-                    if (existingList != null)
-                    {
-                        ExistingMetadataCache = existingList.ToDictionary(
-                            x => Path.Combine(ModsDir.FullName, x.ModFolderName, x.RelativeImagePath),
-                            x => x,
-                            StringComparer.OrdinalIgnoreCase
-                        );
-                    }
+                    case MenuChoice.EditMods:
+                        SelectionHandler.DisplayEnabledModsHandler();
+                        break;
+                    case MenuChoice.ProcessMods:
+                        if (ModHandler.DisplayConfirmation())
+                            ModHandler.HandleMods();
+                        break;
+                    case MenuChoice.PrintDebug:
+                        PrintDirs();
+                        break;
+                    case MenuChoice.PrintError:
+                        PrintErroredMods();
+                        break;
+                    case MenuChoice.Quit:
+                        goto quit;
+                    default:
+                        break;
                 }
-                catch
-                {
-                    File.WriteAllText(outputPath, string.Empty);
-                }
+                Console.Clear();
             }
 
+        quit:;
+        }
 
-            using StreamWriter sw = new(outputPath);
-            using JsonWriter writer = new JsonTextWriter(sw);
-            writer.Formatting = Formatting.Indented;
-            writer.WriteStartArray();
-            JsonSerializer serializer = new JsonSerializer();
-
-            List<DirectoryInfo> validMods = [StarsectorCodeDir];
-            validMods.AddRange(ModsDir.GetDirectories()
-            .Where(mod => File.Exists(Path.Join(mod.FullName, "mod_info.json")))
-            .ToList());
+        private enum MenuChoice
+        { // rename this enum to something that actually makes sense
+            EditMods,
+            ProcessMods,
+            PrintDebug,
+            PrintError,
+            Quit,
+        }
 
 
-            if (validMods.Count == 0)
+        #region etc
+        private static void UpdateEnabledMods()
+        {
+            var enabledModsLoc = Path.Combine(ModsDir.FullName, "enabled_mods.json");
+            if (!File.Exists(enabledModsLoc))
+                return;
+            var enabledModsText = File.ReadAllText(enabledModsLoc);
+            EnabledMods = JObject.Parse(enabledModsText)["enabledMods"]!.ToObject<List<string>>()!;
+        }
+
+        private static void UpdateValidMods()
+        {
+            var starsector = new ModInfo
             {
-                writer.WriteEndArray();
+                ID = "starsector-core",
+                Name = "Starsector",
+                Author = "Alex",
+                Description = "The Game",
+                GameVersion = string.Empty,
+                Jars = [],
+                Dir = StarsectorCodeDir,
+                ShouldProcess = true
+            };
+
+            ValidMods = [starsector];
+
+            var loadedMods = ModsDir.GetDirectories()
+                .Where(mod => File.Exists(Path.Join(mod.FullName, "mod_info.json")))
+                .Select(ModInfo.LoadModInfo)
+                .ToList();
+
+            FailedToLoadMods = loadedMods.Where(s => string.IsNullOrEmpty(s.ID)).ToList();
+            loadedMods.RemoveAll(s => string.IsNullOrEmpty(s.ID));
+
+            foreach (var mod in loadedMods)
+            {
+                mod.ShouldProcess = EnabledMods.Contains(mod.ID);
+            }
+
+            ValidMods.AddRange(loadedMods);
+            ValidMods = ValidMods.OrderBy(s => s.Name).ToList();
+        }
+
+        private static void UpdateMetadataCache()
+        {
+            foreach (string? modMetadataPath in CacheDir.GetDirectories().Select(s => Path.Combine(s.FullName, DdsMetadataFileName)))
+            {
+                if (!File.Exists(modMetadataPath))
+                    continue;// metadata does not exist for this specific mod
+                string jsonContent = File.ReadAllText(modMetadataPath);
+                var existingList = JsonConvert.DeserializeObject<List<FileMetadata>>(jsonContent);
+                if (existingList == null)
+                    continue;// corrupt
+
+                Func<FileMetadata, string> keySelector;
+
+                if (modMetadataPath.Contains("starsector-core"))
+                    keySelector = x => Path.Combine(StarsectorCodeDir.FullName, x.RelativeImagePath);
+                else
+                    keySelector = x => Path.Combine(ModsDir.FullName, x.ModFolderName, x.RelativeImagePath);
+
+                ExistingMetadataCache = ExistingMetadataCache
+                                        .Concat(existingList.ToDictionary(
+                                            keySelector,
+                                            x => x,
+                                            StringComparer.OrdinalIgnoreCase
+                                        ))
+                                        .ToDictionary(
+                                            kvp => kvp.Key,
+                                            kvp => kvp.Value,
+                                            StringComparer.OrdinalIgnoreCase
+                                        );
+            }
+        }
+
+        private static void PrintDirs()
+        {
+            const int padding = 17 + 3;
+
+            AnsiConsole.MarkupLine(
+                $"[cyan]{nameof(AppDir),-padding}[/] {AppDir}\n" +
+                $"[cyan]{nameof(ModDir),-padding}[/] {ModDir}\n" +
+                $"[cyan]{nameof(ModsDir),-padding}[/] {ModsDir}\n" +
+                $"[cyan]{nameof(GameDir),-padding}[/] {GameDir}\n" +
+                $"[cyan]{nameof(StarsectorCodeDir),-padding}[/] {StarsectorCodeDir}\n" +
+                $"[cyan]{nameof(CacheDir),-padding}[/] {CacheDir}"
+            );
+            Console.ReadKey();
+        }
+        private static void PrintErroredMods()
+        {
+            if (FailedToLoadMods.Count == 0)
+            {
+                AnsiConsole.MarkupLine("[blue]No errored mods found.[/]");
+                Console.ReadKey();
                 return;
             }
 
-            var options = new ProgressBarOptions
+            foreach (ModInfo mod in FailedToLoadMods)
             {
-                ProgressCharacter = '=',
-                BackgroundCharacter = '-',
-                ProgressBarOnBottom = true,
-                ForegroundColor = ConsoleColor.Cyan,
-                BackgroundColor = ConsoleColor.DarkGray,
-                ForegroundColorDone = ConsoleColor.Green,
-            };
-
-            int modIndex = 0;
-            using var pbar = new ProgressBar(validMods.Count, "Overall Progress", options);
-
-            foreach (DirectoryInfo mod in validMods)
-            {
-                modIndex++;
-
-                void updateMessage()
-                {
-                    string cachedFormatted = FormatCompactNumber(PixelsAlreadyCached);
-                    string totalFormatted = FormatCompactNumber(TotalPixelsTotal);
-
-                    pbar.Message = $"[{modIndex}/{validMods.Count}] Current Mod: {mod.Name,-30} Total Pixels Processed (already processed/total): ({cachedFormatted}/{totalFormatted})";
-                }
-                updateMessage();
-
-                var validImageFiles = ModHandler.GetValidImageFiles(mod);
-                int childTicks = Math.Max(validImageFiles.Count, 1);
-
-                using (var childPbar = pbar.Spawn(childTicks, $"Scanning images for {mod.Name}", options))
-                {
-                    List<FileMetadata> newItems = ModHandler.ConvertMod(mod, validImageFiles, childPbar, updateMessage);
-
-                    foreach (var item in newItems)
-                    {
-                        serializer.Serialize(writer, item);
-                    }
-                    if (validImageFiles.Count == 0)
-                        childPbar.Tick();
-                }
-
-                pbar.Tick($"Completed mod: {mod.Name}");
+                AnsiConsole.WriteLine(mod.Dir.FullName);
             }
 
-            writer.WriteEndArray();
-            pbar.Dispose();
-            Console.SetCursorPosition(0, Console.WindowHeight - 2);
-
-            string cachedFormatted = FormatCompactNumber(PixelsAlreadyCached);
-            string totalFormatted = FormatCompactNumber(TotalPixelsTotal);
-
-            Logger.Log($"All modifications processed successfully!\nTotal Pixels Processed (already processed/total): ({cachedFormatted}/{totalFormatted})", LogLevel.Info);
+            Console.ReadKey();
         }
-        public static string FormatCompactNumber(ulong value)
-        {
-            if (value >= 1_000_000_000)
-                return $"{value / 1_000_000_000D:0.#}B";
-            if (value >= 1_000_000)
-                return $"{value / 1_000_000D:0.#}M";
-            if (value >= 1_000)
-                return $"{value / 1_000D:0.#}K";
-
-            return value.ToString();
-        }
+        #endregion
     }
 }
