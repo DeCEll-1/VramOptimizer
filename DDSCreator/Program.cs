@@ -130,10 +130,10 @@ namespace DDSCreator
             {
                 ID = "starsector-core",
                 Name = "Starsector",
-                Author = "Alex",
-                Description = "The Game",
-                GameVersion = string.Empty,
-                Jars = [],
+                //Author = "Alex",
+                //Description = "The Game",
+                //GameVersion = string.Empty,
+                //Jars = [],
                 Dir = StarsectorCodeDir,
                 ShouldProcess = true
             };
