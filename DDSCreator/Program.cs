@@ -23,6 +23,16 @@ namespace DDSCreator
             UpdateEnabledMods();
             UpdateMetadataCache();
             UpdateValidMods();
+
+            List<MenuChoice> choices = Enum.GetValues<MenuChoice>()
+#if !WINDOWS && !DEBUG
+                .Where(c => c != MenuChoice.EnableLongPaths)
+#endif
+                .ToList();
+
+            if (AreLongPathsEnabled())
+                choices.Remove(MenuChoice.EnableLongPaths);
+
             while (true)
             {
                 MenuChoice option = AnsiConsole.Prompt(
@@ -30,8 +40,19 @@ namespace DDSCreator
                             .Title("What would you like to do?")
                             .PageSize(10)
                             .WrapAround()
-                            .AddChoices(Enum.GetValues<MenuChoice>()
-                    ));
+                            .AddChoices(choices)
+                            .UseConverter(s =>
+                            {
+                                if (s == MenuChoice.EnableLongPaths)
+                                {
+                                    if (AreLongPathsEnabled())
+                                        return $"[grey]Long paths are enabled[/]";
+                                    else
+                                        return $"[red]Long paths are not enabled, may cause problems, select this to enable[/]";
+                                }
+                                else return s.ToString();
+                            })
+                        );
 
                 switch (option)
                 {
@@ -42,8 +63,18 @@ namespace DDSCreator
                         if (ModHandler.DisplayConfirmation())
                             ModHandler.HandleMods();
                         break;
+                    case MenuChoice.EnableLongPaths:
+                        if (AreLongPathsEnabled())
+                            Console.WriteLine("Long paths are already enabled");
+                        else
+                            EnableLongPathsViaPowerShell();
+                        Console.ReadKey();
+                        break;
                     case MenuChoice.PrintDebug:
                         PrintDirs();
+                        Console.WriteLine();
+                        AnsiConsole.MarkupLine($"[cyan]{nameof(AreLongPathsEnabled),-20}[/] {AreLongPathsEnabled()}");
+                        Console.ReadKey();
                         break;
                     case MenuChoice.PrintError:
                         PrintErroredMods();
@@ -60,9 +91,10 @@ namespace DDSCreator
         }
 
         private enum MenuChoice
-        { // rename this enum to something that actually makes sense
+        {
             EditMods,
             ProcessMods,
+            EnableLongPaths,
             PrintDebug,
             PrintError,
             Quit,
@@ -156,7 +188,6 @@ namespace DDSCreator
                 $"[cyan]{nameof(StarsectorCodeDir),-padding}[/] {StarsectorCodeDir}\n" +
                 $"[cyan]{nameof(CacheDir),-padding}[/] {CacheDir}"
             );
-            Console.ReadKey();
         }
         private static void PrintErroredMods()
         {

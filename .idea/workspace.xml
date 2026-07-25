@@ -5,25 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b54dd8bf-1c46-450d-9448-2902c076f1e3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitmodules" beforeDir="false" afterPath="$PROJECT_DIR$/.gitmodules" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DDSCreator/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DDSCreator/Consts.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/Consts.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DDSCreator/Converter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/Converter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DDSCreator/DDSCreator.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/DDSCreator.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DDSCreator/FileMetadata.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DDSCreator/Misc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/Misc.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DDSCreator/ModHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/ModHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DDSCreator/ModInfoJSON.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/DDSCreator/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/External/ColoredLogger" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jars/VOpt.jar" beforeDir="false" afterPath="$PROJECT_DIR$/jars/VOpt.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/build.bat" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/build.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/buildExternal.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/Plugins/ModPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DeCell/VOpt/Plugins/ModPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/Reflections.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DeCell/VOpt/Reflections.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/linux-64.pubxml" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/linux-64.pubxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/osx-64.pubxml" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/osx-64.pubxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/win-x64.pubxml" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/win-x64.pubxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/win-x86.pubxml" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/win-x86.pubxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/publish.bat" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/publish.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,20 +40,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Run Starsector.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Game Files/Fractal Softworks/0.98a-RC5/mods/VramOptimizer/src/DeCell/VOpt/Reflections&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Run Starsector.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Game Files/Fractal Softworks/0.98a-RC5/mods/VramOptimizer/src/DeCell/VOpt/Reflections",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Game Files\Fractal Softworks\0.98a-RC5\mods\VramOptimizer\src\DeCell\VOpt\Reflections" />
@@ -81,26 +69,5 @@
       <updated>1784898781182</updated>
     </task>
     <servers />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/DeCell/VOpt/Plugins/ModPlugin.java</url>
-          <line>94</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/DeCell/VOpt/Plugins/ModPlugin.java</url>
-          <line>50</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/DeCell/VOpt/Plugins/ModPlugin.java</url>
-          <line>47</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

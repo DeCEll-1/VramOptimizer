@@ -28,7 +28,7 @@ public class ModInfo
 
     [JsonProperty("jars")]
     public List<string> Jars { get; set; } = [];
-    public DirectoryInfo Dir { get; set; }
+    public required DirectoryInfo Dir { get; set; }
     public bool ShouldProcess { get; set; } = false;
 
     public static ModInfo LoadModInfo(DirectoryInfo modPath)
