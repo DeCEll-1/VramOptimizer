@@ -43,6 +43,10 @@ namespace DDSCreator
                 return (ddsOutputPath, pWidth, pHeight, true);
             }
 
+            var pingInfo = new MagickImageInfo(srcFilePath);
+            if (pingInfo.Format == MagickFormat.Unknown)
+                return (string.Empty, -1, -1, true);
+
             using var magickImage = new MagickImage(srcFilePath);
             magickImage.Flip();
             magickImage.Format = MagickFormat.Rgba;

@@ -1,0 +1,38 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Triggers on any tag starting with 'v', like v1.0.0
+
+jobs:
+  release:
+    runs-on: windows-latest
+    permissions:
+      contents: write # Required to create a release and upload assets
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x' # Adjust to match your SDK version
+
+      - name: Run publish script
+        shell: pwsh
+        working-directory: ./scripts
+        run: ./publish.ps1
+
+      - name: Create Release and Upload Zips
+        uses: softprops/action-gh-release@v2
+        with:
+          files: bin/Publish/*.zip
+          generate_release_notes: true
+      
+      - name: Upload build artifacts for inspection
+        uses: actions/upload-artifact@v4
+        with:
+          name: VramOptimizer-Builds
+          path: bin/Publish/*.zip

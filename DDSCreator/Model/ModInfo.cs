@@ -18,17 +18,17 @@ public class ModInfo
     [JsonProperty("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonProperty("author")]
-    public string Author { get; set; } = string.Empty;
+    //[JsonProperty("author")]
+    //public string Author { get; set; } = string.Empty;
 
-    [JsonProperty("description")]
-    public string Description { get; set; } = string.Empty;
+    //[JsonProperty("description")]
+    //public string Description { get; set; } = string.Empty;
 
-    [JsonProperty("gameVersion")]
-    public string GameVersion { get; set; } = string.Empty;
+    //[JsonProperty("gameVersion")]
+    //public string GameVersion { get; set; } = string.Empty;
 
-    [JsonProperty("jars")]
-    public List<string> Jars { get; set; } = [];
+    //[JsonProperty("jars")]
+    //public List<string> Jars { get; set; } = [];
     public required DirectoryInfo Dir { get; set; }
     public bool ShouldProcess { get; set; } = false;
 

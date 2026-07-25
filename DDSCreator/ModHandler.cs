@@ -99,6 +99,8 @@ namespace DDSCreator
                     format: format,
                     overwrite: false
                 );
+                if (width == -1 || height == -1)
+                    continue;
 
                 OnConvert();
 
