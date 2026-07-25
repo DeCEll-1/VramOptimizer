@@ -6,12 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="b54dd8bf-1c46-450d-9448-2902c076f1e3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DDSCreator/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/linux-64.pubxml" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/linux-64.pubxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/osx-64.pubxml" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/osx-64.pubxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/win-x64.pubxml" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/win-x64.pubxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/win-x86.pubxml" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/win-x86.pubxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/publish.bat" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/publish.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DDSCreator/Consts.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/Consts.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/linux-x64.pubxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/osx-x64.pubxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/win-x64.pubxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DDSCreator/Properties/PublishProfiles/win-x86.pubxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jars/VOpt.jar" beforeDir="false" afterPath="$PROJECT_DIR$/jars/VOpt.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/publish.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/publish.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/Plugins/ModPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DeCell/VOpt/Plugins/ModPlugin.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

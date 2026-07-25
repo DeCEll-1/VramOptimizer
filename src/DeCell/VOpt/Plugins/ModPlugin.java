@@ -64,13 +64,16 @@ public class ModPlugin extends BaseModPlugin {
             }
         }
 
-        String DDSMetadata = Global.getSettings().loadText("DDSCache/starsector-core/dds_metadata.json", "VramOptimizer");
-        List<FileMetadata> starsectorFiles = parseFileList(DDSMetadata); // handle starsector specifically
+        try { // fallback
+            String DDSMetadata = Global.getSettings().loadText("DDSCache/starsector-core/dds_metadata.json", "VramOptimizer");
 
-        for (FileMetadata starsectorFile : starsectorFiles) {
-            replaceFileInVram(starsectorFile);
+            List<FileMetadata> starsectorFiles = parseFileList(DDSMetadata); // handle starsector specifically
+
+            for (FileMetadata starsectorFile : starsectorFiles) {
+                replaceFileInVram(starsectorFile);
+            }
+        } catch (Exception ignored1) {
         }
-
         VOpt.Log("VRAM usage after dds replacement: " + (getTotalTextureVRAM() / 1024 / 1024) + "MB");
     }
 

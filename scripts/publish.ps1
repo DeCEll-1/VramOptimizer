@@ -1,6 +1,6 @@
 Set-Location "../DDSCreator"
 
-$profiles = @("win-x86", "win-x64", "linux-x64", "osx-x64")
+$profiles = @("VramOptimizer-win-x64", "VramOptimizer-win-x86", "VramOptimizer-linux-x64", "VramOptimizer-osx-x64")
 
 if (!(Test-Path -LiteralPath "../bin/Publish")) {
     New-Item -Path "../bin/" -Name "Publish" -ItemType Directory
@@ -18,7 +18,30 @@ foreach ($p in $profiles) {
         New-Item -Path "$profileDir" -Name "bin" -ItemType Directory | Out-Null
     }
     Move-Item -Path "$profileDir/DDSCreator*", "$profileDir/Magick.Native*" -Destination $binDir
+
+    $targetSubfolderName = "VramOptimizer"
+    $newSubfolderPath = Join-Path $profileDir $targetSubfolderName
+    New-Item -Path $newSubfolderPath -ItemType Directory -Force | Out-Null
+
+    Get-ChildItem -LiteralPath $profileDir | Where-Object { $_.Name -ne $targetSubfolderName } | Move-Item -Destination $newSubfolderPath
 }
 
 Write-Host "All publishes completed successfully!" -ForegroundColor Green
+
+Write-Host "Compressing profile folders into zip archives..." -ForegroundColor Cyan
+foreach ($p in $profiles) {
+    $folderPath = "../bin/Publish/$p"
+    $zipPath = "../bin/Publish/$p.zip"
+
+    if (Test-Path -LiteralPath $folderPath) {
+        if (Test-Path -LiteralPath $zipPath) {
+            Remove-Item -LiteralPath $zipPath -Force
+        }
+        
+        Write-Host "Zipping $p..." -ForegroundColor Yellow
+        Compress-Archive -LiteralPath $folderPath -DestinationPath $zipPath -CompressionLevel Optimal
+    }
+}
+
+Write-Host "All folders zipped successfully!" -ForegroundColor Green
 Pause
