@@ -200,9 +200,69 @@ namespace DDSCreator
                 return;
             }
 
-            foreach (ModInfo mod in FailedToLoadMods)
+            var table = new Table();
+            table.Border(TableBorder.Rounded);
+            table.AddColumn("[yellow]Mod Directory[/]");
+            table.AddColumn("[red]Error Type[/]");
+
+            foreach (var mod in FailedToLoadMods)
             {
-                AnsiConsole.WriteLine(mod.Dir.FullName);
+                string errorTypeName = mod.LoadErrorException?.GetType().Name ?? "Unknown Error";
+                table.AddRow(Markup.Escape(mod.Dir.FullName), $"[red]{Markup.Escape(errorTypeName)}[/]");
+            }
+
+            AnsiConsole.Write(table);
+            AnsiConsole.WriteLine();
+
+            while (true)
+            {
+                var choices = FailedToLoadMods.Select(m => m.Dir.Name).ToList();
+                choices.Add("[green]Exit Inspector[/]");
+
+                var selection = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("[bold cyan]Select a failed mod to inspect details (or exit):[/]")
+                        .PageSize(10)
+                        .AddChoices(choices));
+
+                if (selection == "[green]Exit Inspector[/]")
+                {
+                    break;
+                }
+
+                // Find the selected mod
+                var selectedMod = FailedToLoadMods.First(m => m.Dir.Name == selection);
+
+                // Display details inside a styled panel
+                AnsiConsole.Clear();
+
+                AnsiConsole.MarkupLine($"[bold red]Exception: {Markup.Escape(selectedMod.Dir.Name)}[/]");
+
+                string errorMessage = selectedMod.LoadErrorException?.ToString() ?? "No exception details available.";
+                AnsiConsole.MarkupLine(Markup.Escape(errorMessage));
+
+                AnsiConsole.WriteLine();
+
+                // Display JSON content as plain text
+                AnsiConsole.MarkupLine("[bold yellow]JsonContent:[/]");
+
+                if (!string.IsNullOrWhiteSpace(selectedMod.JsonContent))
+                {
+                    AnsiConsole.MarkupLine(Markup.Escape(selectedMod.JsonContent));
+                }
+                else
+                {
+                    AnsiConsole.MarkupLine("[grey]No JsonContent available for this mod.[/]");
+                }
+
+                AnsiConsole.WriteLine();
+                AnsiConsole.MarkupLine("[dim]Press any key to return to the list...[/]");
+                Console.ReadKey(true);
+                AnsiConsole.Clear();
+
+                // Re-display the summary table for context
+                AnsiConsole.Write(table);
+                AnsiConsole.WriteLine();
             }
 
             Console.ReadKey();

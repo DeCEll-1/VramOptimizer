@@ -19,7 +19,7 @@ namespace DDSCreator
                 Console.WriteLine("  Enabled mods:");
                 foreach (ModInfo? mod in ValidMods.Where(s => s.ShouldProcess))
                 {
-                    AnsiConsole.MarkupLine($"  [white]{mod.Name}[/]");
+                    AnsiConsole.MarkupLine($"  [white]{Markup.Escape(mod.Name)}[/]");
                 }
                 Console.SetCursorPosition(0, 0);
 

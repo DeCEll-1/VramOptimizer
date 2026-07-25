@@ -222,7 +222,7 @@ namespace DDSCreator
             AnsiConsole.MarkupLine("[white]Mods to be processed[/]");
 
             foreach (ModInfo mod in ValidMods.Where(s => s.ShouldProcess))
-                AnsiConsole.MarkupLine($"[Grey70]{mod.Name}[/]");
+                AnsiConsole.MarkupLine($"[Grey70]{Markup.Escape(mod.Name)}[/]");
 
             string choice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
