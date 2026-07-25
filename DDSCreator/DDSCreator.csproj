@@ -19,7 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="..\**\*.*" Exclude="..\DDSCreator\**\*.*;..\src\**\*.*;..\scripts\**\*.*;..\out\**\*.*;..\External\**\*.*;..\.run\**\*.*;..\.idea\**\*.*;..\.gitignore;..\.gitmodules;..\.dds_metadata.json;..\bin\**\*.*;..\.git\**\*.*;..\DDSCache\**\*.*;..\Promotional\**\*.*;..\.github\**\*.*;">
+		<Content Include="..\**\*.*" Exclude="..\DDSCreator\**\*.*;..\src\**\*.*;..\scripts\**\*.*;..\out\**\*.*;..\External\**\*.*;..\.run\**\*.*;..\.idea\**\*.*;..\.gitignore;..\.gitmodules;..\.dds_metadata.json;..\bin\**\*.*;..\.git\**\*.*;..\DDSCache\**\*.*;..\Promotional\**\*.*;..\.github\**\*.*;..\TODO.md;">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 			<Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
