@@ -1,6 +1,8 @@
 Set-Location "../DDSCreator"
 
-$profiles = @("VramOptimizer-win-x64", "VramOptimizer-win-x86", "VramOptimizer-linux-x64", "VramOptimizer-osx-x64")
+$profiles = @("VramOptimizer-win-x64", "VramOptimizer-win-x86", "VramOptimizer-linux-x64", "VramOptimizer-osx-x64",
+    "VramOptimizer-win-x64-sc", "VramOptimizer-win-x86-sc", "VramOptimizer-linux-x64-sc", "VramOptimizer-osx-x64-sc"
+)
 
 if (!(Test-Path -LiteralPath "../bin/Publish")) {
     New-Item -Path "../bin/" -Name "Publish" -ItemType Directory

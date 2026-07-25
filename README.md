@@ -18,8 +18,6 @@ By leveraging native GPU-supported texture compression, this mod reduces VRAM us
 
 ## 📦 Installation & Setup
 
-[![trios](https://trilink.wispborne.com/badges/install-badge-forthebadge.svg)](https://trilink.wispborne.com/open.html?mod=%7B%22url%22%3A%22https%3A%2F%2Fraw.githubusercontent.com%2FDeCEll-1%2FVramOptimizer%2Frefs%2Fheads%2Fmaster%2FVOpt.version%22%2C%22id%22%3A%22VramOptimizer%22%2C%22version%22%3A%221.0.0%22%7D)
-
 1. Choose the correct download archive for your operating system and architecture:
    * **Windows (64-bit):** [`VramOptimizer-win-x64.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-win-x64.zip)
    * **Windows (32-bit):** [`VramOptimizer-win-x86.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-win-x86.zip)
