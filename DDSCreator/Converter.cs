@@ -72,6 +72,7 @@ namespace DDSCreator
             encoder.OutputOptions.Quality = CompressionQuality.Balanced;
             encoder.OutputOptions.FileFormat = OutputFileFormat.Dds;
             encoder.OutputOptions.Format = format;
+            encoder.Options.TaskCount = ProcessorCountToUse;
 
             try
             {

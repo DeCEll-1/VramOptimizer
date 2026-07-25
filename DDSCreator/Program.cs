@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using ShellProgressBar;
 using Spectre.Console;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace DDSCreator
 {
@@ -18,6 +19,7 @@ namespace DDSCreator
         public static List<ModInfo> FailedToLoadMods = [];
         public static List<ModInfo> ValidMods = []; // this is just the mods that have mod_info.json
         public static List<string> EnabledMods = [];
+        public static int ProcessorCountToUse = Environment.ProcessorCount;
         static void Main(string[] args)
         {
             // TODO: add a uhhh gpu check if the gpu allows dds textures
@@ -61,6 +63,10 @@ namespace DDSCreator
                                         else
                                             return $"No Errors Found";
                                         break;
+
+                                    case MenuChoice.ChangeProcessorCount:
+                                        return $"Change amount of processors to use (currently using {ProcessorCountToUse} cores)";
+                                        break;
                                     default:
                                         return s.ToString();
                                 }
@@ -82,6 +88,18 @@ namespace DDSCreator
                         else
                             EnableLongPathsViaPowerShell();
                         Console.ReadKey();
+                        break;
+
+                    case MenuChoice.ChangeProcessorCount:
+                        int[] threadChoices = Enumerable.Range(1, Environment.ProcessorCount).ToArray();
+
+                        int selectedThreads = AnsiConsole.Prompt(
+                            new SelectionPrompt<int>()
+                                .Title("Select task count for [green]BC7 encoding[/]:")
+                                .PageSize(10).WrapAround()
+                                .AddChoices(threadChoices));
+
+                        ProcessorCountToUse = selectedThreads;
                         break;
                     case MenuChoice.PrintDebug:
                         PrintDirs();
@@ -108,6 +126,7 @@ namespace DDSCreator
             EditMods,
             ProcessMods,
             EnableLongPaths,
+            ChangeProcessorCount,
             PrintDebug,
             PrintError,
             Quit,
