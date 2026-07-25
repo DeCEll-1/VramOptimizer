@@ -31,6 +31,9 @@ public class ModInfo
     public required DirectoryInfo Dir { get; set; }
     public bool ShouldProcess { get; set; } = false;
 
+    public Exception? LoadErrorException { get; init; } = null;
+    public string JsonContent { get; init; } = string.Empty;
+
     public static ModInfo LoadModInfo(DirectoryInfo modPath)
     {
         string filePath = Path.Combine(modPath.FullName, "mod_info.json");
@@ -44,7 +47,18 @@ public class ModInfo
             return s.Value.Replace(s.Groups[1].Value, "");
         });
 
-        var zaza = JsonConvert.DeserializeObject<ModInfo>(jsonContent);
+        ModInfo zaza;
+        try
+        {
+            zaza = JsonConvert.DeserializeObject<ModInfo>(jsonContent)!;
+        }
+        catch (Exception ex)
+        {
+            zaza = new ModInfo() { Dir = modPath, LoadErrorException = ex, JsonContent = jsonContent };
+            FailedToLoadMods.Add(zaza);
+            return zaza;
+        }
+
         if (zaza != null)
             zaza.Dir = modPath;
         else

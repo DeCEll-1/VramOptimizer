@@ -18,11 +18,23 @@ By leveraging native GPU-supported texture compression, this mod reduces VRAM us
 
 ## 📦 Installation & Setup
 
-1. Choose the correct download archive for your operating system and architecture:
-   * **Windows (64-bit):** [`VramOptimizer-win-x64.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-win-x64.zip)
-   * **Windows (32-bit):** [`VramOptimizer-win-x86.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-win-x86.zip)
-   * **Linux (64-bit):** [`VramOptimizer-linux-x64.tar.gz`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-linux-x64.tar.gz)
-   * **macOS (64-bit):** [`VramOptimizer-osx-x64.tar.gz`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-osx-x64.tar.gz)
+1. Choose the correct download archive for your operating system and architecture. *(Files ending with `-sc` are self-contained and do not require a separate C# runtime installed on your system, though they have a larger file size).*
+
+   * **Windows (64-bit):**
+   * Framework-dependent: [`VramOptimizer-win-x64.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-win-x64.zip)
+   * Self-contained: [`VramOptimizer-win-x64-sc.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-win-x64-sc.zip)
+
+   * **Windows (32-bit):**
+   * Framework-dependent: [`VramOptimizer-win-x86.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-win-x86.zip)
+   * Self-contained: [`VramOptimizer-win-x86-sc.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-win-x86-sc.zip)
+
+   * **Linux (64-bit):**
+   * Framework-dependent: [`VramOptimizer-linux-x64.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-linux-x64.zip)
+   * Self-contained: [`VramOptimizer-linux-x64-sc.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-linux-x64-sc.zip)
+
+   * **macOS (64-bit):**
+   * Framework-dependent: [`VramOptimizer-osx-x64.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-osx-x64.zip)
+   * Self-contained: [`VramOptimizer-osx-x64-sc.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-osx-x64-sc.zip)
 
 2. Extract the archive. Inside, you will find the main mod folder named **`VramOptimizer`**.
 3. Move or copy the **`VramOptimizer`** folder directly into your Starsector **`mods/`** directory
@@ -34,7 +46,7 @@ By leveraging native GPU-supported texture compression, this mod reduces VRAM us
 * Use the interactive menu to review or edit your enabled mods, then select **ProcessMods** to generate your DDS textures.
 * This may take quite long especially depending on your hardware
 
-1. Launch the Starsector Launcher and enable **VramOptimizer** in your mod list.
+* Launch the Starsector Launcher and enable **VramOptimizer** in your mod list.
 
 ---
 
