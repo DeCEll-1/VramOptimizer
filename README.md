@@ -42,7 +42,7 @@ By leveraging native GPU-supported texture compression, this mod reduces VRAM us
 
 ## ⚙️ Requirements & Compatibility
 
-* **GPU Requirements (BC7 / DDS):** A graphics card supporting **BC7 (Block Compression 7)** texture decompression. Practically any modern GPU from the last decade supports this natively in hardware, including:
+* **GPU Requirements (BC7 / DDS):** A graphics card supporting **BC7 (Block Compression 7)** texture decompression. Practically any modern GPU from the last decade supports this natively in hardware.
 
 ---
 
