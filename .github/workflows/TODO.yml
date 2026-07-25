@@ -1,0 +1,41 @@
+name: Generate TODO.md
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'TODO.md'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Generate TODO.md
+        run: |
+          npx leasot -x --reporter markdown "**/*.{cs,java}" > TODO.md
+          
+      - name: Commit and Push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          if [ -n "$(git status --porcelain TODO.md)" ]; then
+            git add TODO.md
+            git commit -m "docs: auto-update TODO.md [skip ci]"
+            git push
+          else
+            echo "No changes to TODO.md"
+          fi
