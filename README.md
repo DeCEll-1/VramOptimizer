@@ -61,6 +61,7 @@ By leveraging native GPU-supported texture compression, this mod reduces VRAM us
 * **Libraries Used:**
 * `BCnEncoder.Net` (v2.3.0) - Texture compression
 * `CsvHelper` (v33.1.0) - Data parsing
+* `JsonRepairSharp` (1.2.4) - JSON Fixing
 * `Magick.NET-Q16-AnyCPU` (v14.15.0) - Image manipulation
 * `Newtonsoft.Json` (v13.0.5-beta1) - JSON serialization/deserialization
 * `ShellProgressBar` (v5.2.0) - CLI progress bars

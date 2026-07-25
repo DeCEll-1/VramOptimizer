@@ -45,14 +45,25 @@ namespace DDSCreator
                             .AddChoices(choices)
                             .UseConverter(s =>
                             {
-                                if (s == MenuChoice.EnableLongPaths)
+                                switch (s)
                                 {
-                                    if (AreLongPathsEnabled())
-                                        return $"[grey]Long paths are enabled[/]";
-                                    else
-                                        return $"[red]Long paths are not enabled, may cause problems, select this to enable[/]";
+                                    case MenuChoice.EnableLongPaths:
+                                        if (AreLongPathsEnabled())
+                                            return $"[grey]Long paths are enabled[/]";
+                                        else
+                                            return $"[red]Long paths are not enabled, may cause problems, select this to enable[/]";
+                                        break;
+
+                                    case MenuChoice.PrintError:
+
+                                        if (FailedToLoadMods.Count > 0)
+                                            return $"Display Loading Errors ({FailedToLoadMods.Count})";
+                                        else
+                                            return $"No Errors Found";
+                                        break;
+                                    default:
+                                        return s.ToString();
                                 }
-                                else return s.ToString();
                             })
                         );
 
@@ -264,8 +275,6 @@ namespace DDSCreator
                 AnsiConsole.Write(table);
                 AnsiConsole.WriteLine();
             }
-
-            Console.ReadKey();
         }
         #endregion
     }

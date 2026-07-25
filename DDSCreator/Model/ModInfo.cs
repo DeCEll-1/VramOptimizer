@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using JsonRepairSharp;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -47,22 +48,24 @@ public class ModInfo
             return s.Value.Replace(s.Groups[1].Value, "");
         });
 
-        ModInfo zaza;
+        ModInfo modInfo;
         try
         {
-            zaza = JsonConvert.DeserializeObject<ModInfo>(jsonContent)!;
+            jsonContent = JsonRepair.RepairJson(jsonContent, JsonRepair.InputType.Other);
+
+            modInfo = JsonConvert.DeserializeObject<ModInfo>(jsonContent)!;
         }
         catch (Exception ex)
         {
-            zaza = new ModInfo() { Dir = modPath, LoadErrorException = ex, JsonContent = jsonContent };
-            FailedToLoadMods.Add(zaza);
-            return zaza;
+            modInfo = new ModInfo() { Dir = modPath, LoadErrorException = ex, JsonContent = jsonContent };
+            FailedToLoadMods.Add(modInfo);
+            return modInfo;
         }
 
-        if (zaza != null)
-            zaza.Dir = modPath;
+        if (modInfo != null)
+            modInfo.Dir = modPath;
         else
-            zaza = new() { Dir = modPath };
-        return zaza;
+            modInfo = new() { Dir = modPath };
+        return modInfo;
     }
 }
