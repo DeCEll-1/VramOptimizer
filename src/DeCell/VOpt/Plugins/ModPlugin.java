@@ -3,6 +3,7 @@ package DeCell.VOpt.Plugins;
 import DeCell.VOpt.FileMetadata;
 import DeCell.VOpt.Reflections;
 import DeCell.VOpt.VOpt;
+import com.fs.graphics.Sprite;
 import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.ModSpecAPI;
@@ -34,6 +35,11 @@ public class ModPlugin extends BaseModPlugin {
                 .getLocation()
                 .getFile().replace("starsector-core/../", "").replaceFirst("/", "");
         starsectorDirectory = starsectorDirectory.substring(0, starsectorDirectory.indexOf("/mods"));
+
+        SpriteAPI handleFinderSprite = Global.getSettings().getSprite("graphics/asteroids/asteroid1.png");
+        Sprite tex = Reflections.extractSprite(handleFinderSprite);
+        Reflections.extractTextureDimensionsHandles(tex.getTexture());
+        Reflections.extractTextureFloatHandles(tex.getTexture());
 
 
         List<ModSpecAPI> mods = Global.getSettings().getModManager().getEnabledModsCopy();
@@ -78,11 +84,29 @@ public class ModPlugin extends BaseModPlugin {
     }
 
     public static void replaceFileInVram(FileMetadata fileMetadata) {
-        SpriteAPI currLoadedImage = Global.getSettings().getSprite((fileMetadata.RelativeImagePath).replace("\\", "/"));
+        String path = (fileMetadata.RelativeImagePath).replace("\\", "/");
+        SpriteAPI currLoadedImage = Global.getSettings().getSprite(path);
         int texID = currLoadedImage.getTextureId();
 
-        if (texID == 0)
+        if (texID == 0) {
+//            VOpt.LogErr("texture id found 0 for path: " + path);
             return;
+        }
+
+        currLoadedImage.setTexWidth(1f); // since our textures dont have padding theres no need to float them
+        currLoadedImage.setTexHeight(1f);
+
+        currLoadedImage.setTexWidth(fileMetadata.Width);
+        currLoadedImage.setTexHeight(fileMetadata.Height);
+
+        Sprite tex = Reflections.extractSprite(currLoadedImage);
+        Reflections.setTextureFloat1(tex.getTexture(), 1);
+        Reflections.setTextureFloat2(tex.getTexture(), 1);
+
+        Reflections.setTextureWidth(tex.getTexture(), fileMetadata.Width);
+        Reflections.setTextureHeight(tex.getTexture(), fileMetadata.Height);
+
+
 
         // since SettingsAPI does not have any way to load binary files, ill have to do it manually, using reflection
         // yippee

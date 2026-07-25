@@ -20,6 +20,8 @@ namespace DDSCreator
         public static List<string> EnabledMods = [];
         static void Main(string[] args)
         {
+            // TODO: add a uhhh gpu check if the gpu allows dds textures
+            // i doubt theres any gpus left that cant support dds but eh
             UpdateEnabledMods();
             UpdateMetadataCache();
             UpdateValidMods();

@@ -557,4 +557,205 @@ public class Reflections {
             throw new RuntimeException("Failed to check if file path exists: " + filePath, t);
         }
     }
+
+    private static VarHandle textureWidthHandle = null;
+    private static VarHandle textureHeightHandle = null;
+
+    public static void extractTextureDimensionsHandles(Object textureInstance) {
+        if (textureInstance == null) return;
+        if (textureObjectClass == null) {
+            textureObjectClass = textureInstance.getClass();
+        }
+
+        try {
+            Class<?> clazz = textureObjectClass;
+            Object[] fields = clazz.getDeclaredFields();
+
+            for (Object field : fields) {
+                String fieldName = getFieldName(field);
+
+                // Ensure the field is an integer
+                Class<?> fieldType = (Class<?>) getFieldTypeHandle.invoke(field);
+                if (fieldType != int.class) {
+                    continue;
+                }
+
+                VarHandle vh = getVarHandle(clazz, fieldName, int.class);
+                int value = (int) vh.get(textureInstance);
+
+                // If it matches our target value (32), assign it.
+                // Since there are two fields with the value 32, we assign the first to width and the second to height.
+                if (value == 32) {
+                    if (textureWidthHandle == null) {
+                        textureWidthHandle = vh;
+                    } else if (textureHeightHandle == null) {
+                        textureHeightHandle = vh;
+                        break; // Found both, exit loop
+                    }
+                }
+            }
+
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to locate texture dimension VarHandles by value", t);
+        }
+    }
+
+    public static int getTextureWidth(Object textureInstance) {
+        if (textureWidthHandle == null) {
+            extractTextureDimensionsHandles(textureInstance);
+        }
+        try {
+            return (int) textureWidthHandle.get(textureInstance);
+        } catch (Throwable t) {
+            return -1;
+        }
+    }
+
+    public static int getTextureHeight(Object textureInstance) {
+        if (textureHeightHandle == null) {
+            extractTextureDimensionsHandles(textureInstance);
+        }
+        try {
+            return (int) textureHeightHandle.get(textureInstance);
+        } catch (Throwable t) {
+            return -1;
+        }
+    }
+
+    public static void setTextureWidth(Object textureInstance, int width) {
+        if (textureWidthHandle == null) {
+            extractTextureDimensionsHandles(textureInstance);
+        }
+        try {
+            textureWidthHandle.set(textureInstance, width);
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to set texture width via VarHandle", t);
+        }
+    }
+
+    public static void setTextureHeight(Object textureInstance, int height) {
+        if (textureHeightHandle == null) {
+            extractTextureDimensionsHandles(textureInstance);
+        }
+        try {
+            textureHeightHandle.set(textureInstance, height);
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to set texture height via VarHandle", t);
+        }
+    }
+
+    private static VarHandle spriteFieldHandle = null;
+
+    public static com.fs.graphics.Sprite extractSprite(com.fs.starfarer.api.graphics.SpriteAPI spriteAPI) {
+        if (spriteAPI == null) return null;
+        try {
+            Class<?> clazz = spriteAPI.getClass();
+
+            // If the handle isn't cached yet, scan for it once
+            if (spriteFieldHandle == null) {
+                Object[] fields = clazz.getDeclaredFields();
+
+                for (Object field : fields) {
+                    Class<?> fieldType = (Class<?>) Reflections.getFieldTypeHandle.invoke(field);
+
+                    if (fieldType == com.fs.graphics.Sprite.class) {
+                        String fieldName = Reflections.getFieldName(field);
+                        spriteFieldHandle = Reflections.getVarHandle(clazz, fieldName, com.fs.graphics.Sprite.class);
+                        break;
+                    }
+                }
+            }
+
+            if (spriteFieldHandle != null) {
+                return (com.fs.graphics.Sprite) spriteFieldHandle.get(spriteAPI);
+            }
+
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to extract Sprite from SpriteAPI implementation via cached reflection", t);
+        }
+        return null;
+    }
+
+    private static VarHandle textureFloatHandle1 = null;
+    private static VarHandle textureFloatHandle2 = null;
+
+    public static void extractTextureFloatHandles(Object textureInstance) {
+        if (textureInstance == null) return;
+        if (textureObjectClass == null) {
+            textureObjectClass = textureInstance.getClass();
+        }
+
+        try {
+            Class<?> clazz = textureObjectClass;
+            Object[] fields = clazz.getDeclaredFields();
+
+            for (Object field : fields) {
+                Class<?> fieldType = (Class<?>) getFieldTypeHandle.invoke(field);
+                if (fieldType != float.class) {
+                    continue;
+                }
+
+                String fieldName = getFieldName(field);
+                VarHandle vh = getVarHandle(clazz, fieldName, float.class);
+                float value = (float) vh.get(textureInstance);
+
+                // Match exact values for float fields (0.71875 and 0.625)
+                if (value == 0.71875f && textureFloatHandle1 == null) {
+                    textureFloatHandle1 = vh;
+                } else if (value == 0.625f && textureFloatHandle2 == null) {
+                    textureFloatHandle2 = vh;
+                }
+
+                if (textureFloatHandle1 != null && textureFloatHandle2 != null) {
+                    break;
+                }
+            }
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to locate texture float VarHandles by value", t);
+        }
+    }
+
+    public static float getTextureFloat1(Object textureInstance) {
+        if (textureFloatHandle1 == null) {
+            extractTextureFloatHandles(textureInstance);
+        }
+        try {
+            return (float) textureFloatHandle1.get(textureInstance);
+        } catch (Throwable t) {
+            return -1.0f;
+        }
+    }
+
+    public static float getTextureFloat2(Object textureInstance) {
+        if (textureFloatHandle2 == null) {
+            extractTextureFloatHandles(textureInstance);
+        }
+        try {
+            return (float) textureFloatHandle2.get(textureInstance);
+        } catch (Throwable t) {
+            return -1.0f;
+        }
+    }
+
+    public static void setTextureFloat1(Object textureInstance, float value) {
+        if (textureFloatHandle1 == null) {
+            extractTextureFloatHandles(textureInstance);
+        }
+        try {
+            textureFloatHandle1.set(textureInstance, value);
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to set texture float 1 via VarHandle", t);
+        }
+    }
+
+    public static void setTextureFloat2(Object textureInstance, float value) {
+        if (textureFloatHandle2 == null) {
+            extractTextureFloatHandles(textureInstance);
+        }
+        try {
+            textureFloatHandle2.set(textureInstance, value);
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to set texture float 2 via VarHandle", t);
+        }
+    }
 }
