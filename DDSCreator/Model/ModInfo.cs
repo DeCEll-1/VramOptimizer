@@ -48,6 +48,9 @@ public class ModInfo
             return s.Value.Replace(s.Groups[1].Value, "");
         });
 
+        // adds quotes between whatever the version haves if its not quoted properly
+        jsonContent = Regex.Replace(jsonContent, @"""version""\s*:\s*([a-zA-Z0-9\._-]+)", @"""version"":""$1""");
+
         ModInfo modInfo;
         try
         {
