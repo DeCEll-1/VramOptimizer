@@ -66,9 +66,6 @@ namespace DDSCreator
         #endregion
         public static List<FileMetadata> ConvertMod(ModInfo mod, List<string> validImageFiles, ChildProgressBar childPbar, Action OnConvert)
         {
-
-
-
             #region json writer creations
             string metadataPath = Path.Combine(CacheDir.FullName, mod.Dir.Name, DdsMetadataFileName);
 

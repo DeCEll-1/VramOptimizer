@@ -67,6 +67,11 @@ public class Reflections {
     public static final Class<?> linkOptionArrayClass;
     public static final MethodHandle filesExistsHandle;
     public static final MethodHandle fieldGetModifiersHandle;
+
+    public static final Class<?> fileIOClass;
+    public static final MethodHandle fileIOConstructorHandle;
+    public static final MethodHandle fileIOExistsHandle;
+
     static {
         try {
             fieldClass = Class.forName("java.lang.reflect.Field", false, Class.class.getClassLoader());
@@ -165,7 +170,6 @@ public class Reflections {
 
             linkOptionArrayClass = Class.forName("[Ljava.nio.file.LinkOption;", false, Class.class.getClassLoader());
 
-            // Files.exists(Path, LinkOption...) -> boolean
             filesExistsHandle = lookup.findStatic(
                     filesClass,
                     "exists",
@@ -173,6 +177,20 @@ public class Reflections {
             );
 
             fieldGetModifiersHandle = lookup.findVirtual(fieldClass, "getModifiers", MethodType.methodType(int.class));
+
+            fileIOClass = Class.forName("java.io.File", false, Class.class.getClassLoader());
+
+            // Constructors use 'void.class' as their return type descriptor in MethodTypes
+            fileIOConstructorHandle = lookup.findConstructor(
+                    fileIOClass,
+                    MethodType.methodType(void.class, String.class)
+            );
+
+            fileIOExistsHandle = lookup.findVirtual(
+                    fileIOClass,
+                    "exists",
+                    MethodType.methodType(boolean.class)
+            );
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -524,6 +542,7 @@ public class Reflections {
             throw new RuntimeException("Failed to read bytes from file path: " + filePath, t);
         }
     }
+
     public static String readAllText(String filePath) {
         try {
             Object pathInstance = pathOfStringHandle.invoke(filePath, new String[0]);
@@ -533,26 +552,13 @@ public class Reflections {
             throw new RuntimeException("Failed to read text from file path: " + filePath, t);
         }
     }
-    public static boolean fileExists(Object pathInstance) {
-        if (pathInstance == null) {
-            return false;
-        }
-        try {
-            // Pass an empty LinkOption array
-            Object emptyOptions = java.lang.reflect.Array.newInstance(linkOptionArrayClass.getComponentType(), 0);
-            return (boolean) filesExistsHandle.invoke(pathInstance, emptyOptions);
-        } catch (Throwable t) {
-            throw new RuntimeException("Failed to check if file exists", t);
-        }
-    }
 
     public static boolean fileExists(String filePath) {
         if (filePath == null || filePath.isEmpty()) {
             return false;
         }
         try {
-            Object pathInstance = pathOfStringHandle.invoke(filePath, new String[0]);
-            return fileExists(pathInstance);
+            return runFileExists(createFile(filePath));
         } catch (Throwable t) {
             throw new RuntimeException("Failed to check if file path exists: " + filePath, t);
         }
@@ -761,6 +767,28 @@ public class Reflections {
             textureFloatHandle2.set(textureInstance, value);
         } catch (Throwable t) {
             throw new RuntimeException("Failed to set texture float 2 via VarHandle", t);
+        }
+    }
+
+    public static Object createFile(String pathname) {
+        try {
+            return fileIOConstructorHandle.invoke(pathname);
+        } catch (Throwable t) {
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            }
+            throw new RuntimeException(t);
+        }
+    }
+
+    public static boolean runFileExists(Object fileObject) {
+        try {
+            return (boolean) fileIOExistsHandle.invoke(fileObject);
+        } catch (Throwable t) {
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            }
+            throw new RuntimeException(t);
         }
     }
 }

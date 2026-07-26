@@ -63,12 +63,18 @@ public class ModPlugin extends BaseModPlugin {
             // so we will check if they have a metadata already
             String DDSMetadata = "null";
             String modFolderName = mod.getDirName();
+            if (Objects.equals(modFolderName, "VramOptimizer"))
+                continue;
 
             try {
-//                DDSMetadata = Global.getSettings().loadText("DDSCache/" + mod.getDirName() + "/dds_metadata.json", mod.getId());
                 // since wwe have the cache in the mod folder we need reflection
-                DDSMetadata = Reflections.readAllText(ddsCacheDirectory + modFolderName + "/dds_metadata.json");
-            } catch (Exception ignored) {
+                if (Reflections.fileExists(ddsCacheDirectory + modFolderName + "/dds_metadata.json")) {
+                    DDSMetadata = Reflections.readAllText(ddsCacheDirectory + modFolderName + "/dds_metadata.json");
+                } else {
+                    VOpt.LogWarn("No metadata found for " + modFolderName + ", be sure to generate it if you feel like it");
+                }
+            } catch (Exception zaza) {
+                VOpt.LogErr("Error while trying to load metadata for: " + modFolderName + "\n" + zaza);
             }
 
             if (Objects.equals(DDSMetadata, "null"))
@@ -84,14 +90,19 @@ public class ModPlugin extends BaseModPlugin {
 
         try { // fallback
 //            String DDSMetadata = Global.getSettings().loadText("DDSCache/starsector-core/dds_metadata.json", "VramOptimizer");
-            String DDSMetadata = Reflections.readAllText(ddsCacheDirectory + "starsector-core/dds_metadata.json");
+            if (Reflections.fileExists(ddsCacheDirectory + "starsector-core/dds_metadata.json")) {
 
-            List<FileMetadata> starsectorFiles = parseFileList(DDSMetadata); // handle starsector specifically
+                String DDSMetadata = Reflections.readAllText(ddsCacheDirectory + "starsector-core/dds_metadata.json");
 
-            for (FileMetadata starsectorFile : starsectorFiles) {
-                replaceFileInVram(starsectorFile);
-            }
-        } catch (Exception ignored1) {
+                List<FileMetadata> starsectorFiles = parseFileList(DDSMetadata); // handle starsector specifically
+
+                for (FileMetadata starsectorFile : starsectorFiles) {
+                    replaceFileInVram(starsectorFile);
+                }
+            } else
+                VOpt.LogWarn("No metadata found for starsector, be sure to generate it");
+        } catch (Exception zaza) {
+            VOpt.LogErr("Error while trying to load metadata for starsector:\n" + zaza);
         }
         VOpt.Log("VRAM usage after dds replacement: " + (getTotalTextureVRAM() / 1024 / 1024) + "MB");
     }
