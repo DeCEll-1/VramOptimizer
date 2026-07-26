@@ -58,6 +58,23 @@ public class ModPlugin extends BaseModPlugin {
         List<ModSpecAPI> mods = Global.getSettings().getModManager().getEnabledModsCopy();
         VOpt.Log("VRAM usage before dds replacement: " + (getTotalTextureVRAM() / 1024 / 1024) + "MB");
 
+
+        try { // fallback
+            if (Reflections.fileExists(ddsCacheDirectory + "starsector-core/dds_metadata.json")) {
+
+                String DDSMetadata = Reflections.readAllText(ddsCacheDirectory + "starsector-core/dds_metadata.json");
+
+                List<FileMetadata> starsectorFiles = parseFileList(DDSMetadata); // handle starsector specifically
+
+                for (FileMetadata starsectorFile : starsectorFiles) {
+                    replaceFileInVram(starsectorFile);
+                }
+            } else
+                VOpt.LogWarn("No metadata found for starsector, be sure to generate it");
+        } catch (Exception zaza) {
+            VOpt.LogErr("Error while trying to load metadata for starsector:\n" + zaza);
+        }
+
         for (ModSpecAPI mod : mods) {
             // we want individual mods to be able to supply their own dds files
             // so we will check if they have a metadata already
@@ -88,22 +105,6 @@ public class ModPlugin extends BaseModPlugin {
             }
         }
 
-        try { // fallback
-//            String DDSMetadata = Global.getSettings().loadText("DDSCache/starsector-core/dds_metadata.json", "VramOptimizer");
-            if (Reflections.fileExists(ddsCacheDirectory + "starsector-core/dds_metadata.json")) {
-
-                String DDSMetadata = Reflections.readAllText(ddsCacheDirectory + "starsector-core/dds_metadata.json");
-
-                List<FileMetadata> starsectorFiles = parseFileList(DDSMetadata); // handle starsector specifically
-
-                for (FileMetadata starsectorFile : starsectorFiles) {
-                    replaceFileInVram(starsectorFile);
-                }
-            } else
-                VOpt.LogWarn("No metadata found for starsector, be sure to generate it");
-        } catch (Exception zaza) {
-            VOpt.LogErr("Error while trying to load metadata for starsector:\n" + zaza);
-        }
         VOpt.Log("VRAM usage after dds replacement: " + (getTotalTextureVRAM() / 1024 / 1024) + "MB");
     }
 
