@@ -29,9 +29,3 @@ jobs:
         with:
           files: bin/Publish/*.zip
           generate_release_notes: true
-      
-      - name: Upload build artifacts for inspection
-        uses: actions/upload-artifact@v4
-        with:
-          name: VramOptimizer-Builds
-          path: bin/Publish/*.zip
