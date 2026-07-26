@@ -28,11 +28,10 @@ namespace DDSCreator
             UpdateMetadataCache();
             UpdateValidMods();
 
-            List<MenuChoice> choices = Enum.GetValues<MenuChoice>()
-#if WINDOWS || DEBUG
-                .Where(c => c != MenuChoice.EnableLongPaths)
+            List<MenuChoice> choices = Enum.GetValues<MenuChoice>().ToList();
+#if LINUX || MAC
+            choices.Remove(Program.MenuChoice.EnableLongPaths);
 #endif
-                .ToList();
 
             if (AreLongPathsEnabled())
                 choices.Remove(MenuChoice.EnableLongPaths);
@@ -104,7 +103,9 @@ namespace DDSCreator
                     case MenuChoice.PrintDebug:
                         PrintDirs();
                         Console.WriteLine();
+#if WINDOWS || DEBUG
                         AnsiConsole.MarkupLine($"[cyan]{nameof(AreLongPathsEnabled),-20}[/] {AreLongPathsEnabled()}");
+#endif
                         Console.ReadKey();
                         break;
                     case MenuChoice.PrintError:
