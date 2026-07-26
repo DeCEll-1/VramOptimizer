@@ -83,10 +83,12 @@ public class ModPlugin extends BaseModPlugin {
             if (Objects.equals(modFolderName, "VramOptimizer"))
                 continue;
 
+
             try {
                 // since wwe have the cache in the mod folder we need reflection
                 if (Reflections.fileExists(ddsCacheDirectory + modFolderName + "/dds_metadata.json")) {
                     DDSMetadata = Reflections.readAllText(ddsCacheDirectory + modFolderName + "/dds_metadata.json");
+                    VOpt.Log("Processed " + modFolderName);
                 } else {
                     VOpt.LogWarn("No metadata found for " + modFolderName + ", be sure to generate it if you feel like it");
                 }
