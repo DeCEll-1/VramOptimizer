@@ -1,0 +1,50 @@
+{
+  "SnapshotDate": "2026-07-26T01:16:26Z",
+  "ReleaseTag": "1.0.5",
+  "PublishedAt": "2026-07-09T19:27:46Z",
+  "TotalDownloads": 117,
+  "AssetsBreakdown": [
+    {
+      "TagName": "1.0.5",
+      "FileName": "CPG.zip",
+      "DownloadCount": 20,
+      "ContentType": "application/x-zip-compressed",
+      "BrowserDownloadUrl": "https://github.com/DeCEll-1/CustomizablePhaseGlow/releases/download/1.0.5/CPG.zip"
+    },
+    {
+      "TagName": "1.0.4",
+      "FileName": "CPG.zip",
+      "DownloadCount": 3,
+      "ContentType": "application/x-zip-compressed",
+      "BrowserDownloadUrl": "https://github.com/DeCEll-1/CustomizablePhaseGlow/releases/download/1.0.4/CPG.zip"
+    },
+    {
+      "TagName": "1.0.3",
+      "FileName": "CPG.zip",
+      "DownloadCount": 4,
+      "ContentType": "application/x-zip-compressed",
+      "BrowserDownloadUrl": "https://github.com/DeCEll-1/CustomizablePhaseGlow/releases/download/1.0.3/CPG.zip"
+    },
+    {
+      "TagName": "1.0.2",
+      "FileName": "CPG.zip",
+      "DownloadCount": 7,
+      "ContentType": "application/x-zip-compressed",
+      "BrowserDownloadUrl": "https://github.com/DeCEll-1/CustomizablePhaseGlow/releases/download/1.0.2/CPG.zip"
+    },
+    {
+      "TagName": "1.0.1",
+      "FileName": "CPG.zip",
+      "DownloadCount": 0,
+      "ContentType": "application/x-zip-compressed",
+      "BrowserDownloadUrl": "https://github.com/DeCEll-1/CustomizablePhaseGlow/releases/download/1.0.1/CPG.zip"
+    },
+    {
+      "TagName": "1.0.0",
+      "FileName": "CPG.zip",
+      "DownloadCount": 83,
+      "ContentType": "application/x-zip-compressed",
+      "BrowserDownloadUrl": "https://github.com/DeCEll-1/CustomizablePhaseGlow/releases/download/1.0.0/CPG.zip"
+    }
+  ]
+}
