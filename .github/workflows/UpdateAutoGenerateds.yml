@@ -23,7 +23,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Executes your script using the project parameters
-          ./.github/scripts/DownloadDataSaver.ps1 -RepoOwner "DeCEll-1" -RepoName "CustomizablePhaseGlow"
+          ./.github/scripts/DownloadDataSaver.ps1 -RepoOwner "DeCEll-1" -RepoName "VramOptimizer"
 
       - name: Commit and Push Updated Telemetry
         shell: pwsh
