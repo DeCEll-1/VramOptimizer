@@ -49,24 +49,22 @@ namespace DDSCreator
                             {
                                 switch (s)
                                 {
+                                    case MenuChoice.ProcessMods:
+                                        return $"Process Mods";
                                     case MenuChoice.EnableLongPaths: // this should not be a choice in linux || mac
                                         if (AreLongPathsEnabled())
                                             return $"[grey]Long paths are enabled[/]";
                                         else
                                             return $"[red]Long paths are not enabled, may cause problems, select this to enable[/]";
-                                        break;
-
                                     case MenuChoice.PrintError:
-
                                         if (FailedToLoadMods.Count > 0)
                                             return $"Display Loading Errors ({FailedToLoadMods.Count})";
                                         else
                                             return $"No Errors Found";
-                                        break;
-
                                     case MenuChoice.ChangeProcessorCount:
                                         return $"Change amount of processors to use (currently using {ProcessorCountToUse} cores)";
-                                        break;
+                                    case MenuChoice.ClearMetadata:
+                                        return $"[gray]Purge metadata[/]";
                                     default:
                                         return s.ToString();
                                 }
@@ -101,6 +99,31 @@ namespace DDSCreator
 
                         ProcessorCountToUse = selectedThreads;
                         break;
+                    case MenuChoice.ClearMetadata:
+
+                        AnsiConsole.MarkupLine("This will [red]delete[/] your cache files, you will need to re generate them using [blue]Process Mods[/].\n\nThis is generally needed when you change mod folder names or if the cache location changes.\n");
+
+                        if (AnsiConsole.Confirm("Are you sure you want to [red]purge[/] the cache?", false))
+                        {
+                            AnsiConsole.Status()
+                            .Start("Deleting cache files...", ctx =>
+                            {
+                                foreach (ModInfo mod in ValidMods)
+                                {
+                                    string cachePath = Path.Combine(CacheDir.FullName, mod.Dir.Name, DdsMetadataFileName);
+
+                                    if (!File.Exists(cachePath))
+                                        continue;
+
+                                    ctx.Status($"Deleting: {Markup.Escape(cachePath)}");
+
+                                    File.Delete(cachePath);
+                                }
+                            });
+                            AnsiConsole.MarkupLine("[green]Cache cleared successfully![/]\nBe sure to run Process Mods again for cache to be regenerated.");
+                        }
+                        Console.ReadKey();
+                        break;
                     case MenuChoice.PrintDebug:
                         PrintDirs();
                         Console.WriteLine();
@@ -129,6 +152,7 @@ namespace DDSCreator
             ProcessMods,
             EnableLongPaths,
             ChangeProcessorCount,
+            ClearMetadata,
             PrintDebug,
             PrintError,
             Quit,
@@ -155,7 +179,7 @@ namespace DDSCreator
                 //Description = "The Game",
                 //GameVersion = string.Empty,
                 //Jars = [],
-                Dir = StarsectorCodeDir,
+                Dir = StarsectorCoreDir,
                 ShouldProcess = true
             };
 
@@ -192,7 +216,7 @@ namespace DDSCreator
                 Func<FileMetadata, string> keySelector;
 
                 if (modMetadataPath.Contains("starsector-core"))
-                    keySelector = x => Path.Combine(StarsectorCodeDir.FullName, x.RelativeImagePath);
+                    keySelector = x => Path.Combine(StarsectorCoreDir.FullName, x.RelativeImagePath);
                 else
                     keySelector = x => Path.Combine(ModsDir.FullName, x.ModFolderName, x.RelativeImagePath);
 
@@ -219,7 +243,7 @@ namespace DDSCreator
                 $"[cyan]{nameof(ModDir),-padding}[/] {ModDir}\n" +
                 $"[cyan]{nameof(ModsDir),-padding}[/] {ModsDir}\n" +
                 $"[cyan]{nameof(GameDir),-padding}[/] {GameDir}\n" +
-                $"[cyan]{nameof(StarsectorCodeDir),-padding}[/] {StarsectorCodeDir}\n" +
+                $"[cyan]{nameof(StarsectorCoreDir),-padding}[/] {StarsectorCoreDir}\n" +
                 $"[cyan]{nameof(CacheDir),-padding}[/] {CacheDir}"
             );
         }

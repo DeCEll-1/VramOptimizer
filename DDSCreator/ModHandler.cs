@@ -66,6 +66,9 @@ namespace DDSCreator
         #endregion
         public static List<FileMetadata> ConvertMod(ModInfo mod, List<string> validImageFiles, ChildProgressBar childPbar, Action OnConvert)
         {
+
+
+
             #region json writer creations
             string metadataPath = Path.Combine(CacheDir.FullName, mod.Dir.Name, DdsMetadataFileName);
 
@@ -123,7 +126,7 @@ namespace DDSCreator
                     ImageEditDateDate = File.GetLastWriteTimeUtc(imagePath),
                     DDSCreationDate = File.GetCreationTimeUtc(ddsFilePath),
                     DDSEditDate = File.GetLastWriteTimeUtc(ddsFilePath),
-                    DDSFilePath = ddsFilePath.Replace(CacheDir!.Parent!.Parent!.Parent!.FullName, ""),
+                    DDSFilePath = ddsFilePath.Replace(GameDir.FullName, ""),
                     ImageType = imageFileType,
                     CompressionFormat = format.ToString(),
                     Width = width,

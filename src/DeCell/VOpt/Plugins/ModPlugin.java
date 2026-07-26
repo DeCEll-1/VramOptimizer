@@ -25,6 +25,8 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class ModPlugin extends BaseModPlugin {
     private static String starsectorDirectory;
+    private static String starsectorModsDirectory;
+    private static String ddsCacheDirectory;
 
     @Override
     public void onApplicationLoad() throws Exception {
@@ -44,9 +46,11 @@ public class ModPlugin extends BaseModPlugin {
             System.out.println("Operating System: Unknown / Other (" + os + ")");
         }
 
+        ddsCacheDirectory = starsectorDirectory + "/mods/DDSCache/";
+
 
         SpriteAPI handleFinderSprite = Global.getSettings().getSprite("graphics/asteroids/asteroid1.png");
-        Sprite tex = Reflections.extractSprite(handleFinderSprite);
+        Sprite tex = Reflections.extractSprite(handleFinderSprite); // we use that specific texture to get the handles for the padding amounts
         Reflections.extractTextureDimensionsHandles(tex.getTexture());
         Reflections.extractTextureFloatHandles(tex.getTexture());
 
@@ -58,14 +62,13 @@ public class ModPlugin extends BaseModPlugin {
             // we want individual mods to be able to supply their own dds files
             // so we will check if they have a metadata already
             String DDSMetadata = "null";
+            String modFolderName = mod.getDirName();
 
             try {
-                DDSMetadata = Global.getSettings().loadText("DDSCache/" + mod.getDirName() + "/dds_metadata.json", mod.getId());
+//                DDSMetadata = Global.getSettings().loadText("DDSCache/" + mod.getDirName() + "/dds_metadata.json", mod.getId());
+                // since wwe have the cache in the mod folder we need reflection
+                DDSMetadata = Reflections.readAllText(ddsCacheDirectory + modFolderName + "/dds_metadata.json");
             } catch (Exception ignored) {
-                try { // fallback
-                    DDSMetadata = Global.getSettings().loadText("DDSCache/" + mod.getDirName() + "/dds_metadata.json", "VramOptimizer");
-                } catch (Exception ignored1) {
-                }
             }
 
             if (Objects.equals(DDSMetadata, "null"))
@@ -80,7 +83,8 @@ public class ModPlugin extends BaseModPlugin {
         }
 
         try { // fallback
-            String DDSMetadata = Global.getSettings().loadText("DDSCache/starsector-core/dds_metadata.json", "VramOptimizer");
+//            String DDSMetadata = Global.getSettings().loadText("DDSCache/starsector-core/dds_metadata.json", "VramOptimizer");
+            String DDSMetadata = Reflections.readAllText(ddsCacheDirectory + "starsector-core/dds_metadata.json");
 
             List<FileMetadata> starsectorFiles = parseFileList(DDSMetadata); // handle starsector specifically
 
@@ -120,7 +124,14 @@ public class ModPlugin extends BaseModPlugin {
         // yippee
 
         // who needs unsigned bytes?
-        byte[] bytes = Reflections.readAllBytes((starsectorDirectory + fileMetadata.DDSFilePath).replaceAll("\\\\", "/"));
+        byte[] bytes = null;
+        try {
+            bytes = Reflections.readAllBytes((starsectorDirectory + fileMetadata.DDSFilePath).replaceAll("\\\\", "/"));
+        } catch (Exception bruh) {
+            VOpt.LogErr("Error while trying to load metadata:");
+            VOpt.LogErr(fileMetadata.toString());
+            throw bruh;
+        }
 
         uploadDDSTexture(texID, fileMetadata.Width, fileMetadata.Height, bytes);
     }

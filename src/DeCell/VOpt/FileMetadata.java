@@ -22,4 +22,22 @@ public class FileMetadata {
         Png,
         Webp
     }
+
+    @Override
+    public String toString() {
+        return "ModImageInfo {" +
+                "\n  ModID='" + ModID + '\'' +
+                ",\n  ModFolderName='" + ModFolderName + '\'' +
+                ",\n  RelativeImagePath='" + RelativeImagePath + '\'' +
+                ",\n  ImageType=" + ImageType +
+                ",\n  ImageCreationDate=" + ImageCreationDate +
+                ",\n  ImageEditDateDate=" + ImageEditDateDate +
+                ",\n  DDSFilePath='" + DDSFilePath + '\'' +
+                ",\n  DDSCreationDate=" + DDSCreationDate +
+                ",\n  DDSEditDate=" + DDSEditDate +
+                ",\n  CompressionFormat='" + CompressionFormat + '\'' +
+                ",\n  Width=" + Width +
+                ",\n  Height=" + Height +
+                "\n}";
+    }
 }

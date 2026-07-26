@@ -515,17 +515,6 @@ public class Reflections {
         }
     }
 
-    public static byte[] readAllBytes(Object pathInstance) {
-        if (pathInstance == null) {
-            throw new IllegalArgumentException("Path instance cannot be null");
-        }
-        try {
-            return (byte[]) filesReadAllBytesHandle.invoke(pathInstance);
-        } catch (Throwable t) {
-            throw new RuntimeException("Failed to read all bytes from path", t);
-        }
-    }
-
     public static byte[] readAllBytes(String filePath) {
         try {
             Object pathInstance = pathOfStringHandle.invoke(filePath, new String[0]);
@@ -533,6 +522,15 @@ public class Reflections {
             return (byte[]) filesReadAllBytesHandle.invoke(pathInstance);
         } catch (Throwable t) {
             throw new RuntimeException("Failed to read bytes from file path: " + filePath, t);
+        }
+    }
+    public static String readAllText(String filePath) {
+        try {
+            Object pathInstance = pathOfStringHandle.invoke(filePath, new String[0]);
+
+            return (String) filesReadStringHandle.invoke(pathInstance);
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to read text from file path: " + filePath, t);
         }
     }
     public static boolean fileExists(Object pathInstance) {
