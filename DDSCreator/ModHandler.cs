@@ -185,7 +185,7 @@ namespace DDSCreator
                     string cachedFormatted = FormatCompactNumber(PixelsAlreadyCached);
                     string totalFormatted = FormatCompactNumber(TotalPixelsProcessed);
 
-                    pbar.Message = $"[{modIndex}/{ModsToProcess.Count}] Current Mod: {mod.Name,-30} Total Pixels Processed (already processed/total): ({cachedFormatted}/{totalFormatted})";
+                    pbar.Message = $"[{modIndex}/{ModsToProcess.Count}] Current Mod: {mod.Name,-30} Total Pixels Processed: {totalFormatted}";
                 }
                 updateMessage();
                 #endregion

@@ -66,7 +66,7 @@ public class Reflections {
 
     public static final Class<?> linkOptionArrayClass;
     public static final MethodHandle filesExistsHandle;
-
+    public static final MethodHandle fieldGetModifiersHandle;
     static {
         try {
             fieldClass = Class.forName("java.lang.reflect.Field", false, Class.class.getClassLoader());
@@ -171,6 +171,8 @@ public class Reflections {
                     "exists",
                     MethodType.methodType(boolean.class, pathClass, linkOptionArrayClass)
             );
+
+            fieldGetModifiersHandle = lookup.findVirtual(fieldClass, "getModifiers", MethodType.methodType(int.class));
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -569,12 +571,19 @@ public class Reflections {
 
         try {
             Class<?> clazz = textureObjectClass;
-            Object[] fields = clazz.getDeclaredFields();
+            Object[] fields = (Object[]) getDeclaredFieldsHandle.invoke(clazz);
 
             for (Object field : fields) {
                 String fieldName = getFieldName(field);
+                if (fieldName == null) continue;
 
-                // Ensure the field is an integer
+                // Use the correct field-specific modifiers handle
+                int modifiers = (int) fieldGetModifiersHandle.invoke(field);
+                boolean isStatic = (boolean) modifierIsStatic.invoke(modifiers);
+                if (isStatic) {
+                    continue;
+                }
+
                 Class<?> fieldType = (Class<?>) getFieldTypeHandle.invoke(field);
                 if (fieldType != int.class) {
                     continue;
@@ -583,14 +592,12 @@ public class Reflections {
                 VarHandle vh = getVarHandle(clazz, fieldName, int.class);
                 int value = (int) vh.get(textureInstance);
 
-                // If it matches our target value (32), assign it.
-                // Since there are two fields with the value 32, we assign the first to width and the second to height.
                 if (value == 32) {
                     if (textureWidthHandle == null) {
                         textureWidthHandle = vh;
                     } else if (textureHeightHandle == null) {
                         textureHeightHandle = vh;
-                        break; // Found both, exit loop
+                        break;
                     }
                 }
             }
