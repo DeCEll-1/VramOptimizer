@@ -29,12 +29,21 @@ public class ModPlugin extends BaseModPlugin {
     @Override
     public void onApplicationLoad() throws Exception {
 
-        starsectorDirectory = ModPlugin.class
-                .getProtectionDomain()
-                .getCodeSource()
-                .getLocation()
-                .getFile().replace("starsector-core/../", "").replaceFirst("/", "");
-        starsectorDirectory = starsectorDirectory.substring(0, starsectorDirectory.indexOf("/mods"));
+        starsectorDirectory = System.getProperty("user.dir").replaceAll("\\\\", "/");
+
+        String os = System.getProperty("os.name").toLowerCase();
+
+        if (os.contains("win")) {
+            starsectorDirectory = starsectorDirectory.replace("/starsector-core", "");
+        } else if (os.contains("mac")) { // i cant test these so we just gamble
+            // it probly wont work but i dont have a mac
+            starsectorDirectory = starsectorDirectory.replace("/Contents/Resources/Java", "");
+        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+            // linux has the mods next to the ss jar so
+        } else {
+            System.out.println("Operating System: Unknown / Other (" + os + ")");
+        }
+
 
         SpriteAPI handleFinderSprite = Global.getSettings().getSprite("graphics/asteroids/asteroid1.png");
         Sprite tex = Reflections.extractSprite(handleFinderSprite);
@@ -105,7 +114,6 @@ public class ModPlugin extends BaseModPlugin {
 
         Reflections.setTextureWidth(tex.getTexture(), fileMetadata.Width);
         Reflections.setTextureHeight(tex.getTexture(), fileMetadata.Height);
-
 
 
         // since SettingsAPI does not have any way to load binary files, ill have to do it manually, using reflection

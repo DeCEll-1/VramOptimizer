@@ -29,7 +29,7 @@ namespace DDSCreator
             UpdateValidMods();
 
             List<MenuChoice> choices = Enum.GetValues<MenuChoice>()
-#if !WINDOWS && !DEBUG
+#if WINDOWS || DEBUG
                 .Where(c => c != MenuChoice.EnableLongPaths)
 #endif
                 .ToList();
