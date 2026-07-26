@@ -32,9 +32,10 @@ namespace DDSCreator
 #if LINUX || MAC
             choices.Remove(Program.MenuChoice.EnableLongPaths);
 #endif
-
+#if WINDOWS || DEBUG
             if (AreLongPathsEnabled())
                 choices.Remove(MenuChoice.EnableLongPaths);
+#endif
 
             while (true)
             {
@@ -48,7 +49,7 @@ namespace DDSCreator
                             {
                                 switch (s)
                                 {
-                                    case MenuChoice.EnableLongPaths:
+                                    case MenuChoice.EnableLongPaths: // this should not be a choice in linux || mac
                                         if (AreLongPathsEnabled())
                                             return $"[grey]Long paths are enabled[/]";
                                         else
@@ -81,7 +82,7 @@ namespace DDSCreator
                         if (ModHandler.DisplayConfirmation())
                             ModHandler.HandleMods();
                         break;
-                    case MenuChoice.EnableLongPaths:
+                    case MenuChoice.EnableLongPaths: // this should not be in the selection for linux || mac
                         if (AreLongPathsEnabled())
                             Console.WriteLine("Long paths are already enabled");
                         else

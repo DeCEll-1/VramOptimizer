@@ -1,3 +1,1 @@
-cd ..
-dotnet build --configuration Release ./DDSCreator
-pause
+powershell -ExecutionPolicy Bypass -File "./build.ps1"
