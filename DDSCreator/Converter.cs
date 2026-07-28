@@ -42,19 +42,20 @@ namespace DDSCreator
 
                 return (ddsOutputPath, pWidth, pHeight, true);
             }
-
+            MagickImage magickImage;
             try
             {
                 var pingInfo2 = new MagickImageInfo(srcFilePath);
                 if (pingInfo2.Format == MagickFormat.Unknown)
                     return (string.Empty, -1, -1, true);
+
+
+                magickImage = new MagickImage(srcFilePath);
             }
             catch (Exception)
-            { // corrupt file
+            { // corrupt file // TODO: create a error log or whatever
                 return (string.Empty, -1, -1, true);
             }
-
-            using var magickImage = new MagickImage(srcFilePath);
             magickImage.Flip();
             magickImage.Format = MagickFormat.Rgba;
             magickImage.ColorSpace = ColorSpace.sRGB;
@@ -66,6 +67,7 @@ namespace DDSCreator
             int width = (int)magickImage.Width;
             int height = (int)magickImage.Height;
             byte[] pixelBytes = magickImage.ToByteArray();
+            magickImage.Dispose();
 
             for (int i = 0; i < pixelBytes.Length; i += 4)
             {
