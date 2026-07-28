@@ -40,7 +40,7 @@ Write-Host "All publishes completed successfully!" -ForegroundColor Green
 Write-Host "Compressing profile folders into zip archives..." -ForegroundColor Cyan
 foreach ($p in $profiles) {
     $folderPath = "../bin/Publish/$p"
-    $zipPath = "../bin/Publish/$p.zip".Replace("VramOptimizer", "VramOptimizer-$TagName");
+    $zipPath = "../bin/Publish/$p.zip"
 
     if (Test-Path -LiteralPath $folderPath) {
         if (Test-Path -LiteralPath $zipPath) {
