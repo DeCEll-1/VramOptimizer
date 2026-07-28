@@ -67,6 +67,18 @@ namespace DDSCreator
             int height = (int)magickImage.Height;
             byte[] pixelBytes = magickImage.ToByteArray();
 
+            for (int i = 0; i < pixelBytes.Length; i += 4)
+            {
+                if (pixelBytes[i + 3] == 0) // a
+                { // for reasons unknown to me, textures have non zero color data even when the pixel is transparent
+                    // the confusion is less of "why would it be allowed" and more of "why would they become transparent if they were drawn"
+
+                    pixelBytes[i] = 0;     // r
+                    pixelBytes[i + 1] = 0; // g
+                    pixelBytes[i + 2] = 0; // b
+                }
+            }
+
             BcEncoder encoder = new();
             encoder.OutputOptions.GenerateMipMaps = false;
             encoder.OutputOptions.Quality = CompressionQuality.Balanced;

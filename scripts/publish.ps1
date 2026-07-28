@@ -1,3 +1,10 @@
+param (
+    [Parameter(Mandatory = $true)]
+    [string]$TagName
+)
+
+Write-Host "Building release for tag: $TagName"
+
 Set-Location "../DDSCreator"
 
 $profiles = @("VramOptimizer-win-x64", "VramOptimizer-win-x86", "VramOptimizer-linux-x64", "VramOptimizer-osx-x64",
@@ -33,14 +40,14 @@ Write-Host "All publishes completed successfully!" -ForegroundColor Green
 Write-Host "Compressing profile folders into zip archives..." -ForegroundColor Cyan
 foreach ($p in $profiles) {
     $folderPath = "../bin/Publish/$p"
-    $zipPath = "../bin/Publish/$p.zip"
+    $zipPath = "../bin/Publish/$p.zip".Replace("VramOptimizer", "VramOptimizer-$TagName");
 
     if (Test-Path -LiteralPath $folderPath) {
         if (Test-Path -LiteralPath $zipPath) {
             Remove-Item -LiteralPath $zipPath -Force
         }
         
-        Write-Host "Zipping $p..." -ForegroundColor Yellow
+        Write-Host "Zipping $p to $zipPath" -ForegroundColor Yellow
         Compress-Archive -LiteralPath $folderPath -DestinationPath $zipPath -CompressionLevel Optimal
     }
 }

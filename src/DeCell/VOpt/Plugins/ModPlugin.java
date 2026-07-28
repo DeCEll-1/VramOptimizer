@@ -25,39 +25,17 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class ModPlugin extends BaseModPlugin {
     private static String starsectorDirectory;
-    private static String starsectorModsDirectory;
     private static String ddsCacheDirectory;
 
     @Override
     public void onApplicationLoad() throws Exception {
 
-        starsectorDirectory = System.getProperty("user.dir").replaceAll("\\\\", "/");
+        updatePaths();
 
-        String os = System.getProperty("os.name").toLowerCase();
-
-        if (os.contains("win")) {
-            starsectorDirectory = starsectorDirectory.replace("/starsector-core", "");
-        } else if (os.contains("mac")) { // i cant test these so we just gamble
-            // it probly wont work but i dont have a mac
-            starsectorDirectory = starsectorDirectory.replace("/Contents/Resources/Java", "");
-        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
-            // linux has the mods next to the ss jar so
-        } else {
-            System.out.println("Operating System: Unknown / Other (" + os + ")");
-        }
-
-        ddsCacheDirectory = starsectorDirectory + "/mods/DDSCache/";
-
-
-        SpriteAPI handleFinderSprite = Global.getSettings().getSprite("graphics/asteroids/asteroid1.png");
-        Sprite tex = Reflections.extractSprite(handleFinderSprite); // we use that specific texture to get the handles for the padding amounts
-        Reflections.extractTextureDimensionsHandles(tex.getTexture());
-        Reflections.extractTextureFloatHandles(tex.getTexture());
-
+        UpdateHandles();
 
         List<ModSpecAPI> mods = Global.getSettings().getModManager().getEnabledModsCopy();
         VOpt.Log("VRAM usage before dds replacement: " + (getTotalTextureVRAM() / 1024 / 1024) + "MB");
-
 
         try { // fallback
             if (Reflections.fileExists(ddsCacheDirectory + "starsector-core/dds_metadata.json")) {
@@ -108,6 +86,32 @@ public class ModPlugin extends BaseModPlugin {
         }
 
         VOpt.Log("VRAM usage after dds replacement: " + (getTotalTextureVRAM() / 1024 / 1024) + "MB");
+    }
+
+    private static void UpdateHandles() {
+        SpriteAPI handleFinderSprite = Global.getSettings().getSprite("graphics/asteroids/asteroid1.png");
+        Sprite tex = Reflections.extractSprite(handleFinderSprite); // we use that specific texture to get the handles for the padding amounts
+        Reflections.extractTextureDimensionsHandles(tex.getTexture());
+        Reflections.extractTextureFloatHandles(tex.getTexture());
+    }
+
+    private void updatePaths() {
+        starsectorDirectory = System.getProperty("user.dir").replaceAll("\\\\", "/");
+
+        String os = System.getProperty("os.name").toLowerCase();
+
+        if (os.contains("win")) {
+            starsectorDirectory = starsectorDirectory.replace("/starsector-core", "");
+        } else if (os.contains("mac")) { // i cant test these so we just gamble
+            // it probly wont work but i dont have a mac
+            starsectorDirectory = starsectorDirectory.replace("/Contents/Resources/Java", "");
+        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+            // linux has the mods next to the ss jar so
+        } else {
+            System.out.println("Operating System: Unknown / Other (" + os + ")");
+        }
+
+        ddsCacheDirectory = starsectorDirectory + "/mods/DDSCache/";
     }
 
     public static void replaceFileInVram(FileMetadata fileMetadata) {

@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/VramOptimizer.iml" filepath="$PROJECT_DIR$/.idea/VramOptimizer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/agent/agent.iml" filepath="$PROJECT_DIR$/agent/agent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/attatcher/attatcher.iml" filepath="$PROJECT_DIR$/attatcher/attatcher.iml" />
     </modules>
   </component>
 </project>

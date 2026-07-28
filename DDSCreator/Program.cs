@@ -65,6 +65,8 @@ namespace DDSCreator
                                         return $"Change amount of processors to use (currently using {ProcessorCountToUse} cores)";
                                     case MenuChoice.ClearMetadata:
                                         return $"[gray]Purge metadata[/]";
+                                    case MenuChoice.ClearCache:
+                                        return $"[DarkRed_1]Clear texture cache[/]";
                                     default:
                                         return s.ToString();
                                 }
@@ -87,7 +89,6 @@ namespace DDSCreator
                             EnableLongPathsViaPowerShell();
                         Console.ReadKey();
                         break;
-
                     case MenuChoice.ChangeProcessorCount:
                         int[] threadChoices = Enumerable.Range(1, Environment.ProcessorCount).ToArray();
 
@@ -100,10 +101,9 @@ namespace DDSCreator
                         ProcessorCountToUse = selectedThreads;
                         break;
                     case MenuChoice.ClearMetadata:
+                        AnsiConsole.MarkupLine("This will [red]delete[/] your metadata files, you will need to re generate them using [blue]Process Mods[/].\n\nThis is generally needed when you change mod folder names or if the cache location changes.\n");
 
-                        AnsiConsole.MarkupLine("This will [red]delete[/] your cache files, you will need to re generate them using [blue]Process Mods[/].\n\nThis is generally needed when you change mod folder names or if the cache location changes.\n");
-
-                        if (AnsiConsole.Confirm("Are you sure you want to [red]purge[/] the cache?", false))
+                        if (AnsiConsole.Confirm("Are you sure you want to [red]purge[/] the metadata?", false))
                         {
                             AnsiConsole.Status()
                             .Start("Deleting cache files...", ctx =>
@@ -122,6 +122,24 @@ namespace DDSCreator
                             });
                             AnsiConsole.MarkupLine("[green]Cache cleared successfully![/]\nBe sure to run Process Mods again for cache to be regenerated.");
                         }
+                        Console.ReadKey();
+                        break;
+                    case MenuChoice.ClearCache:
+                        AnsiConsole.MarkupLine("This will [red]delete[/] your cached texture files, you will need to re generate them using [blue]Process Mods[/].\n\nThis should only be necessary if every texture thats generated needs to be regenerated.\n");
+
+                        string confirmationText = "DELETE";
+
+                        string res = AnsiConsole.Ask<string>($"To purge cached textures, please type [red]'{confirmationText}'[/] to confirm (anything else to quit):");
+
+                        if (confirmationText == res)
+                        {
+                            AnsiConsole.MarkupLine($"Deleting: {CacheDir.FullName}");
+                            CacheDir.Delete(true);
+                            CacheDir.Create();
+                            AnsiConsole.MarkupLine("[green]Cache cleared successfully![/]\nBe sure to run Process Mods again to  regenerate textures.");
+                        }
+                        else
+                            AnsiConsole.MarkupLine("Press any key to return back to menu.");
                         Console.ReadKey();
                         break;
                     case MenuChoice.PrintDebug:
@@ -153,6 +171,7 @@ namespace DDSCreator
             EnableLongPaths,
             ChangeProcessorCount,
             ClearMetadata,
+            ClearCache,
             PrintDebug,
             PrintError,
             Quit,
