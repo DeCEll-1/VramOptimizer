@@ -7,6 +7,8 @@ import java.lang.invoke.VarHandle;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static DeCell.VOpt.VOpt.LogDbg;
+
 
 public class Reflections {
 
@@ -568,45 +570,86 @@ public class Reflections {
     private static VarHandle textureHeightHandle = null;
 
     public static void extractTextureDimensionsHandles(Object textureInstance) {
-        if (textureInstance == null) return;
+        LogDbg("/ extractTextureDimensionsHandles called with textureInstance: " + (textureInstance == null ? "null" : textureInstance.getClass().getName()));
+
+        if (textureInstance == null) {
+            LogDbg("textureInstance is null, returning early.");
+            return;
+        }
+
         if (textureObjectClass == null) {
             textureObjectClass = textureInstance.getClass();
+            LogDbg("Initialized textureObjectClass to: " + textureObjectClass.getName());
+        } else {
+            LogDbg("textureObjectClass already initialized to: " + textureObjectClass.getName());
         }
 
         try {
             Class<?> clazz = textureObjectClass;
+            LogDbg("Target class for dimensions extraction: " + clazz.getName());
+
             Object[] fields = (Object[]) getDeclaredFieldsHandle.invoke(clazz);
+            LogDbg("Total declared fields retrieved via reflection handle: " + (fields != null ? fields.length : 0));
 
             for (Object field : fields) {
-                String fieldName = getFieldName(field);
-                if (fieldName == null) continue;
+                LogDbg("--- Processing Field object: " + field + " ---");
 
-                // Use the correct field-specific modifiers handle
+                String fieldName = getFieldName(field);
+                LogDbg("Field name retrieved: '" + fieldName + "'");
+
+                if (fieldName == null) {
+                    LogDbg("Field name is null, skipping field.");
+                    continue;
+                }
+
                 int modifiers = (int) fieldGetModifiersHandle.invoke(field);
+                LogDbg("Field modifiers integer value: " + modifiers);
+
                 boolean isStatic = (boolean) modifierIsStatic.invoke(modifiers);
+                LogDbg("Is field static? " + isStatic);
+
                 if (isStatic) {
                     continue;
                 }
 
                 Class<?> fieldType = (Class<?>) getFieldTypeHandle.invoke(field);
+                LogDbg("Field type resolved to: " + (fieldType != null ? fieldType.getName() : "null"));
+
                 if (fieldType != int.class) {
+                    LogDbg("Skipping field because type (" + fieldType + ") is not int.class");
                     continue;
                 }
 
                 VarHandle vh = getVarHandle(clazz, fieldName, int.class);
+                LogDbg("VarHandle generated successfully for field: " + fieldName + ", VarHandle: " + vh);
+
                 int value = (int) vh.get(textureInstance);
+                LogDbg("Extracted integer value for field '" + fieldName + "': " + value);
+
 
                 if (value == 32) {
+                    LogDbg("Matched target dimension value 32 on field: " + fieldName);
                     if (textureWidthHandle == null) {
                         textureWidthHandle = vh;
+                        LogDbg("Assigned textureWidthHandle to field: " + fieldName);
                     } else if (textureHeightHandle == null) {
                         textureHeightHandle = vh;
+                        LogDbg("Assigned textureHeightHandle to field: " + fieldName);
+                        LogDbg("Both textureWidthHandle and textureHeightHandle have been successfully found. Breaking out of loop.");
                         break;
+                    } else {
+                        LogDbg("Both width and height handles are already populated.");
                     }
+                } else {
+                    LogDbg("Value " + value + " did not match target dimension constant (32).");
                 }
+
+                LogDbg("Current state -> textureWidthHandle: " + textureWidthHandle + ", textureHeightHandle: " + textureHeightHandle);
             }
+            LogDbg("Dimensions field iteration finished. Final handles -> widthHandle: " + textureWidthHandle + ", heightHandle: " + textureHeightHandle);
 
         } catch (Throwable t) {
+            LogDbg("Exception caught during dimensions handle extraction: " + t.getClass().getName() + " - " + t.getMessage());
             throw new RuntimeException("Failed to locate texture dimension VarHandles by value", t);
         }
     }
@@ -691,60 +734,79 @@ public class Reflections {
     private static VarHandle textureFloatHandle2 = null;
 
     public static void extractTextureFloatHandles(Object textureInstance) {
-        if (textureInstance == null) return;
+        LogDbg("/ extractTextureFloatHandles called with textureInstance: " + (textureInstance == null ? "null" : textureInstance.getClass().getName()));
+
+        if (textureInstance == null) {
+            LogDbg("textureInstance is null, returning early.");
+            return;
+        }
+
         if (textureObjectClass == null) {
             textureObjectClass = textureInstance.getClass();
+            LogDbg("Initialized textureObjectClass to: " + textureObjectClass.getName());
+        } else {
+            LogDbg("textureObjectClass already initialized to: " + textureObjectClass.getName());
         }
 
         try {
             Class<?> clazz = textureObjectClass;
+            LogDbg("Target class for field extraction: " + clazz.getName());
+
             Object[] fields = clazz.getDeclaredFields();
+            LogDbg("Total declared fields found: " + (fields != null ? fields.length : 0));
 
             for (Object field : fields) {
+                LogDbg("--- Processing Field object: " + field + "---");
                 Class<?> fieldType = (Class<?>) getFieldTypeHandle.invoke(field);
+                LogDbg("Field type resolved to: " + (fieldType != null ? fieldType.getName() : "null"));
+
                 if (fieldType != float.class) {
+                    LogDbg("Skipping field because type (" + fieldType + ") is not float.class");
                     continue;
                 }
 
                 String fieldName = getFieldName(field);
-                VarHandle vh = getVarHandle(clazz, fieldName, float.class);
-                float value = (float) vh.get(textureInstance);
+                LogDbg("Field name retrieved: '" + fieldName + "'");
 
-                // Match exact values for float fields (0.71875 and 0.625)
-                if (value == 0.71875f && textureFloatHandle1 == null) {
-                    textureFloatHandle1 = vh;
-                } else if (value == 0.625f && textureFloatHandle2 == null) {
-                    textureFloatHandle2 = vh;
+                VarHandle vh = getVarHandle(clazz, fieldName, float.class);
+                LogDbg("VarHandle generated successfully for field: " + fieldName + ", VarHandle: " + vh);
+
+                float value = (float) vh.get(textureInstance);
+                LogDbg("Extracted float value for field '" + fieldName + "': " + value);
+
+                if (value == 0.71875f) {
+                    LogDbg("Matched target value 0.71875f on field: " + fieldName);
+                    if (textureFloatHandle1 == null) {
+                        textureFloatHandle1 = vh;
+                        LogDbg("Assigned textureFloatHandle1 to field: " + fieldName);
+                    } else {
+                        LogDbg("textureFloatHandle1 was already assigned (current: " + textureFloatHandle1 + "), skipping assignment.");
+                    }
+                } else if (value == 0.625f) {
+                    LogDbg("Matched target value 0.625f on field: " + fieldName);
+                    if (textureFloatHandle2 == null) {
+                        textureFloatHandle2 = vh;
+                        LogDbg("Assigned textureFloatHandle2 to field: " + fieldName);
+                    } else {
+                        LogDbg("textureFloatHandle2 was already assigned (current: " + textureFloatHandle2 + "), skipping assignment.");
+                    }
+                } else {
+                    LogDbg("Value " + value + " did not match target constants (0.71875f or 0.625f).");
                 }
 
+                LogDbg("Current state -> textureFloatHandle1: " + textureFloatHandle1 + ", textureFloatHandle2: " + textureFloatHandle2);
+
                 if (textureFloatHandle1 != null && textureFloatHandle2 != null) {
+                    LogDbg("Both textureFloatHandle1 and textureFloatHandle2 have been successfully found. Breaking out of loop early.");
                     break;
                 }
             }
+
+            LogDbg("Field iteration finished. Final handles -> handle1: " + textureFloatHandle1 + ", handle2: " + textureFloatHandle2);
         } catch (Throwable t) {
+            LogDbg("Exception caught during dimensions handle extraction: " + t.getClass().getName() + " - " + t.getMessage());
+
             throw new RuntimeException("Failed to locate texture float VarHandles by value", t);
-        }
-    }
-
-    public static float getTextureFloat1(Object textureInstance) {
-        if (textureFloatHandle1 == null) {
-            extractTextureFloatHandles(textureInstance);
-        }
-        try {
-            return (float) textureFloatHandle1.get(textureInstance);
-        } catch (Throwable t) {
-            return -1.0f;
-        }
-    }
-
-    public static float getTextureFloat2(Object textureInstance) {
-        if (textureFloatHandle2 == null) {
-            extractTextureFloatHandles(textureInstance);
-        }
-        try {
-            return (float) textureFloatHandle2.get(textureInstance);
-        } catch (Throwable t) {
-            return -1.0f;
         }
     }
 

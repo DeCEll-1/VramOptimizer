@@ -20,6 +20,8 @@ foreach ($p in $profiles) {
         New-Item -Path "$profileDir" -Name "bin" -ItemType Directory | Out-Null
     }
     Move-Item -Path "$profileDir/DDSCreator*", "$profileDir/Magick.Native*" -Destination $binDir
+    # since i forget to update the settings.json just copy it
+    Copy-Item -Path "$profileDir/data/config/defaultSettings.json" -Destination "$profileDir/data/config/settings.json" -Force
 
     $targetSubfolderName = "VramOptimizer"
     $newSubfolderPath = Join-Path $profileDir $targetSubfolderName
@@ -28,5 +30,4 @@ foreach ($p in $profiles) {
     Get-ChildItem -LiteralPath $profileDir | Where-Object { $_.Name -ne $targetSubfolderName } | Move-Item -Destination $newSubfolderPath
 }
 
-Write-Host "All publishes completed successfully!" -ForegroundColor Green
-Pause
+Write-Host "All builds completed." -ForegroundColor Green

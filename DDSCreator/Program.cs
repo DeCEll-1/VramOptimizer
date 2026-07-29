@@ -66,7 +66,7 @@ namespace DDSCreator
                                     case MenuChoice.ClearMetadata:
                                         return $"[gray]Purge metadata[/]";
                                     case MenuChoice.ClearCache:
-                                        return $"[DarkRed_1]Clear texture cache[/]";
+                                        return $"[DarkRed_1]Purge texture cache[/]";
                                     default:
                                         return s.ToString();
                                 }

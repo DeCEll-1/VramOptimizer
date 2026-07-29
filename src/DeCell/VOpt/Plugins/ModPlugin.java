@@ -29,15 +29,20 @@ public class ModPlugin extends BaseModPlugin {
 
     @Override
     public void onApplicationLoad() throws Exception {
+        VOpt.isDebug = Global.getSettings().getBoolean("VOpt_debug");
 
         updatePaths();
 
-        UpdateHandles();
+        if (!VOpt.frEnabled)
+            // FR already does what this thing is for
+            UpdateHandles();
+        else
+            VOpt.Log("FR found, skipping texture object field overriding");
 
         List<ModSpecAPI> mods = Global.getSettings().getModManager().getEnabledModsCopy();
         VOpt.Log("VRAM usage before dds replacement: " + (getTotalTextureVRAM() / 1024 / 1024) + "MB");
 
-        try { // fallback
+        try {
             if (Reflections.fileExists(ddsCacheDirectory + "starsector-core/dds_metadata.json")) {
 
                 String DDSMetadata = Reflections.readAllText(ddsCacheDirectory + "starsector-core/dds_metadata.json");
@@ -50,7 +55,8 @@ public class ModPlugin extends BaseModPlugin {
             } else
                 VOpt.LogWarn("No metadata found for starsector, be sure to generate it");
         } catch (Exception zaza) {
-            VOpt.LogErr("Error while trying to load metadata for starsector:\n" + zaza);
+            VOpt.LogErr("Error while trying to load metadata for starsector:");
+            zaza.printStackTrace(System.out);
         }
 
         for (ModSpecAPI mod : mods) {
@@ -66,12 +72,13 @@ public class ModPlugin extends BaseModPlugin {
                 // since wwe have the cache in the mod folder we need reflection
                 if (Reflections.fileExists(ddsCacheDirectory + modFolderName + "/dds_metadata.json")) {
                     DDSMetadata = Reflections.readAllText(ddsCacheDirectory + modFolderName + "/dds_metadata.json");
-                    VOpt.Log("Processed " + modFolderName);
+                    VOpt.Log("Processing " + modFolderName);
                 } else {
                     VOpt.LogWarn("No metadata found for " + modFolderName + ", be sure to generate it if you feel like it");
                 }
             } catch (Exception zaza) {
-                VOpt.LogErr("Error while trying to load metadata for: " + modFolderName + "\n" + zaza);
+                VOpt.LogErr("Error while trying to load metadata for: " + modFolderName);
+                zaza.printStackTrace(System.out);
             }
 
             if (Objects.equals(DDSMetadata, "null"))
@@ -124,19 +131,21 @@ public class ModPlugin extends BaseModPlugin {
             return;
         }
 
-        currLoadedImage.setTexWidth(1f); // since our textures dont have padding theres no need to float them
-        currLoadedImage.setTexHeight(1f);
+        if (!VOpt.frEnabled) {
+            // FR already does this so no need to bother with it
+            currLoadedImage.setTexWidth(1f); // since our textures dont have padding theres no need to float them
+            currLoadedImage.setTexHeight(1f);
 
-        currLoadedImage.setTexWidth(fileMetadata.Width);
-        currLoadedImage.setTexHeight(fileMetadata.Height);
+            currLoadedImage.setTexWidth(fileMetadata.Width);
+            currLoadedImage.setTexHeight(fileMetadata.Height);
 
-        Sprite tex = Reflections.extractSprite(currLoadedImage);
-        Reflections.setTextureFloat1(tex.getTexture(), 1);
-        Reflections.setTextureFloat2(tex.getTexture(), 1);
+            Sprite tex = Reflections.extractSprite(currLoadedImage);
+            Reflections.setTextureFloat1(tex.getTexture(), 1);
+            Reflections.setTextureFloat2(tex.getTexture(), 1);
 
-        Reflections.setTextureWidth(tex.getTexture(), fileMetadata.Width);
-        Reflections.setTextureHeight(tex.getTexture(), fileMetadata.Height);
-
+            Reflections.setTextureWidth(tex.getTexture(), fileMetadata.Width);
+            Reflections.setTextureHeight(tex.getTexture(), fileMetadata.Height);
+        }
 
         // since SettingsAPI does not have any way to load binary files, ill have to do it manually, using reflection
         // yippee

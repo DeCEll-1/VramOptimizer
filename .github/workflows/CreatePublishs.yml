@@ -28,7 +28,7 @@ jobs:
       - name: Run publish script
         shell: pwsh
         working-directory: ./scripts
-        run: ./publish.ps1 -TagName "${{ inputs.tag_name }}"
+        run: ./publish.ps1
 
       - name: Create Release and Upload Zips
         uses: softprops/action-gh-release@v2

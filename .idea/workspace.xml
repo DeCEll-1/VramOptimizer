@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b54dd8bf-1c46-450d-9448-2902c076f1e3" name="Changes" comment="" />
+    <list default="true" id="b54dd8bf-1c46-450d-9448-2902c076f1e3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DDSCreator/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jars/VOpt.jar" beforeDir="false" afterPath="$PROJECT_DIR$/jars/VOpt.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/Plugins/ModPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DeCell/VOpt/Plugins/ModPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/Reflections.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DeCell/VOpt/Reflections.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/VOpt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DeCell/VOpt/VOpt.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,6 +42,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Run Starsector FR.executor": "Debug",
     "Application.Run Starsector.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -59,6 +67,23 @@
       <recent name="D:\Game Files\Fractal Softworks\0.98a-RC5\mods\VramOptimizer" />
     </key>
   </component>
+  <component name="RunManager" selected="Application.Run Starsector FR">
+    <configuration name="Run Starsector FR" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../jre" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.fs.starfarer.StarfarerLauncher" />
+      <module name="VramOptimizer" />
+      <option name="VM_PARAMETERS" value="-Xmx4g -Xms4g -Xss4m -XX:+UnlockDiagnosticVMOptions -XX:+UnlockExperimentalVMOptions -XX:-BytecodeVerificationLocal -XX:-BytecodeVerificationRemote -XX:+ShowCodeDetailsInExceptionMessages -XX:+ExtensiveErrorReports -XX:+ShowMessageBoxOnError -XX:+PrintCommandLineFlags -XX:+PrintCodeCache -XX:+UseShenandoahGC -XX:+DisableExplicitGC -XX:+UseFastStosb -XX:+UseXmmI2D -XX:+UseXmmI2F -XX:+AlwaysPreTouch -XX:+ZeroTLAB -XX:+UseStringDeduplication -XX:+EnableVectorSupport -XX:+EnableVectorAggressiveReboxing -XX:+EnableVectorReboxing -XX:+UseVectorCmov -XX:+UseVectorStubs -XX:ThreadPriorityPolicy=1 -Xlog:async -Djava.library.path=native\\windows -Djava.system.class.loader=com.genir.renderer.loaders.AppClassLoader -Djava.util.Arrays.useLegacyMergeSort=true --enable-preview --add-opens=java.base/sun.nio.ch=ALL-UNNAMED --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.locks=ALL-UNNAMED --add-opens=java.base/jdk.internal.ref=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.lang.ref=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED --add-opens=java.desktop/java.awt=ALL-UNNAMED --add-exports=java.base/jdk.internal.ref=ALL-UNNAMED --add-exports=java.base/jdk.internal.misc=ALL-UNNAMED --add-exports=java.base/sun.nio.ch=ALL-UNNAMED -Dcom.fs.starfarer.settings.paths.saves=../saves -Dcom.fs.starfarer.settings.paths.screenshots=../screenshots -Dcom.fs.starfarer.settings.paths.mods=../mods -Dcom.fs.starfarer.settings.paths.logs=. -classpath fr.jar;janino.jar;commons-compiler.jar;commons-compiler-jdk.jar;starfarer.api.jar;starfarer_obf.jar;jogg-0.0.7.jar;jorbis-0.0.15.jar;json.jar;lwjgl.jar;jinput.jar;log4j-1.2.9.jar;lwjgl_util.jar;fs.sound_obf.jar;fs.common_obf.jar;xstream-1.4.10.jar;txw2-3.0.2.jar;jaxb-api-2.4.0-b180830.0359.jar;webp-imageio-0.1.6.jar com.fs.starfarer.StarfarerLauncher" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../starsector-core" />
+      <method v="2">
+        <option name="MakeProject" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Run Starsector" />
+      <item itemvalue="Application.Run Starsector FR" />
+    </list>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -69,5 +94,16 @@
       <updated>1784898781182</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/DeCell/VOpt/VOpt.java</url>
+          <line>22</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
