@@ -31,6 +31,8 @@ public class ModPlugin extends BaseModPlugin {
     public void onApplicationLoad() throws Exception {
         VOpt.isDebug = Global.getSettings().getBoolean("VOpt_debug");
         VOpt.isVerbose = Global.getSettings().getBoolean("VOpt_verbose");
+        VOpt.isDebugIU = Global.getSettings().getBoolean("VOpt_UI_debug");
+        VOpt.isDebugIUCharlie = Global.getSettings().getBoolean("VOpt_UI_debug_charlie");
 
         updatePaths();
 

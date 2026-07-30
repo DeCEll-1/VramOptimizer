@@ -1,4 +1,6 @@
 {
   "VOpt_debug": true,
-  "VOpt_verbose": true
+  "VOpt_verbose": true,
+  "VOpt_UI_debug": true,
+  "VOpt_UI_debug_charlie": true
 }

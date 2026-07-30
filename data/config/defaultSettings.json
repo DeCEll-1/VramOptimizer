@@ -1,3 +1,6 @@
 {
-    "VOpt_debug": false
+    "VOpt_debug": false,
+    "VOpt_verbose": false,
+    "VOpt_UI_debug": false,
+    "VOpt_UI_debug_charlie": false
 }
