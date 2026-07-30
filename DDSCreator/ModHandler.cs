@@ -218,10 +218,9 @@ namespace DDSCreator
 
 
             Console.Clear();
-            string cachedFormatted = FormatCompactNumber(PixelsAlreadyCached);
             string totalFormatted = FormatCompactNumber(TotalPixelsProcessed);
 
-            AnsiConsole.MarkupLine($"[blue]All modifications processed successfully!\nTotal Pixels Processed (already processed/total): ({cachedFormatted}/{totalFormatted})[/]");
+            AnsiConsole.MarkupLine($"[blue]All modifications processed successfully!\nTotal Pixels Processed {totalFormatted}[/]");
             Console.WriteLine("Press any key to go back to the main menu.");
             Console.ReadKey();
 

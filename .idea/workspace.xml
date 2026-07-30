@@ -5,11 +5,64 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b54dd8bf-1c46-450d-9448-2902c076f1e3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/VramOptimizer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/VramOptimizer.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/VramOptimizer_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/VramOptimizer_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/commons_compiler_jdk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DDSCreator/ModHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DDSCreator/ModHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/config/defaultSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/config/defaultSettings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/config/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/config/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jars/VOpt.jar" beforeDir="false" afterPath="$PROJECT_DIR$/jars/VOpt.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mod_Info.json" beforeDir="false" afterPath="$PROJECT_DIR$/mod_Info.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/ElapsingInterval.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/ElapsingInterval.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/Misc.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Misc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/Plugins/ModPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DeCell/VOpt/Plugins/ModPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/TriConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/TriConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/BaseBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/BaseBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/Charlie/CharlieElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/Charlie/CharlieElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/Charlie/Openable.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/Charlie/Openable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/Charlie/OpenableListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/Charlie/OpenableListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/ColorPicker/Adapters/RgbColorPickerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/ColorPicker/Adapters/RgbColorPickerAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/ColorPicker/ColorPickerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/ColorPicker/ColorPickerAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/ColorPicker/ColorPickerV2.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/ColorPicker/ColorPickerV2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/Combobox/ComboboxElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/Combobox/ComboboxElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/Combobox/MyCombobox.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/Combobox/MyCombobox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/Dialogues/ColorPickerV2Dialogue.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/Dialogues/ColorPickerV2Dialogue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/Dialogues/Dialogueable.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/Dialogues/Dialogueable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/DialougeButtonPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/DialougeButtonPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/Gears/Scroll.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/Gears/Scroll.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/Gears/UpDownArrow.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/Gears/UpDownArrow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/MyButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/MyButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/MyLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/MyLabel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/MyPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/MyPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/MyTextBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/MyTextBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/MyTooltip.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/MyTooltip.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/NumericUpDown.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/NumericUpDown.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Components/Slider.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Components/Slider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/DataPair.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/DataPair.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Disposable.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Disposable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Plugins/LambdaUIPanelPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Plugins/LambdaUIPanelPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Plugins/MultiPluginHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Plugins/MultiPluginHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Plugins/PanelPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Plugins/PanelPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Point.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/PointF.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/PointF.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Rect.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Rect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Renderable/BorderRenderable.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Renderable/BorderRenderable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Renderable/GlowRenderable.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Renderable/GlowRenderable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Renderable/MonoColorRenderable.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Renderable/MonoColorRenderable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Renderable/PluginRenderable.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Renderable/PluginRenderable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Renderable/QuadColorRenderable.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Renderable/QuadColorRenderable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Renderable/RenderableHandlerPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Renderable/RenderableHandlerPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/Renderable/ShaderRenderable.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Renderable/ShaderRenderable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/UIContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/UIContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/UI/Backend/UIElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/DeCell/UI/Backend/UIElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/VFX/Shader.java" beforeDir="false" afterPath="$PROJECT_DIR$/VFXCommons/src/DeCell/VFXCommons/Shader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/VFX/ShaderType.java" beforeDir="false" afterPath="$PROJECT_DIR$/VFXCommons/src/DeCell/VFXCommons/ShaderType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/VFX/ShaderUniformManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/VFXCommons/src/DeCell/VFXCommons/ShaderUniformManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/VFX/TextureUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/VFXCommons/src/DeCell/VFXCommons/TextureUnit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DeCell/VOpt/VOpt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DeCell/VOpt/VOpt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Kryz/Tweening/EasingFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/UI/src/Kryz/Tweening/EasingFunctions.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,21 +92,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Run Starsector FR.executor": "Debug",
-    "Application.Run Starsector.executor": "Debug",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Game Files/Fractal Softworks/0.98a-RC5/mods/VramOptimizer/src/DeCell/VOpt",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Run Starsector FR.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.Run Starsector.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Game Files/Fractal Softworks/0.98a-RC5/mods/VramOptimizer/VFXCommons&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="DeCell.VOpt.GamePathces" />
@@ -66,8 +119,12 @@
       <recent name="D:\Game Files\Fractal Softworks\0.98a-RC5\mods\VramOptimizer\src\DeCell\VOpt\Reflections" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Game Files\Fractal Softworks\0.98a-RC5\mods\VramOptimizer\VFXCommons\src\DeCell\VFXCommons" />
       <recent name="D:\Game Files\Fractal Softworks\0.98a-RC5\mods\VramOptimizer\agent" />
       <recent name="D:\Game Files\Fractal Softworks\0.98a-RC5\mods\VramOptimizer" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="DeCell.UI" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Run Starsector FR">
@@ -97,5 +154,16 @@
       <updated>1784898781182</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/UI/src/DeCell/UI/Backend/Renderable/MonoColorRenderable.java</url>
+          <line>16</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
