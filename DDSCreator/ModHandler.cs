@@ -16,15 +16,26 @@ namespace DDSCreator
         #region per mod handling
         #region misc
         private static readonly HashSet<string> FileFormats = new(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".webp", ".png" };
-        private static readonly HashSet<string> DiscardedFolderNames = new(StringComparer.OrdinalIgnoreCase) { "Promotional", "Memes", "Meme", "cache", "javadoc" };
-        // glibs cache is blacklisted as theyre loaded and unloaded mid game, so conversion would be of no use
+
+        private static readonly HashSet<string> DiscardedFolderPaths = new(StringComparer.OrdinalIgnoreCase)
+            {
+                "Promotional",
+                "Memes",
+                "Meme",
+                "cache",
+                "javadoc",
+                // backgrounds are discarded as theyre already loaded on demand
+                "/backgrounds/"
+            };
+
 
         public static bool IsDiscarded(string rootModPath, string imagePath)
         {
-            string relativeImagePath = Path.GetRelativePath(rootModPath, imagePath);
-            return DiscardedFolderNames.Any(folder =>
-                relativeImagePath.StartsWith(folder + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase) ||
-                relativeImagePath.Equals(folder, StringComparison.OrdinalIgnoreCase));
+            string relativeImagePath = Path.GetRelativePath(rootModPath, imagePath).Replace(Path.DirectorySeparatorChar, '/');
+
+            return DiscardedFolderPaths.Any(discarded =>
+                relativeImagePath.Contains(discarded, StringComparison.OrdinalIgnoreCase)
+            );
         }
 
         public static List<string> GetValidImageFiles(DirectoryInfo modPath)

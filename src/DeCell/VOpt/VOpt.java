@@ -17,10 +17,16 @@ public class VOpt {
     }
 
     public static boolean isDebug = true;
+    public static boolean isVerbose = false;
     public static boolean frEnabled = System.getProperty("java.class.path").contains("fr.jar;");
 
     public static void LogDbg(String s) {
         if (isDebug)
+            Global.getLogger(VOpt.class).log(Priority.INFO, s);
+    }
+
+    public static void LogDbgVrbs(String s) {
+        if (isVerbose)
             Global.getLogger(VOpt.class).log(Priority.INFO, s);
     }
 }

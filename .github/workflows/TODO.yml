@@ -25,7 +25,7 @@ jobs:
 
       - name: Generate TODO.md
         run: |
-          npx leasot -x --reporter markdown "**/*.{cs,java}" > TODO.md
+          npx leasot -A ".txt,defaultParser" -x --reporter markdown "TODO.txt" "**/*.{cs,java}" > TODO.md
           
       - name: Commit and Push changes
         run: |
