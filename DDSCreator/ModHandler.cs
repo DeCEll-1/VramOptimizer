@@ -25,7 +25,9 @@ namespace DDSCreator
                 "cache",
                 "javadoc",
                 // backgrounds are discarded as theyre already loaded on demand
-                "/backgrounds/"
+                "/backgrounds/",
+                "mods/",
+
             };
 
 
