@@ -1,6 +1,11 @@
-Write-Host "Building release"
+param (
+    [Parameter(Mandatory = $true)]
+    [string]$TagName
+)
 
-& "$PSScriptRoot/build.ps1"
+Write-Host "Building release for tag: $TagName"
+
+& "$PSScriptRoot/build.ps1" $TagName
 
 Set-Location "../DDSCreator"
 

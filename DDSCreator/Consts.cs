@@ -32,7 +32,7 @@
         // i want the cache to be in the mods folder as to not cause problems with updates
         public readonly static DirectoryInfo CacheDir = new(Path.Join(ModsDir.FullName, "DDSCache"));
 
-
+        public readonly static string Version = File.ReadAllText(Path.Combine(ModDir.FullName, "VERSION.txt")).Trim();
 
         //public readonly static DirectoryInfo ModsDir = ModDir.Parent!;
         //public readonly static DirectoryInfo GameDir = ModsDir.Parent!;

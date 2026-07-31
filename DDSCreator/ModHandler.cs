@@ -104,13 +104,13 @@ namespace DDSCreator
 
                 CompressionFormat format = CompressionFormat.Bc7;
 
-                var (ddsFilePath, width, height, wasSkipped) = Converter.Convert(
+                var (ddsFilePath, width, height, wasSkipped, colorArrays, hash) = Converter.Convert(
                     srcFilePath: imagePath,
                     toDirectory: Path.GetDirectoryName(Path.Combine(CacheDir.FullName, mod.Dir.Name, relativeImagePath))!,
                     format: format,
                     overwrite: false
                 );
-                if (width == -1 || height == -1)
+                if (width == -1 || height == -1 || colorArrays == null || hash == string.Empty)
                     continue;
 
                 OnConvert();
@@ -139,6 +139,10 @@ namespace DDSCreator
                     CompressionFormat = format.ToString(),
                     Width = width,
                     Height = height,
+                    Mean = colorArrays[0],
+                    Weighted = colorArrays[1],
+                    Median = colorArrays[0],
+                    ImageHash = hash
                 };
 
                 processedFiles.Add(metadata);

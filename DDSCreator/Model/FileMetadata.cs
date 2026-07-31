@@ -18,12 +18,18 @@ namespace DDSCreator.Model
         public required ImageFileType ImageType { get; init; }
         public required DateTime ImageCreationDate { get; init; }
         public required DateTime ImageEditDateDate { get; init; }
+        public required string ImageHash { get; init; }
+
         public required string DDSFilePath { get; init; }
         public required DateTime DDSCreationDate { get; init; }
         public required DateTime DDSEditDate { get; init; }
         public required string CompressionFormat { get; init; }
         public required int Width { get; init; }
         public required int Height { get; init; }
+
+        public required float[] Mean { get; init; } // color0
+        public required float[] Weighted { get; init; } // color1
+        public required float[] Median { get; init; } // color2
 
         public enum ImageFileType
         {

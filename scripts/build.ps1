@@ -1,3 +1,8 @@
+param (
+    [Parameter(Mandatory = $true)]
+    [string]$TagName
+)
+
 Set-Location "../DDSCreator"
 # this exists to check if everything builds correctly
 $profiles = @("VramOptimizer-win-x64", "VramOptimizer-win-x86", "VramOptimizer-linux-x64", "VramOptimizer-osx-x64",
@@ -22,6 +27,9 @@ foreach ($p in $profiles) {
     Move-Item -Path "$profileDir/DDSCreator*", "$profileDir/Magick.Native*" -Destination $binDir
     # since i forget to update the settings.json just copy it
     Copy-Item -Path "$profileDir/data/config/defaultSettings.json" -Destination "$profileDir/data/config/settings.json" -Force
+
+    #update the version
+    Set-Content -LiteralPath "$profileDir/VERSION.txt" -Value "VOpt $TagName"
 
     $targetSubfolderName = "VramOptimizer"
     $newSubfolderPath = Join-Path $profileDir $targetSubfolderName

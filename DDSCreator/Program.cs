@@ -22,6 +22,7 @@ namespace DDSCreator
         public static int ProcessorCountToUse = Environment.ProcessorCount;
         static void Main(string[] args)
         {
+            Console.Title = Consts.Version;
             // TODO: add a uhhh gpu check if the gpu allows dds textures
             // i doubt theres any gpus left that cant support dds but eh
             UpdateEnabledMods();
@@ -144,8 +145,12 @@ namespace DDSCreator
                         break;
                     case MenuChoice.PrintDebug:
                         PrintDirs();
+
                         Console.WriteLine();
+                        AnsiConsole.MarkupLine($"[cyan]{nameof(Consts.Version),-20}[/] {Consts.Version}");
+
 #if WINDOWS || DEBUG
+                        Console.WriteLine();
                         AnsiConsole.MarkupLine($"[cyan]{nameof(AreLongPathsEnabled),-20}[/] {AreLongPathsEnabled()}");
 #endif
                         Console.ReadKey();
@@ -226,11 +231,11 @@ namespace DDSCreator
             foreach (string? modMetadataPath in CacheDir.GetDirectories().Select(s => Path.Combine(s.FullName, DdsMetadataFileName)))
             {
                 if (!File.Exists(modMetadataPath))
-                    continue;// metadata does not exist for this specific mod
+                    continue; // metadata does not exist for this specific mod
                 string jsonContent = File.ReadAllText(modMetadataPath);
                 var existingList = JsonConvert.DeserializeObject<List<FileMetadata>>(jsonContent);
                 if (existingList == null)
-                    continue;// corrupt
+                    continue; // corrupt
 
                 Func<FileMetadata, string> keySelector;
 
