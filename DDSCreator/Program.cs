@@ -244,17 +244,17 @@ namespace DDSCreator
                 else
                     keySelector = x => Path.Combine(ModsDir.FullName, x.ModFolderName, x.RelativeImagePath);
 
-                ExistingMetadataCache = ExistingMetadataCache
-                                        .Concat(existingList.ToDictionary(
-                                            keySelector,
-                                            x => x,
-                                            StringComparer.OrdinalIgnoreCase
-                                        ))
-                                        .ToDictionary(
-                                            kvp => kvp.Key,
-                                            kvp => kvp.Value,
-                                            StringComparer.OrdinalIgnoreCase
-                                        );
+                // convert existing cache + current list into a dictionary, safely handling duplicate keys by taking the last occurrence
+                var merged = ExistingMetadataCache
+                    .Concat(existingList.Select(x => new KeyValuePair<string, FileMetadata>(keySelector(x), x)));
+
+                ExistingMetadataCache = merged
+                    .GroupBy(kvp => kvp.Key, StringComparer.OrdinalIgnoreCase)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Last().Value,
+                        StringComparer.OrdinalIgnoreCase
+                    );
             }
         }
 

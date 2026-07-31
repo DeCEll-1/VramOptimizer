@@ -9,94 +9,120 @@ namespace DDSCreator
 {
     public class Converter
     {
-        public static (string ddsFilePath, int width, int height, bool wasSkipped, float[][]? colors, string signature) Convert(string srcFilePath, string toDirectory, CompressionFormat format, string? customOutName = null, bool overwrite = false)
+        public static ConversionResult Convert(string srcFilePath, string toDirectory, CompressionFormat format, string? customOutName = null, bool overwrite = false)
         {
-            // TODO: organise this function to not be so disorganised
-            int width, height;
-            byte[] pixelBytes;
-            MagickImage magickImage;
-            string signature;
-            // this is used to get the color values of textures that is necessary for the game
-            ImageAnalyzer lyzer = new ImageAnalyzer();
-
-            try
-            {
-                var pingInfo2 = new MagickImageInfo(srcFilePath);
-                if (pingInfo2.Format == MagickFormat.Unknown)
-                    return (string.Empty, -1, -1, true, null, string.Empty);
-
-
-                magickImage = new MagickImage(srcFilePath);
-            }
-            catch (Exception)
-            { // corrupt file // TODO: create a error log or whatever
-                return (string.Empty, -1, -1, true, null, string.Empty);
-            }
-
             string fileName = Path.GetFileNameWithoutExtension(srcFilePath);
             string outputFileName = string.IsNullOrWhiteSpace(customOutName) ? $"{fileName}.dds" : customOutName;
             string ddsOutputPath = Path.Combine(toDirectory, outputFileName);
 
             bool isCached = Program.ExistingMetadataCache.TryGetValue(srcFilePath, out FileMetadata? cachedMeta);
             bool fileExists = !overwrite && File.Exists(ddsOutputPath) && new FileInfo(ddsOutputPath).Length != 0;
-
             bool shouldSkip = fileExists && (!isCached || File.GetLastWriteTimeUtc(srcFilePath) <= cachedMeta!.DDSCreationDate);
 
+            // 1. Handle Cached / Skipped Path
             if (shouldSkip)
             {
-                float[][] colors;
-                if (isCached)
+                if (isCached && cachedMeta!.ImageHash != "null")
                 {
-                    width = cachedMeta!.Width;
-                    height = cachedMeta.Height;
-                    colors = [cachedMeta.Mean, cachedMeta.Weighted, cachedMeta.Median];
-                    signature = cachedMeta.ImageHash;
-                }
-                else
-                {
-                    GetInfoAboutMagickImage(magickImage, out width, out height, out pixelBytes, out signature);
+                    Program.PixelsAlreadyCached += (ulong)(cachedMeta.Width * cachedMeta.Height);
+                    Program.TotalPixelsProcessed += (ulong)(cachedMeta.Width * cachedMeta.Height);
 
-                    for (int i = 0; i < pixelBytes.Length; i += 4)
-                    { // to get the colors, sadly we will need to iterate over every pixel which is pretty slow but thats what you have to do to get the colors
-                        if (pixelBytes[i + 3] != 0) // not alpha
-                        {
-                            byte r = pixelBytes[i];
-                            byte g = pixelBytes[i + 1];
-                            byte b = pixelBytes[i + 2];
-
-                            lyzer.AddPixel(r, g, b);
-                        }
-                    }
+                    return new ConversionResult
+                    {
+                        DdsFilePath = ddsOutputPath,
+                        Width = cachedMeta.Width,
+                        Height = cachedMeta.Height,
+                        WasSkipped = true,
+                        Colors = [cachedMeta.Mean, cachedMeta.Weighted, cachedMeta.Median],
+                        Signature = cachedMeta.ImageHash
+                    };
                 }
 
-                Program.PixelsAlreadyCached += (ulong)(width * height);
-                Program.TotalPixelsProcessed += (ulong)(width * height);
+                // Fallback to loading if cache didn't have valid metrics
+                var loaded = LoadAndAnalyzeImage(srcFilePath, processPixelsForEncoding: false);
+                if (!loaded.Success) return new ConversionResult { WasSkipped = true };
 
-                return (ddsOutputPath, width, height, true, MagickColorArrayToFloatArray(lyzer.CalculateAverageColor()), signature);
+                Program.PixelsAlreadyCached += (ulong)(loaded.Width * loaded.Height);
+                Program.TotalPixelsProcessed += (ulong)(loaded.Width * loaded.Height);
+
+                return new ConversionResult
+                {
+                    DdsFilePath = ddsOutputPath,
+                    Width = loaded.Width,
+                    Height = loaded.Height,
+                    WasSkipped = true,
+                    Colors = loaded.Colors,
+                    Signature = loaded.Signature
+                };
             }
-            GetInfoAboutMagickImage(magickImage, out width, out height, out pixelBytes, out signature);
 
+            // 2. Handle Fresh Encoding Path
+            var freshLoad = LoadAndAnalyzeImage(srcFilePath, processPixelsForEncoding: true);
+            if (!freshLoad.Success) return new ConversionResult { WasSkipped = true };
+
+            EncodeAndSaveDds(freshLoad.PixelBytes, freshLoad.Width, freshLoad.Height, format, ddsOutputPath);
+
+            Program.TotalPixelsProcessed += (ulong)(freshLoad.Width * freshLoad.Height);
+
+            return new ConversionResult
+            {
+                DdsFilePath = ddsOutputPath,
+                Width = freshLoad.Width,
+                Height = freshLoad.Height,
+                WasSkipped = false,
+                Colors = freshLoad.Colors,
+                Signature = freshLoad.Signature
+            };
+        }
+
+        private static (bool Success, int Width, int Height, byte[] PixelBytes, float[][] Colors, string Signature) LoadAndAnalyzeImage(string srcFilePath, bool processPixelsForEncoding)
+        {
+            MagickImage magickImage;
+            try
+            {
+                var pingInfo = new MagickImageInfo(srcFilePath);
+                if (pingInfo.Format == MagickFormat.Unknown)
+                    return (false, -1, -1, [], [], string.Empty);
+
+                magickImage = new MagickImage(srcFilePath);
+            }
+            catch (Exception)
+            {
+                // TODO: create an error log
+                return (false, -1, -1, [], [], string.Empty);
+            }
+
+            string signature = magickImage.Signature;
+            GetInfoAboutMagickImage(magickImage, out int width, out int height, out byte[] pixelBytes);
+
+            ImageAnalyzer lyzer = new();
 
             for (int i = 0; i < pixelBytes.Length; i += 4)
             {
-                if (pixelBytes[i + 3] == 0) // a
-                { // for reasons unknown to me, textures have non zero color data even when the pixel is transparent
-                    // the confusion is less of "why would it be allowed" and more of "why would they become transparent if they were drawn"
+                byte r = pixelBytes[i];
+                byte g = pixelBytes[i + 1];
+                byte b = pixelBytes[i + 2];
+                byte a = pixelBytes[i + 3];
 
-                    pixelBytes[i] = 0;     // r
-                    pixelBytes[i + 1] = 0; // g
-                    pixelBytes[i + 2] = 0; // b
+                if (a == 0 && processPixelsForEncoding)
+                {
+                    // Clean up non-zero color data on transparent pixels
+                    pixelBytes[i] = 0;
+                    pixelBytes[i + 1] = 0;
+                    pixelBytes[i + 2] = 0;
                 }
-                else
-                { // since we are already iterating over the pixels we can calculate the avarages here
-                    byte r = pixelBytes[i];
-                    byte g = pixelBytes[i + 1];
-                    byte b = pixelBytes[i + 2];
-
+                else if (a != 0)
+                {
                     lyzer.AddPixel(r, g, b);
                 }
             }
 
+            var colors = MagickColorArrayToFloatArray(lyzer.CalculateAverageColor());
+            return (true, width, height, pixelBytes, colors, signature);
+        }
+
+        private static void EncodeAndSaveDds(byte[] pixelBytes, int width, int height, CompressionFormat format, string ddsOutputPath)
+        {
             BcEncoder encoder = new();
             encoder.OutputOptions.GenerateMipMaps = false;
             encoder.OutputOptions.Quality = CompressionQuality.Balanced;
@@ -104,39 +130,26 @@ namespace DDSCreator
             encoder.OutputOptions.Format = format;
             encoder.Options.TaskCount = ProcessorCountToUse;
 
-            try
-            {
-                if (!Directory.Exists(toDirectory))
-                    Directory.CreateDirectory(toDirectory);
+            if (!Directory.Exists(Path.GetDirectoryName(ddsOutputPath)))
+                Directory.CreateDirectory(Path.GetDirectoryName(ddsOutputPath)!);
 
-                using FileStream fs = File.OpenWrite(ddsOutputPath);
-                encoder.EncodeToStream(pixelBytes, width, height, PixelFormat.Rgba32, fs);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                throw;
-            }
-
-            Program.TotalPixelsProcessed += (ulong)(width * height);
-
-            return (ddsOutputPath, width, height, false, MagickColorArrayToFloatArray(lyzer.CalculateAverageColor()), signature);
+            using FileStream fs = File.OpenWrite(ddsOutputPath);
+            encoder.EncodeToStream(pixelBytes, width, height, PixelFormat.Rgba32, fs);
         }
 
-        private static void GetInfoAboutMagickImage(MagickImage magickImage, out int width, out int height, out byte[] pixelBytes, out string signature)
+        private static void GetInfoAboutMagickImage(MagickImage magickImage, out int width, out int height, out byte[] pixelBytes)
         {
             magickImage.Flip();
             magickImage.Format = MagickFormat.Rgba;
             magickImage.ColorSpace = ColorSpace.sRGB;
             magickImage.ColorType = ColorType.TrueColorAlpha;
             magickImage.Depth = 8;
-            if (magickImage.HasAlpha == false)
+            if (!magickImage.HasAlpha)
                 magickImage.Alpha(AlphaOption.On);
 
             width = (int)magickImage.Width;
             height = (int)magickImage.Height;
             pixelBytes = magickImage.ToByteArray();
-            signature = magickImage.Signature;
             magickImage.Dispose();
         }
 
@@ -147,13 +160,24 @@ namespace DDSCreator
             for (int i = 0; i < 3; i++)
             {
                 matrix[i] = new float[3];
-
                 matrix[i][0] = (float)colors[i].R / 255f;
                 matrix[i][1] = (float)colors[i].G / 255f;
                 matrix[i][2] = (float)colors[i].B / 255f;
             }
 
             return matrix;
+        }
+
+        public class ConversionResult
+        {
+            public string DdsFilePath { get; set; } = string.Empty;
+            public int Width { get; set; } = -1;
+            public int Height { get; set; } = -1;
+            public bool WasSkipped { get; set; }
+            public float[][]? Colors { get; set; }
+            public string Signature { get; set; } = string.Empty;
+
+            public bool IsSuccess => Width != -1 && Height != -1 && Colors != null && !string.IsNullOrEmpty(Signature);
         }
     }
 }

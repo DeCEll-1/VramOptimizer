@@ -104,13 +104,14 @@ namespace DDSCreator
 
                 CompressionFormat format = CompressionFormat.Bc7;
 
-                var (ddsFilePath, width, height, wasSkipped, colorArrays, hash) = Converter.Convert(
+                var result = Converter.Convert(
                     srcFilePath: imagePath,
                     toDirectory: Path.GetDirectoryName(Path.Combine(CacheDir.FullName, mod.Dir.Name, relativeImagePath))!,
                     format: format,
                     overwrite: false
                 );
-                if (width == -1 || height == -1 || colorArrays == null || hash == string.Empty)
+
+                if (!result.IsSuccess)
                     continue;
 
                 OnConvert();
@@ -132,28 +133,25 @@ namespace DDSCreator
                     RelativeImagePath = relativeImagePath,
                     ImageCreationDate = File.GetCreationTimeUtc(imagePath),
                     ImageEditDateDate = File.GetLastWriteTimeUtc(imagePath),
-                    DDSCreationDate = File.GetCreationTimeUtc(ddsFilePath),
-                    DDSEditDate = File.GetLastWriteTimeUtc(ddsFilePath),
-                    DDSFilePath = ddsFilePath.Replace(GameDir.FullName, ""),
+                    DDSCreationDate = File.GetCreationTimeUtc(result.DdsFilePath),
+                    DDSEditDate = File.GetLastWriteTimeUtc(result.DdsFilePath),
+                    DDSFilePath = result.DdsFilePath.Replace(GameDir.FullName, ""),
                     ImageType = imageFileType,
                     CompressionFormat = format.ToString(),
-                    Width = width,
-                    Height = height,
-                    Mean = colorArrays[0],
-                    Weighted = colorArrays[1],
-                    Median = colorArrays[0],
-                    ImageHash = hash
+                    Width = result.Width,
+                    Height = result.Height,
+                    Mean = result.Colors![0],
+                    Weighted = result.Colors[1],
+                    Median = result.Colors[0],
+                    ImageHash = result.Signature
                 };
 
                 processedFiles.Add(metadata);
                 #endregion
 
                 #region JSON handling
-
                 serializer.Serialize(writer, metadata);
-
                 #endregion
-
             }
             writer.WriteEndArray();
             sw.Dispose();
