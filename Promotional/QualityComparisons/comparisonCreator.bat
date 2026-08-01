@@ -1,0 +1,1 @@
+ffmpeg -y -i paragon.png -i fast_paragon.png -i balanced_paragon.png -i best_paragon.png -/filter_complex filter.txt -map "[out]" -update 1 output_grid.png

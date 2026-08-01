@@ -1,6 +1,7 @@
 ﻿global using static DDSCreator.Consts;
 global using static DDSCreator.Misc;
 global using static DDSCreator.Program;
+using BCnEncoder.Encoder;
 using DDSCreator.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -20,6 +21,7 @@ namespace DDSCreator
         public static List<ModInfo> ValidMods = []; // this is just the mods that have mod_info.json
         public static List<string> EnabledMods = [];
         public static int ProcessorCountToUse = Environment.ProcessorCount;
+        public static CompressionQuality CompressionQuality = CompressionQuality.Fast;
         static void Main(string[] args)
         {
             Console.Title = Consts.Version;
@@ -64,6 +66,8 @@ namespace DDSCreator
                                             return $"No Errors Found";
                                     case MenuChoice.ChangeProcessorCount:
                                         return $"Change amount of processors to use (currently using {ProcessorCountToUse} cores)";
+                                    case MenuChoice.ChangeCompressionQuality:
+                                        return $"Change the compression quality (Current: {CompressionQuality})";
                                     case MenuChoice.ClearMetadata:
                                         return $"[gray]Purge metadata[/]";
                                     case MenuChoice.ClearCache:
@@ -79,82 +83,35 @@ namespace DDSCreator
                     case MenuChoice.EditMods:
                         SelectionHandler.DisplayEnabledModsHandler();
                         break;
+
                     case MenuChoice.ProcessMods:
-                        if (ModHandler.DisplayConfirmation())
-                            ModHandler.HandleMods();
+                        HandleProcessMods();
                         break;
+
                     case MenuChoice.EnableLongPaths: // this should not be in the selection for linux || mac
-                        if (AreLongPathsEnabled())
-                            Console.WriteLine("Long paths are already enabled");
-                        else
-                            EnableLongPathsViaPowerShell();
-                        Console.ReadKey();
+                        HandleLongPathsChoice();
                         break;
+
                     case MenuChoice.ChangeProcessorCount:
-                        int[] threadChoices = Enumerable.Range(1, Environment.ProcessorCount).ToArray();
-
-                        int selectedThreads = AnsiConsole.Prompt(
-                            new SelectionPrompt<int>()
-                                .Title("Select task count for [green]BC7 encoding[/]:")
-                                .PageSize(10).WrapAround()
-                                .AddChoices(threadChoices));
-
-                        ProcessorCountToUse = selectedThreads;
+                        HandleProcessorCountChoice();
                         break;
+
+                    case MenuChoice.ChangeCompressionQuality:
+                        HandleCompressionQualityChoice();
+                        break;
+
                     case MenuChoice.ClearMetadata:
-                        AnsiConsole.MarkupLine("This will [red]delete[/] your metadata files, you will need to re generate them using [blue]Process Mods[/].\n\nThis is generally needed when you change mod folder names or if the cache location changes.\n");
-
-                        if (AnsiConsole.Confirm("Are you sure you want to [red]purge[/] the metadata?", false))
-                        {
-                            AnsiConsole.Status()
-                            .Start("Deleting cache files...", ctx =>
-                            {
-                                foreach (ModInfo mod in ValidMods)
-                                {
-                                    string cachePath = Path.Combine(CacheDir.FullName, mod.Dir.Name, DdsMetadataFileName);
-
-                                    if (!File.Exists(cachePath))
-                                        continue;
-
-                                    ctx.Status($"Deleting: {Markup.Escape(cachePath)}");
-
-                                    File.Delete(cachePath);
-                                }
-                            });
-                            AnsiConsole.MarkupLine("[green]Cache cleared successfully![/]\nBe sure to run Process Mods again for cache to be regenerated.");
-                        }
-                        Console.ReadKey();
+                        HandleClearMetadata();
                         break;
+
                     case MenuChoice.ClearCache:
-                        AnsiConsole.MarkupLine("This will [red]delete[/] your cached texture files, you will need to re generate them using [blue]Process Mods[/].\n\nThis should only be necessary if every texture thats generated needs to be regenerated.\n");
-
-                        string confirmationText = "DELETE";
-
-                        string res = AnsiConsole.Ask<string>($"To purge cached textures, please type [red]'{confirmationText}'[/] to confirm (anything else to quit):");
-
-                        if (confirmationText == res)
-                        {
-                            AnsiConsole.MarkupLine($"Deleting: {CacheDir.FullName}");
-                            CacheDir.Delete(true);
-                            CacheDir.Create();
-                            AnsiConsole.MarkupLine("[green]Cache cleared successfully![/]\nBe sure to run Process Mods again to  regenerate textures.");
-                        }
-                        else
-                            AnsiConsole.MarkupLine("Press any key to return back to menu.");
-                        Console.ReadKey();
+                        HandleClearCache();
                         break;
+
                     case MenuChoice.PrintDebug:
-                        PrintDirs();
-
-                        Console.WriteLine();
-                        AnsiConsole.MarkupLine($"[cyan]{nameof(Consts.Version),-20}[/] {Consts.Version}");
-
-#if WINDOWS || DEBUG
-                        Console.WriteLine();
-                        AnsiConsole.MarkupLine($"[cyan]{nameof(AreLongPathsEnabled),-20}[/] {AreLongPathsEnabled()}");
-#endif
-                        Console.ReadKey();
+                        HandlePrintDebug();
                         break;
+
                     case MenuChoice.PrintError:
                         PrintErroredMods();
                         break;
@@ -175,6 +132,7 @@ namespace DDSCreator
             ProcessMods,
             EnableLongPaths,
             ChangeProcessorCount,
+            ChangeCompressionQuality,
             ClearMetadata,
             ClearCache,
             PrintDebug,
@@ -182,6 +140,131 @@ namespace DDSCreator
             Quit,
         }
 
+        #region menu options
+
+        private static void HandleProcessMods()
+        {
+            if (ModHandler.DisplayConfirmation())
+                ModHandler.HandleMods();
+        }
+
+        private static void HandleLongPathsChoice()
+        {
+            if (AreLongPathsEnabled())
+                Console.WriteLine("Long paths are already enabled");
+            else
+                EnableLongPathsViaPowerShell();
+
+            Console.ReadKey();
+        }
+
+        private static void HandleProcessorCountChoice()
+        {
+            int[] threadChoices = Enumerable.Range(1, Environment.ProcessorCount).ToArray();
+
+            int selectedThreads = AnsiConsole.Prompt(
+                new SelectionPrompt<int>()
+                    .Title("Select task count for [green]BC7 encoding[/]:")
+                    .PageSize(10).WrapAround()
+                    .AddChoices(threadChoices));
+
+            ProcessorCountToUse = selectedThreads;
+        }
+
+        private static void HandleCompressionQualityChoice()
+        {
+            CompressionQuality compQualityRes = AnsiConsole.Prompt(
+                new SelectionPrompt<CompressionQuality>()
+                    .Title("Select compression quality.")
+                    .PageSize(10)
+                    .WrapAround()
+                    .AddChoices(Enum.GetValues<CompressionQuality>())
+                    .UseConverter(s =>
+                    {
+                        switch (s)
+                        {
+                            case CompressionQuality.Fast:
+                                return "Fast (Fastest conversion speed, small graphical artifacts)";
+                            case CompressionQuality.Balanced:
+                                return "Balanced (Medium conversion speed, very small graphical artifacts)";
+                            case CompressionQuality.BestQuality:
+                                return "Best Quality (Slowest conversion speed, very small graphical artifacts)";
+                            default:
+                                return "";
+                        }
+                    }));
+
+            CompressionQuality = compQualityRes;
+        }
+
+        private static void HandleClearMetadata()
+        {
+            AnsiConsole.MarkupLine("This will [red]delete[/] your metadata files, you will need to re generate them using [blue]Process Mods[/].\n\nThis is generally needed when you change mod folder names or if the cache location changes.\n");
+
+            if (AnsiConsole.Confirm("Are you sure you want to [red]purge[/] the metadata?", false))
+            {
+                AnsiConsole.Status()
+                .Start("Deleting cache files...", ctx =>
+                {
+                    foreach (ModInfo mod in ValidMods)
+                    {
+                        string cachePath = Path.Combine(CacheDir.FullName, mod.Dir.Name, DdsMetadataFileName);
+
+                        if (!File.Exists(cachePath))
+                            continue;
+
+                        ctx.Status($"Deleting: {Markup.Escape(cachePath)}");
+
+                        File.Delete(cachePath);
+                    }
+                });
+                AnsiConsole.MarkupLine("[green]Cache cleared successfully![/]\nBe sure to run Process Mods again for cache to be regenerated.");
+            }
+            Console.ReadKey();
+        }
+
+        private static void HandleClearCache()
+        {
+            AnsiConsole.MarkupLine("This will [red]delete[/] your cached texture files, you will need to re generate them using [blue]Process Mods[/].\n\nThis should only be necessary if every texture thats generated needs to be regenerated.\n");
+
+            string confirmationText = "DELETE";
+            string res = AnsiConsole.Ask<string>($"To purge cached textures, please type [red]'{confirmationText}'[/] to confirm (anything else to quit):");
+
+            if (confirmationText == res)
+            {
+                AnsiConsole.MarkupLine($"Deleting: {CacheDir.FullName}");
+                CacheDir.Delete(true);
+                CacheDir.Create();
+                AnsiConsole.MarkupLine("[green]Cache cleared successfully![/]\nBe sure to run Process Mods again to regenerate textures.");
+            }
+            else
+            {
+                AnsiConsole.MarkupLine("Press any key to return back to menu.");
+            }
+
+            Console.ReadKey();
+        }
+
+        private static void HandlePrintDebug()
+        {
+            PrintDirs();
+
+            Console.WriteLine();
+            AnsiConsole.MarkupLine($"[cyan]{nameof(Consts.Version),-20}[/] {Consts.Version}");
+
+            Console.WriteLine();
+            AnsiConsole.MarkupLine($"[cyan]{nameof(CompressionQuality),-20}[/] {CompressionQuality}");
+
+#if WINDOWS || DEBUG
+            Console.WriteLine();
+            AnsiConsole.MarkupLine($"[cyan]{nameof(AreLongPathsEnabled),-20}[/] {AreLongPathsEnabled()}");
+#endif
+
+
+            Console.ReadKey();
+        }
+
+        #endregion
 
         #region etc
         private static void UpdateEnabledMods()

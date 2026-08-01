@@ -1,0 +1,6 @@
+color=c=white:s=330x364:d=1,split=4[bg0][bg1][bg2][bg3];
+[bg0][0:v]overlay=format=rgb,scale=330:364,pad=iw:ih+50:0:50:white,drawtext=fontfile='./ComicMono.ttf':text='Original':fontcolor=black:fontsize=24:x=(w-text_w)/2:y=12[v1];
+[bg1][1:v]overlay=format=rgb,scale=330:364,pad=iw:ih+50:0:50:white,drawtext=fontfile='./ComicMono.ttf':text='Fast':fontcolor=black:fontsize=24:x=(w-text_w)/2:y=12[v2];
+[bg2][2:v]overlay=format=rgb,scale=330:364,pad=iw:ih+50:0:50:white,drawtext=fontfile='./ComicMono.ttf':text='Balanced':fontcolor=black:fontsize=24:x=(w-text_w)/2:y=12[v3];
+[bg3][3:v]overlay=format=rgb,scale=330:364,pad=iw:ih+50:0:50:white,drawtext=fontfile='./ComicMono.ttf':text='Best':fontcolor=black:fontsize=24:x=(w-text_w)/2:y=12[v4];
+[v1][v2][v3][v4]hstack=inputs=4[out];

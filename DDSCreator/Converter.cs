@@ -9,7 +9,7 @@ namespace DDSCreator
 {
     public class Converter
     {
-        public static ConversionResult Convert(string srcFilePath, string toDirectory, CompressionFormat format, string? customOutName = null, bool overwrite = false)
+        public static ConversionResult Convert(string srcFilePath, string toDirectory, string? customOutName = null, bool overwrite = false)
         {
             string fileName = Path.GetFileNameWithoutExtension(srcFilePath);
             string outputFileName = string.IsNullOrWhiteSpace(customOutName) ? $"{fileName}.dds" : customOutName;
@@ -60,7 +60,7 @@ namespace DDSCreator
             var freshLoad = LoadAndAnalyzeImage(srcFilePath, processPixelsForEncoding: true);
             if (!freshLoad.Success) return new ConversionResult { WasSkipped = true };
 
-            EncodeAndSaveDds(freshLoad.PixelBytes, freshLoad.Width, freshLoad.Height, format, ddsOutputPath);
+            EncodeAndSaveDds(freshLoad.PixelBytes, freshLoad.Width, freshLoad.Height, ddsOutputPath);
 
             Program.TotalPixelsProcessed += (ulong)(freshLoad.Width * freshLoad.Height);
 
@@ -121,13 +121,13 @@ namespace DDSCreator
             return (true, width, height, pixelBytes, colors, signature);
         }
 
-        private static void EncodeAndSaveDds(byte[] pixelBytes, int width, int height, CompressionFormat format, string ddsOutputPath)
+        private static void EncodeAndSaveDds(byte[] pixelBytes, int width, int height, string ddsOutputPath)
         {
             BcEncoder encoder = new();
             encoder.OutputOptions.GenerateMipMaps = false;
-            encoder.OutputOptions.Quality = CompressionQuality.Balanced;
+            encoder.OutputOptions.Quality = Program.CompressionQuality;
             encoder.OutputOptions.FileFormat = OutputFileFormat.Dds;
-            encoder.OutputOptions.Format = format;
+            encoder.OutputOptions.Format = CompressionFormat.Bc7;
             encoder.Options.TaskCount = ProcessorCountToUse;
 
             if (!Directory.Exists(Path.GetDirectoryName(ddsOutputPath)))

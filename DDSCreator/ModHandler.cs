@@ -6,6 +6,7 @@ using DDSCreator.Model;
 using Newtonsoft.Json;
 using ShellProgressBar;
 using Spectre.Console;
+using System.Diagnostics;
 using System.Globalization;
 using static DDSCreator.Model.FileMetadata;
 
@@ -104,12 +105,9 @@ namespace DDSCreator
 
                 childPbar?.Tick(currentImageIndex, $"Processing: ({currentImageIndex}/{validImageFiles.Count}) {relativeImagePath}");
 
-                CompressionFormat format = CompressionFormat.Bc7;
-
                 var result = Converter.Convert(
                     srcFilePath: imagePath,
                     toDirectory: Path.GetDirectoryName(Path.Combine(CacheDir.FullName, mod.Dir.Name, relativeImagePath))!,
-                    format: format,
                     overwrite: false
                 );
 
@@ -139,7 +137,7 @@ namespace DDSCreator
                     DDSEditDate = File.GetLastWriteTimeUtc(result.DdsFilePath),
                     DDSFilePath = result.DdsFilePath.Replace(GameDir.FullName, ""),
                     ImageType = imageFileType,
-                    CompressionFormat = format.ToString(),
+                    CompressionFormat = CompressionFormat.Bc7.ToString(),
                     Width = result.Width,
                     Height = result.Height,
                     Mean = result.Colors![0],
@@ -174,6 +172,8 @@ namespace DDSCreator
         #endregion
         public static void HandleMods()
         {
+            Stopwatch timer = new();
+            timer.Start();
 
             List<ModInfo> ModsToProcess = ValidMods.Where(s => s.ShouldProcess).ToList();
 
@@ -220,11 +220,12 @@ namespace DDSCreator
             }
             Thread.Sleep(5); // wait for progress bars to be done with their job
 
+            timer.Stop();
 
             Console.Clear();
             string totalFormatted = FormatCompactNumber(TotalPixelsProcessed);
 
-            AnsiConsole.MarkupLine($"[blue]All modifications processed successfully!\nTotal Pixels Processed {totalFormatted}[/]");
+            AnsiConsole.MarkupLine($"[blue]All modifications processed successfully!\nTotal Pixels Processed {totalFormatted}\nDuration {timer.Elapsed:c}ms[/]");
             Console.WriteLine("Press any key to go back to the main menu.");
             Console.ReadKey();
 
@@ -239,6 +240,9 @@ namespace DDSCreator
 
             foreach (ModInfo mod in ValidMods.Where(s => s.ShouldProcess))
                 AnsiConsole.MarkupLine($"[Grey70]{Markup.Escape(mod.Name)}[/]");
+
+            AnsiConsole.MarkupLine($"[white]Compression quality [/][Chartreuse1]{Program.CompressionQuality}[/]");
+
 
             string choice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
