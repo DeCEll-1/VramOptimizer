@@ -1,9 +1,5 @@
-﻿using BCnEncoder.Encoder;
-using BCnEncoder.Shared;
-using DDSCreator.Model;
+﻿using DDSCreator.Model;
 using ImageMagick;
-using Spectre.Console;
-using System.Diagnostics;
 
 namespace DDSCreator
 {
@@ -154,9 +150,9 @@ namespace DDSCreator
             for (int i = 0; i < 3; i++)
             {
                 matrix[i] = new float[3];
-                matrix[i][0] = (float)colors[i].R / 255f;
-                matrix[i][1] = (float)colors[i].G / 255f;
-                matrix[i][2] = (float)colors[i].B / 255f;
+                matrix[i][0] = colors[i].R / 255f;
+                matrix[i][1] = colors[i].G / 255f;
+                matrix[i][2] = colors[i].B / 255f;
             }
 
             return matrix;

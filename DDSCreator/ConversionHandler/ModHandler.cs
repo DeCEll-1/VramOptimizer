@@ -1,5 +1,4 @@
-﻿using BCnEncoder.Shared;
-using CsvHelper;
+﻿using CsvHelper;
 using CsvHelper.Configuration;
 using DDSCreator.GLib;
 using DDSCreator.Model;
@@ -129,7 +128,7 @@ namespace DDSCreator
                     DDSEditDate = File.GetLastWriteTimeUtc(result.DdsFilePath),
                     DDSFilePath = result.DdsFilePath.Replace(GameDir.FullName, ""),
                     ImageType = imageFileType,
-                    CompressionFormat = CompressionFormat.Bc7.ToString(),
+                    CompressionFormat = "BC7",
                     Width = result.Width,
                     Height = result.Height,
                     Mean = result.Colors![0],

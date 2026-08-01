@@ -1,15 +1,11 @@
 ﻿global using static DDSCreator.Consts;
 global using static DDSCreator.Misc;
 global using static DDSCreator.Program;
-using BCnEncoder.Encoder;
 using DDSCreator.Model;
 using ImageMagick;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ShellProgressBar;
 using Spectre.Console;
-using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace DDSCreator
 {
@@ -49,7 +45,7 @@ namespace DDSCreator
                             .PageSize(10)
                             .WrapAround()
                             .AddChoices(choices)
-                            .UseConverter((Func<MenuChoice, string>?)(s =>
+                            .UseConverter(s =>
                             {
                                 switch (s)
                                 {
@@ -76,7 +72,7 @@ namespace DDSCreator
                                     default:
                                         return s.ToString();
                                 }
-                            }))
+                            })
                         );
 
                 switch (option)
