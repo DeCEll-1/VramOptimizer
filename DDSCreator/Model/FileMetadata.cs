@@ -31,6 +31,8 @@ namespace DDSCreator.Model
         public required float[] Weighted { get; init; } // color1
         public required float[] Median { get; init; } // color2
 
+        public required string VOptVersion { get; init; }
+
         public enum ImageFileType
         {
             None,

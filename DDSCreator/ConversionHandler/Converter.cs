@@ -38,12 +38,13 @@ namespace DDSCreator
                     };
                 }
 
-                // Fallback to loading if cache didn't have valid metrics
+                // since cache doesnt exist read the file to get the required data
+
                 var loaded = LoadAndAnalyzeImage(srcFilePath, processPixelsForEncoding: false);
                 if (!loaded.Success) return new ConversionResult { WasSkipped = true };
 
-                Program.PixelsAlreadyCached += (ulong)(loaded.Width * loaded.Height);
-                Program.TotalPixelsProcessed += (ulong)(loaded.Width * loaded.Height);
+                Interlocked.Add(ref Program.PixelsAlreadyCached, (ulong)(loaded.Width * loaded.Height));
+                Interlocked.Add(ref Program.TotalPixelsProcessed, (ulong)(loaded.Width * loaded.Height));
 
                 return new ConversionResult
                 {
@@ -56,13 +57,12 @@ namespace DDSCreator
                 };
             }
 
-            // 2. Handle Fresh Encoding Path
             var freshLoad = LoadAndAnalyzeImage(srcFilePath, processPixelsForEncoding: true);
             if (!freshLoad.Success) return new ConversionResult { WasSkipped = true };
 
             EncodeAndSaveDds(freshLoad.PixelBytes, freshLoad.Width, freshLoad.Height, ddsOutputPath);
 
-            Program.TotalPixelsProcessed += (ulong)(freshLoad.Width * freshLoad.Height);
+            Interlocked.Add(ref Program.TotalPixelsProcessed, (ulong)(freshLoad.Width * freshLoad.Height));
 
             return new ConversionResult
             {
@@ -123,18 +123,12 @@ namespace DDSCreator
 
         private static void EncodeAndSaveDds(byte[] pixelBytes, int width, int height, string ddsOutputPath)
         {
-            BcEncoder encoder = new();
-            encoder.OutputOptions.GenerateMipMaps = false;
-            encoder.OutputOptions.Quality = Program.CompressionQuality;
-            encoder.OutputOptions.FileFormat = OutputFileFormat.Dds;
-            encoder.OutputOptions.Format = CompressionFormat.Bc7;
-            encoder.Options.TaskCount = ProcessorCountToUse;
-
             if (!Directory.Exists(Path.GetDirectoryName(ddsOutputPath)))
                 Directory.CreateDirectory(Path.GetDirectoryName(ddsOutputPath)!);
 
-            using FileStream fs = File.OpenWrite(ddsOutputPath);
-            encoder.EncodeToStream(pixelBytes, width, height, PixelFormat.Rgba32, fs);
+            File.WriteAllBytes(ddsOutputPath, NativeBc7Encoder.EncodeToDds(pixelBytes, width, height, ProcessorCountToUse));
+
+
         }
 
         private static void GetInfoAboutMagickImage(MagickImage magickImage, out int width, out int height, out byte[] pixelBytes)

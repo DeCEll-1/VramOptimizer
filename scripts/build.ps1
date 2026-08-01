@@ -29,7 +29,19 @@ foreach ($p in $profiles) {
     Copy-Item -Path "$profileDir/data/config/defaultSettings.json" -Destination "$profileDir/data/config/settings.json" -Force
 
     #update the version
-    Set-Content -LiteralPath "$profileDir/VERSION.txt" -Value "VOpt $TagName"
+    Set-Content -LiteralPath "$profileDir/VOpt_VERSION.txt" -Value "VOpt $TagName"
+
+    if ($profileDir.Contains("win")) {
+        Remove-Item -LiteralPath "$profileDir/External/ispc_texcomp/ispc_texcomp_macos" -Recurse -Force
+        Remove-Item -LiteralPath "$profileDir/External/ispc_texcomp/ispc_texcomp_linux" -Recurse -Force
+    } elseif ($profileDir.Contains("linux")) {
+        Remove-Item -LiteralPath "$profileDir/External/ispc_texcomp/ispc_texcomp_macos" -Recurse -Force
+        Remove-Item -LiteralPath "$profileDir/External/ispc_texcomp/ispc_texcomp_win" -Recurse -Force
+    } elseif ($profileDir.Contains("osx")) {
+        Remove-Item -LiteralPath "$profileDir/External/ispc_texcomp/ispc_texcomp_linux" -Recurse -Force
+        Remove-Item -LiteralPath "$profileDir/External/ispc_texcomp/ispc_texcomp_win" -Recurse -Force
+    }
+
 
     $targetSubfolderName = "VramOptimizer"
     $newSubfolderPath = Join-Path $profileDir $targetSubfolderName

@@ -3,6 +3,7 @@ global using static DDSCreator.Misc;
 global using static DDSCreator.Program;
 using BCnEncoder.Encoder;
 using DDSCreator.Model;
+using ImageMagick;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ShellProgressBar;
@@ -14,14 +15,14 @@ namespace DDSCreator
 {
     internal class Program
     {
-        public static ulong TotalPixelsProcessed { get; set; }
-        public static ulong PixelsAlreadyCached { get; set; }
+        public static ulong TotalPixelsProcessed;
+        public static ulong PixelsAlreadyCached;
         public static Dictionary<string, FileMetadata> ExistingMetadataCache { get; set; } = new(StringComparer.OrdinalIgnoreCase);
         public static List<ModInfo> FailedToLoadMods = [];
         public static List<ModInfo> ValidMods = []; // this is just the mods that have mod_info.json
         public static List<string> EnabledMods = [];
         public static int ProcessorCountToUse = Environment.ProcessorCount;
-        public static CompressionQuality CompressionQuality = CompressionQuality.Fast;
+        public static CompressionPreset CurrentCompressionPreset = CompressionPreset.Default;
         static void Main(string[] args)
         {
             Console.Title = Consts.Version;
@@ -48,7 +49,7 @@ namespace DDSCreator
                             .PageSize(10)
                             .WrapAround()
                             .AddChoices(choices)
-                            .UseConverter(s =>
+                            .UseConverter((Func<MenuChoice, string>?)(s =>
                             {
                                 switch (s)
                                 {
@@ -67,7 +68,7 @@ namespace DDSCreator
                                     case MenuChoice.ChangeProcessorCount:
                                         return $"Change amount of processors to use (currently using {ProcessorCountToUse} cores)";
                                     case MenuChoice.ChangeCompressionQuality:
-                                        return $"Change the compression quality (Current: {CompressionQuality})";
+                                        return $"Change the compression quality (Current: {Program.CurrentCompressionPreset})";
                                     case MenuChoice.ClearMetadata:
                                         return $"[gray]Purge metadata[/]";
                                     case MenuChoice.ClearCache:
@@ -75,7 +76,7 @@ namespace DDSCreator
                                     default:
                                         return s.ToString();
                                 }
-                            })
+                            }))
                         );
 
                 switch (option)
@@ -145,7 +146,10 @@ namespace DDSCreator
         private static void HandleProcessMods()
         {
             if (ModHandler.DisplayConfirmation())
+            {
                 ModHandler.HandleMods();
+                UpdateMetadataCache();
+            }
         }
 
         private static void HandleLongPathsChoice()
@@ -169,32 +173,46 @@ namespace DDSCreator
                     .AddChoices(threadChoices));
 
             ProcessorCountToUse = selectedThreads;
+            ResourceLimits.Thread = (ulong)ProcessorCountToUse;
         }
 
         private static void HandleCompressionQualityChoice()
         {
-            CompressionQuality compQualityRes = AnsiConsole.Prompt(
-                new SelectionPrompt<CompressionQuality>()
-                    .Title("Select compression quality.")
+            CompressionPreset compQualityRes = AnsiConsole.Prompt(
+                new SelectionPrompt<CompressionPreset>()
+                    .Title("Select compression speed.\nFaster compression may cause more graphical artifacts.")
                     .PageSize(10)
                     .WrapAround()
-                    .AddChoices(Enum.GetValues<CompressionQuality>())
+                    .AddChoices(Enum.GetValues<CompressionPreset>())
                     .UseConverter(s =>
                     {
                         switch (s)
                         {
-                            case CompressionQuality.Fast:
-                                return "Fast (Fastest conversion speed, small graphical artifacts)";
-                            case CompressionQuality.Balanced:
-                                return "Balanced (Medium conversion speed, very small graphical artifacts)";
-                            case CompressionQuality.BestQuality:
-                                return "Best Quality (Slowest conversion speed, very small graphical artifacts)";
+                            case CompressionPreset.Slow:
+                                return "Slow";
+                            case CompressionPreset.Default:
+                                return "Default";
+                            case CompressionPreset.Fast:
+                                return "Fast";
+                            case CompressionPreset.Faster:
+                                return "Faster";
+                            case CompressionPreset.Fastest:
+                                return "Fastest";
                             default:
                                 return "";
                         }
                     }));
 
-            CompressionQuality = compQualityRes;
+            CurrentCompressionPreset = compQualityRes;
+        }
+
+        public enum CompressionPreset
+        {
+            Slow,
+            Default,
+            Fast,
+            Faster,
+            Fastest,
         }
 
         private static void HandleClearMetadata()
@@ -217,6 +235,8 @@ namespace DDSCreator
 
                         File.Delete(cachePath);
                     }
+                    UpdateMetadataCache();
+
                 });
                 AnsiConsole.MarkupLine("[green]Cache cleared successfully![/]\nBe sure to run Process Mods again for cache to be regenerated.");
             }
@@ -253,7 +273,7 @@ namespace DDSCreator
             AnsiConsole.MarkupLine($"[cyan]{nameof(Consts.Version),-20}[/] {Consts.Version}");
 
             Console.WriteLine();
-            AnsiConsole.MarkupLine($"[cyan]{nameof(CompressionQuality),-20}[/] {CompressionQuality}");
+            AnsiConsole.MarkupLine($"[cyan]{nameof(CurrentCompressionPreset),-20}[/] {CurrentCompressionPreset}");
 
 #if WINDOWS || DEBUG
             Console.WriteLine();
@@ -311,6 +331,7 @@ namespace DDSCreator
 
         private static void UpdateMetadataCache()
         {
+            ExistingMetadataCache.Clear();
             foreach (string? modMetadataPath in CacheDir.GetDirectories().Select(s => Path.Combine(s.FullName, DdsMetadataFileName)))
             {
                 if (!File.Exists(modMetadataPath))

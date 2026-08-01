@@ -80,30 +80,22 @@ namespace DDSCreator
         #endregion
         public static List<FileMetadata> ConvertMod(ModInfo mod, List<string> validImageFiles, ChildProgressBar childPbar, Action OnConvert)
         {
-            #region json writer creations
             string metadataPath = Path.Combine(CacheDir.FullName, mod.Dir.Name, DdsMetadataFileName);
 
-            // we are using a temp file to write to instead of the actual file cuz if the user stops the process halfway through it might DİE
-            // and by "we" i dont mean ai i mean me and my beloved c# runtime
-            string tempMetadataPath = Path.GetTempFileName();
-
-            using StreamWriter sw = new(tempMetadataPath);
-            using JsonWriter writer = new JsonTextWriter(sw);
-            writer.Formatting = Formatting.Indented;
-            JsonSerializer serializer = new JsonSerializer();
-            #endregion
-
-            List<FileMetadata> processedFiles = [];
+            FileMetadata[] processed = new FileMetadata[validImageFiles.Count];
 
             int currentImageIndex = 0;
-            writer.WriteStartArray();
-            foreach (string imagePath in validImageFiles)
+
+            ParallelOptions parallelOptions = new() { MaxDegreeOfParallelism = Program.ProcessorCountToUse };
+            Parallel.ForEach(Enumerable.Range(0, validImageFiles.Count), parallelOptions, i =>
             {
+                string imagePath = validImageFiles[i];
+
                 #region Metadata creation
-                currentImageIndex++;
+                int currentIndex = Interlocked.Increment(ref currentImageIndex);
                 string relativeImagePath = Path.GetRelativePath(mod.Dir.FullName, imagePath);
 
-                childPbar?.Tick(currentImageIndex, $"Processing: ({currentImageIndex}/{validImageFiles.Count}) {relativeImagePath}");
+                childPbar?.Tick(currentImageIndex, $"Processing: ({currentIndex}/{validImageFiles.Count}) {relativeImagePath}");
 
                 var result = Converter.Convert(
                     srcFilePath: imagePath,
@@ -112,7 +104,7 @@ namespace DDSCreator
                 );
 
                 if (!result.IsSuccess)
-                    continue;
+                    return;
 
                 OnConvert();
 
@@ -143,26 +135,23 @@ namespace DDSCreator
                     Mean = result.Colors![0],
                     Weighted = result.Colors[1],
                     Median = result.Colors[0],
-                    ImageHash = result.Signature
+                    ImageHash = result.Signature,
+                    VOptVersion = Consts.Version
                 };
 
-                processedFiles.Add(metadata);
+                processed[i] = metadata;
                 #endregion
+            });
 
-                #region JSON handling
-                serializer.Serialize(writer, metadata);
-                #endregion
-            }
-            writer.WriteEndArray();
-            sw.Dispose();
+            List<FileMetadata> processedFiles = processed.Where(file => file is not null).Select(file => file!).ToList();
 
             childPbar?.Tick(validImageFiles.Count, $"Completed: {mod.Name} ({currentImageIndex}/{validImageFiles.Count})");
 
             if (File.Exists(metadataPath))
                 File.Delete(metadataPath);
             if (validImageFiles.Count != 0) // need this as otherwise it would try to put the file into a non existing folder
-                // and theres no reason to create meaningless folders
-                File.Move(tempMetadataPath, metadataPath);
+                                            // and theres no reason to create meaningless folders
+                File.WriteAllText(metadataPath, JsonConvert.SerializeObject(processedFiles, Formatting.Indented));
 
             return processedFiles;
         }
@@ -241,7 +230,7 @@ namespace DDSCreator
             foreach (ModInfo mod in ValidMods.Where(s => s.ShouldProcess))
                 AnsiConsole.MarkupLine($"[Grey70]{Markup.Escape(mod.Name)}[/]");
 
-            AnsiConsole.MarkupLine($"[white]Compression quality [/][Chartreuse1]{Program.CompressionQuality}[/]");
+            AnsiConsole.MarkupLine($"[white]Compression quality [/][Chartreuse1]{Program.CurrentCompressionPreset}[/]");
 
 
             string choice = AnsiConsole.Prompt(
