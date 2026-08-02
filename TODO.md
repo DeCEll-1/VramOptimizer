@@ -2,8 +2,8 @@
 | Filename | line # | TODO |
 |:------|:------:|:------|
 | [TODO.txt](TODO.txt#L1) | 1 | add a vram viewer (copy ui code from CPG) |
-| [DDSCreator/Program.cs](DDSCreator/Program.cs#L29) | 29 | add a uhhh gpu check if the gpu allows dds textures |
-| [DDSCreator/ConversionHandler/Converter.cs](DDSCreator/ConversionHandler/Converter.cs#L91) | 91 | create an error log |
+| [DDSCreator/Program.cs](DDSCreator/Program.cs#L25) | 25 | add a uhhh gpu check if the gpu allows dds textures |
+| [DDSCreator/ConversionHandler/Converter.cs](DDSCreator/ConversionHandler/Converter.cs#L87) | 87 | create an error log |
 | [UI/src/Kryz/Tweening/EasingFunctions.java](UI/src/Kryz/Tweening/EasingFunctions.java#L4) | 4 | seperate the UI backend into a seperate project becuase this is CBT to manage if i merge everything |
 | [UI/src/DeCell/UI/Backend/Components/NumericUpDown.java](UI/src/DeCell/UI/Backend/Components/NumericUpDown.java#L27) | 27 | allow users to hold down left click on the buttons for changing the value |
 | [UI/src/DeCell/UI/Backend/Components/NumericUpDown.java](UI/src/DeCell/UI/Backend/Components/NumericUpDown.java#L28) | 28 | add sounds for inputs |
