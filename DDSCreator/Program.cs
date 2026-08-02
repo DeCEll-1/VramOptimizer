@@ -21,7 +21,8 @@ namespace DDSCreator
         public static CompressionPreset CurrentCompressionPreset = CompressionPreset.Default;
         static void Main(string[] args)
         {
-            Console.Title = Consts.Version;
+            try { Console.Title = Consts.Version; }
+            catch (Exception) { Console.Title = "null"; }
             // TODO: add a uhhh gpu check if the gpu allows dds textures
             // i doubt theres any gpus left that cant support dds but eh
             UpdateEnabledMods();

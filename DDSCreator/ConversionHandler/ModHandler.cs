@@ -26,7 +26,6 @@ namespace DDSCreator
                 "javadoc",
                 // backgrounds are discarded as theyre already loaded on demand
                 "/backgrounds/",
-                "mods/",
 
             };
 
@@ -37,6 +36,7 @@ namespace DDSCreator
 
             return DiscardedFolderPaths.Any(discarded =>
                 relativeImagePath.Contains(discarded, StringComparison.OrdinalIgnoreCase)
+                || relativeImagePath.StartsWith("mods/")
             );
         }
 
