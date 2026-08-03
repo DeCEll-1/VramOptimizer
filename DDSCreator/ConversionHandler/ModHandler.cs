@@ -19,13 +19,16 @@ namespace DDSCreator
 
         private static readonly HashSet<string> DiscardedFolderPaths = new(StringComparer.OrdinalIgnoreCase)
             {
-                "Promotional",
-                "Memes",
-                "Meme",
-                "cache",
+                "Promotional/",
+                "Memes/",
+                
+                "cache/",
                 "javadoc",
                 // backgrounds are discarded as theyre already loaded on demand
-                "/backgrounds/",
+                //"/backgrounds/", // they can exist ig
+
+                // causes problems if parsed
+                "graphics/fx/emp_arcs.png",
 
             };
 
@@ -133,7 +136,7 @@ namespace DDSCreator
                     Height = result.Height,
                     Mean = result.Colors![0],
                     Weighted = result.Colors[1],
-                    Median = result.Colors[0],
+                    Median = result.Colors[2],
                     ImageHash = result.Signature,
                     VOptVersion = Consts.Version
                 };

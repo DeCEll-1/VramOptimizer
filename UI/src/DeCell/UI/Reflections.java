@@ -3,6 +3,7 @@ package DeCell.UI;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.util.Arrays;
 
 
 public class Reflections {
@@ -13,12 +14,37 @@ public class Reflections {
     public static final MethodHandle getMethodHandle;
     public static final MethodHandle invokeMethodHandle;
     public static final MethodHandle setMethodAccessable;
+    public static final Class<?> constructorArrayClass;
+
+    public static final MethodHandle setConstructorAccessibleHandle;
+
+    public static final MethodHandle getDeclaredConstructorsHandle;
+
+    public static final MethodHandle getConstructorParameterTypesHandle;
+
+    public static final Class<?> constructorClass;
+
+    public static final MethodHandle constructorNewInstanceHandle;
+
+
     static {
         try {
             methodClass = Class.forName("java.lang.reflect.Method", false, Class.class.getClassLoader());
             getMethodHandle = lookup.findVirtual(Class.class, "getMethod", MethodType.methodType(methodClass, String.class, Class[].class));
             invokeMethodHandle = lookup.findVirtual(methodClass, "invoke", MethodType.methodType(Object.class, Object.class, Object[].class));
             setMethodAccessable = lookup.findVirtual(methodClass, "setAccessible", MethodType.methodType(void.class, boolean.class));
+
+            constructorArrayClass = Class.forName("[Ljava.lang.reflect.Constructor;", false, Class.class.getClassLoader());
+            constructorClass = Class.forName("java.lang.reflect.Constructor", false, Class.class.getClassLoader());
+
+            getDeclaredConstructorsHandle = lookup.findVirtual(Class.class, "getDeclaredConstructors", MethodType.methodType(constructorArrayClass));
+
+            getConstructorParameterTypesHandle = lookup.findVirtual(constructorClass, "getParameterTypes", MethodType.methodType(Class[].class));
+
+            setConstructorAccessibleHandle = lookup.findVirtual(constructorClass, "setAccessible", MethodType.methodType(void.class, boolean.class));
+
+            constructorNewInstanceHandle = lookup.findVirtual(constructorClass, "newInstance", MethodType.methodType(Object.class, Object[].class));
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -84,6 +110,46 @@ public class Reflections {
 
             throw new RuntimeException("Failed to invoke method '" + methodName +
                     "' on " + className + " with the specified parameters.", t);
+        }
+    }
+
+    public static Object createInstanceWithArgs(Class<?> clazz, Class<?>[] parameterTypes, Object... args) {
+        if (parameterTypes == null) parameterTypes = new Class<?>[0];
+        if (args == null) args = new Object[0];
+
+        try {
+            Object[] constructors = (Object[]) getDeclaredConstructorsHandle.invoke(clazz);
+
+            for (Object constructor : constructors) {
+                Class<?>[] paramTypes = (Class<?>[]) getConstructorParameterTypesHandle.invoke(constructor);
+
+                if (paramTypes.length != parameterTypes.length) {
+                    continue;
+                }
+
+                boolean match = true;
+                for (int i = 0; i < paramTypes.length; i++) {
+                    if (paramTypes[i] != parameterTypes[i]) {
+                        match = false;
+                        break;
+                    }
+                }
+
+                if (match) {
+                    setConstructorAccessibleHandle.invoke(constructor, true);
+
+                    Object[] newArray = Arrays.copyOf(args, args.length + 1);
+                    newArray[0] = constructor;
+                    System.arraycopy(args, 0, newArray, 1, args.length);
+                    return constructorNewInstanceHandle.invokeWithArguments(newArray);
+                }
+            }
+
+            throw new NoSuchMethodException("No constructor found for " + clazz.getName() +
+                    " with specified parameter types.");
+
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to instantiate " + clazz.getName() + " with arguments via MethodHandles", t);
         }
     }
 }

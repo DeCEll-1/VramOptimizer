@@ -68,8 +68,7 @@ namespace DDSCreator
 
             for (int i = 0; i <= 255; ++i)
             {
-                float count = histogram[i];
-                cumulative += count;
+                cumulative += histogram[i];
                 if (cumulative >= halfWeight)
                 {
                     return i;

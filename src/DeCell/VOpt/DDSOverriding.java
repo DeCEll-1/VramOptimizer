@@ -15,6 +15,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,6 +37,7 @@ public class DDSOverriding {
             VOpt.Log("FR found, skipping texture object field overriding");
 
         List<ModSpecAPI> mods = Global.getSettings().getModManager().getEnabledModsCopy();
+        mods.sort(Comparator.comparing(ModSpecAPI::getName));
         VOpt.Log("VRAM usage before dds replacement: " + (getTotalTextureVRAM() / 1024 / 1024) + "MB");
 
         try {

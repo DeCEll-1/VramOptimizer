@@ -21,8 +21,7 @@ public class ModPlugin extends BaseModPlugin {
 
     @Override
     public void onGameLoad(boolean newGame) {
-        if (true)
-            return;
+        if (true) return;
         Global.getSector().getListenerManager().addListener(new VRAMViewerSpawner(), true);
     }
 }
