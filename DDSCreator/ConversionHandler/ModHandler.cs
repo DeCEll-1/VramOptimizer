@@ -23,9 +23,11 @@ namespace DDSCreator
                 "Memes/",
                 
                 "cache/",
-                "javadoc",
-                // backgrounds are discarded as theyre already loaded on demand
-                //"/backgrounds/", // they can exist ig
+                "javadoc/",
+                // backgrounds are discarded as theyre already loaded on demand 
+                // allowing them causes the game to use the glSubTexture or whatever to subtexture the dds sprite
+                // which is slow and causes lag when entering sectors
+                "/backgrounds/",
 
                 // causes problems if parsed
                 "graphics/fx/emp_arcs.png",
