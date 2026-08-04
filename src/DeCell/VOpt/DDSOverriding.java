@@ -14,10 +14,8 @@ import org.lwjgl.opengl.GL42;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static DeCell.VOpt.VramCalculator.getTotalTextureVRAM;
 import static org.lwjgl.opengl.GL11.*;
@@ -26,6 +24,7 @@ public class DDSOverriding {
     private static String starsectorDirectory;
     private static String ddsCacheDirectory;
 
+    private static final Map<String, String> replacedTextures = new ConcurrentHashMap<>();
 
     public static void HandleDDS() throws JSONException {
         updatePaths();
@@ -84,9 +83,7 @@ public class DDSOverriding {
 
             List<FileMetadata> list = parseFileList(DDSMetadata);
             for (FileMetadata fileMetadata : list) {
-                if (Objects.equals(fileMetadata.ModID, mod.getId())) {
-                    replaceFileInVram(fileMetadata);
-                }
+                replaceFileInVram(fileMetadata);
             }
         }
 
@@ -158,6 +155,18 @@ public class DDSOverriding {
             throw bruh;
         }
 
+        if (VOpt.isVerbose) {
+            String newTextureSource = fileMetadata.ModID + "::" + fileMetadata.RelativeImagePath + " (" + fileMetadata.DDSFilePath + ")";
+
+            replacedTextures.compute(fileMetadata.RelativeImagePath, (key, oldSource) -> {
+                if (oldSource != null) {
+                    VOpt.LogDbgVrbs("Overriding texture '" + key + "' previously provided by '" + oldSource + "' with new source: '" + newTextureSource + "'");
+                } else {
+                    VOpt.LogDbgVrbs("Registering texture replacement for '" + key + "' with source: '" + newTextureSource + "'");
+                }
+                return newTextureSource;
+            });
+        }
         uploadDDSTexture(texID, fileMetadata.Width, fileMetadata.Height, bytes);
     }
 

@@ -56,9 +56,7 @@ public class VRAMViewerSpawner implements CampaignInputListener {
 
     private void init(MyPanel parent) {
 
-        menuContainer = new MyPanel.Builder(sw, sh).setPlugin(new RenderableHandlerPlugin()
-//                .addBelow(new MonoColorRenderable(Color.red))
-        ).build(parent).initPlugin();
+        menuContainer = new MyPanel.Builder(sw, sh).setPlugin(new RenderableHandlerPlugin()).build(parent).initPlugin();
 
 
     }
