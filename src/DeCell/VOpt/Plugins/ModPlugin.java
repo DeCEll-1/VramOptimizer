@@ -4,7 +4,6 @@ import DeCell.UI.DeCellUI;
 import DeCell.VOpt.VOpt;
 import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
-import com.genir.renderer.Version;
 
 import static DeCell.VOpt.DDSOverriding.HandleDDS;
 import static DeCell.VOpt.VramCalculator.getTotalTextureVRAM;
@@ -21,8 +20,10 @@ public class ModPlugin extends BaseModPlugin {
         if (VOpt.frEnabled) {
             String frVersion = "0.7.0";
             try {
-                frVersion = Version.getVersion();
-            } catch (Exception ignore) {}
+                frVersion = com.genir.renderer.Version.getVersion();
+            } catch (Throwable ignore) {
+
+            }
             VOpt.Log("FR Version: " + frVersion);
             if (!isVersionStrictlyAbove(frVersion, 0, 8, 1)) {
                 VOpt.Log("FR Version 0.8.1 or below, handing DDS files manually (be sure to update to the latest version!)");
