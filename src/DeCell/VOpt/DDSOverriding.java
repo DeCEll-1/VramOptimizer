@@ -29,11 +29,11 @@ public class DDSOverriding {
     public static void HandleDDS() throws JSONException {
         updatePaths();
 
-        if (!VOpt.frEnabled)
-            // FR already does what this thing is for
-            UpdateHandles();
-        else
+        // FR already does what this thing is for
+        if (VOpt.frEnabled)
             VOpt.Log("FR found, skipping texture object field overriding");
+        else
+            UpdateHandles();
 
         List<ModSpecAPI> mods = Global.getSettings().getModManager().getEnabledModsCopy();
         mods.sort(Comparator.comparing(ModSpecAPI::getName));
