@@ -19,7 +19,10 @@ public class ModPlugin extends BaseModPlugin {
 
         DeCellUI.Init();
         if (VOpt.frEnabled) {
-            String frVersion = Version.getVersion();
+            String frVersion = "0.7.0";
+            try {
+                frVersion = Version.getVersion();
+            } catch (Exception ignore) {}
             VOpt.Log("FR Version: " + frVersion);
             if (!isVersionStrictlyAbove(frVersion, 0, 8, 1)) {
                 VOpt.Log("FR Version 0.8.1 or below, handing DDS files manually (be sure to update to the latest version!)");
