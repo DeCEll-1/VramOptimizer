@@ -1,0 +1,10 @@
+{
+        "masterVersionFile": "https://raw.githubusercontent.com/DeCEll-1/VramOptimizer/refs/heads/master/VOpt.version",
+        "modName": "~Vram Optimizer",
+        "modThreadId": 35788,
+        "modVersion": {
+            "major": 1,
+            "minor": 0,
+            "patch": 28
+        }
+    }
