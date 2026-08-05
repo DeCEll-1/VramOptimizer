@@ -1,16 +1,25 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace DDSCreator
 {
     public partial class NativeBc7Encoder
     {
         private static IntPtr _libraryHandle = IntPtr.Zero;
-
+        private const string LibraryName = "ispc_texcomp";
         static NativeBc7Encoder()
         {
+            NativeLibrary.SetDllImportResolver(typeof(NativeBc7Encoder).Assembly, DllImportResolver);
             LoadLibrary();
         }
-
+        private static IntPtr DllImportResolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
+        {
+            if (libraryName == LibraryName)
+            {
+                return _libraryHandle != IntPtr.Zero ? _libraryHandle : IntPtr.Zero;
+            }
+            return IntPtr.Zero;
+        }
         private static void LoadLibrary()
         {
 
