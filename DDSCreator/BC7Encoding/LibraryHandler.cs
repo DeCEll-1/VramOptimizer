@@ -21,9 +21,9 @@ namespace DDSCreator
 #elif WINDOWS
         subfolder = Path.Combine("ispc_texcomp_win", "ispc_texcomp.dll");
 #elif LINUX
-        subfolder = Path.Combine("ispc_texcomp_linux", "ispc_texcomp.dll");
+        subfolder = Path.Combine("ispc_texcomp_linux", "ispc_texcomp.so");
 #elif MAC
-        subfolder = Path.Combine("ispc_texcomp_macos", "ispc_texcomp.dll");
+        subfolder = Path.Combine("ispc_texcomp_macos", "ispc_texcomp.dylib");
 #else
             throw new PlatformNotSupportedException("Target platform compiler flag (WINDOWS, LINUX, or MAC) is not defined.");
 #endif
