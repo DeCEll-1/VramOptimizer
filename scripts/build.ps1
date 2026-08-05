@@ -28,6 +28,22 @@ foreach ($p in $profiles) {
     # since i forget to update the settings.json just copy it
     Copy-Item -Path "$profileDir/data/config/defaultSettings.json" -Destination "$profileDir/data/config/settings.json" -Force
 
+    $numbers = ($TagName -replace "[a-zA-Z]", "").Split(".")
+
+    $versionFileContent = '{
+        "masterVersionFile": "https://raw.githubusercontent.com/DeCEll-1/VramOptimizer/refs/heads/master/VOpt.version",
+        "directDownloadURL": "https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/{DIRECT_DOWNLOAD}.zip",
+        "modName": "~Vram Optimizer",
+        "modThreadId": 35788,
+        "modVersion": {
+            "major": {MAJOR},
+            "minor": {MINOR},
+            "patch": {PATCH}
+        }
+    }'.Replace("{DIRECT_DOWNLOAD}", $p).Replace("{MAJOR}", $numbers[0]).Replace("{MINOR}", $numbers[1]).Replace("{PATCH}", $numbers[2])
+    
+    Set-Content -LiteralPath "$profileDir/VOpt.version" -Value $versionFileContent
+
     #update the version
     Set-Content -LiteralPath "$profileDir/VOpt_VERSION.txt" -Value "VOpt $TagName"
 
