@@ -37,3 +37,9 @@ jobs:
           files: bin/Publish/*.zip
           generate_release_notes: true
       
+      - name: Update Version Gists
+        shell: pwsh
+        working-directory: ./scripts
+        env:
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+        run: ./updateGist.ps1 -TagName "${{ inputs.tag_name }}"

@@ -21,7 +21,7 @@ namespace DDSCreator
             {
                 "Promotional/",
                 "Memes/",
-                
+
                 "cache/",
                 "javadoc/",
                 // backgrounds are discarded as theyre already loaded on demand 
@@ -90,10 +90,15 @@ namespace DDSCreator
 
             int currentImageIndex = 0;
 
+            string modFolderName = mod.ID == "starsector-core" ? "starsector-core" : mod.Dir.Name;
+            // set the cache folder to starsector-core as linux and mac causes problems otherwise
+            DirectoryInfo modCacheFolder = new(Path.Combine(mod.Dir.Parent!.FullName, modFolderName));
+
             ParallelOptions parallelOptions = new() { MaxDegreeOfParallelism = Program.ProcessorCountToUse };
             Parallel.ForEach(Enumerable.Range(0, validImageFiles.Count), parallelOptions, i =>
             {
                 string imagePath = validImageFiles[i];
+
 
                 #region Metadata creation
                 int currentIndex = Interlocked.Increment(ref currentImageIndex);
@@ -103,7 +108,7 @@ namespace DDSCreator
 
                 var result = Converter.Convert(
                     srcFilePath: imagePath,
-                    toDirectory: Path.GetDirectoryName(Path.Combine(CacheDir.FullName, mod.Dir.Name, relativeImagePath))!,
+                    toDirectory: Path.GetDirectoryName(Path.Combine(CacheDir.FullName, modCacheFolder.Name, relativeImagePath))!,
                     overwrite: false
                 );
 
@@ -125,7 +130,7 @@ namespace DDSCreator
                 FileMetadata metadata = new()
                 {
                     ModID = mod.ID,
-                    ModFolderName = mod.Dir.Name,
+                    ModFolderName = modCacheFolder.Name,
                     RelativeImagePath = relativeImagePath,
                     ImageCreationDate = File.GetCreationTimeUtc(imagePath),
                     ImageEditDateDate = File.GetLastWriteTimeUtc(imagePath),

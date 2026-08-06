@@ -12,6 +12,11 @@ $profiles = @("VramOptimizer-win-x64", "VramOptimizer-win-x86", "VramOptimizer-l
 if (!(Test-Path -LiteralPath "../bin/Publish")) {
     New-Item -Path "../bin/" -Name "Publish" -ItemType Directory
 }
+$gistId = "60499ce4f3e5d26aa2d62c849c19c875"
+$numbers = ($TagName -replace "[a-zA-Z]", "").Split(".")
+$major = $numbers[0]
+$minor = $numbers[1]
+$patch = $numbers[2]
 
 foreach ($p in $profiles) {
     Write-Host "Publishing profile: $p..." -ForegroundColor Cyan
@@ -28,21 +33,23 @@ foreach ($p in $profiles) {
     # since i forget to update the settings.json just copy it
     Copy-Item -Path "$profileDir/data/config/defaultSettings.json" -Destination "$profileDir/data/config/settings.json" -Force
 
-    $numbers = ($TagName -replace "[a-zA-Z]", "").Split(".")
 
-    $versionFileContent = '{
-        "masterVersionFile": "https://raw.githubusercontent.com/DeCEll-1/VramOptimizer/refs/heads/master/VOpt.version",
-        "directDownloadURL": "https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/{DIRECT_DOWNLOAD}.zip",
-        "modName": "~Vram Optimizer",
-        "modThreadId": 35788,
-        "modVersion": {
-            "major": {MAJOR},
-            "minor": {MINOR},
-            "patch": {PATCH}
-        }
-    }'.Replace("{DIRECT_DOWNLOAD}", $p).Replace("{MAJOR}", $numbers[0]).Replace("{MINOR}", $numbers[1]).Replace("{PATCH}", $numbers[2])
+    $fileName = "$p.version"
     
-    Set-Content -LiteralPath "$profileDir/VOpt.version" -Value $versionFileContent
+    # Generate the file content for this profile
+    $fileContent = @{
+        masterVersionFile = "https://gist.githubusercontent.com/DeCEll-1/$gistId/raw/$fileName"
+        directDownloadURL = "https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/$p.zip"
+        modName           = "~Vram Optimizer"
+        modThreadId       = 35788
+        modVersion        = @{
+            major = [int]$major
+            minor = [int]$minor
+            patch = [int]$patch
+        }
+    } | ConvertTo-Json -Compress
+    
+    Set-Content -LiteralPath "$profileDir/VOpt.version" -Value $fileContent
 
     #update the version
     Set-Content -LiteralPath "$profileDir/VOpt_VERSION.txt" -Value "VOpt $TagName"
