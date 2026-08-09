@@ -1,0 +1,88 @@
+﻿using OpenTK.Graphics.OpenGL;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DDSCreator.OpenGL
+{
+    public partial class DumpOpenGL
+    {
+
+        public static Dictionary<InternalFormatParameter, Type> formatParamaterTypePairings = new()
+        {
+            { InternalFormatParameter.Samples,typeof(Int32) },
+            { InternalFormatParameter.InternalformatSupported,typeof(FramebufferStatus) },
+            { InternalFormatParameter.InternalformatPreferred,typeof(SizedInternalFormat) },
+            { InternalFormatParameter.InternalformatRedSize,typeof(Int32) },
+            { InternalFormatParameter.InternalformatGreenSize,typeof(Int32) },
+            { InternalFormatParameter.InternalformatBlueSize,typeof(Int32) },
+            { InternalFormatParameter.InternalformatAlphaSize,typeof(Int32) },
+            { InternalFormatParameter.InternalformatDepthSize,typeof(Int32) },
+            { InternalFormatParameter.InternalformatStencilSize,typeof(Int32) },
+            { InternalFormatParameter.InternalformatSharedSize,typeof(Int32) },
+            { InternalFormatParameter.InternalformatRedType,typeof(All) },
+            { InternalFormatParameter.InternalformatGreenType,typeof(All) },
+            { InternalFormatParameter.InternalformatBlueType,typeof(All) },
+            { InternalFormatParameter.InternalformatAlphaType,typeof(All) },
+            { InternalFormatParameter.InternalformatDepthType,typeof(VertexAttribType) },
+            { InternalFormatParameter.InternalformatStencilType,typeof(VertexAttribType) },
+            { InternalFormatParameter.MaxWidth,typeof(Int32) },
+            { InternalFormatParameter.MaxHeight,typeof(Int32) },
+            { InternalFormatParameter.MaxDepth,typeof(Int32) },
+            { InternalFormatParameter.MaxLayers,typeof(Int32) },
+            { InternalFormatParameter.MaxCombinedDimensions,typeof(Int32) },
+            { InternalFormatParameter.ColorComponents,typeof(bool) },
+            { InternalFormatParameter.DepthComponents,typeof(bool) },
+            { InternalFormatParameter.StencilComponents,typeof(bool) },
+            { InternalFormatParameter.ColorRenderable,typeof(FramebufferStatus) },
+            { InternalFormatParameter.DepthRenderable,typeof(FramebufferStatus) },
+            { InternalFormatParameter.StencilRenderable,typeof(FramebufferStatus) },
+            { InternalFormatParameter.FramebufferRenderable,typeof(FramebufferStatus) },
+            { InternalFormatParameter.FramebufferRenderableLayered,typeof(FramebufferStatus) },
+            { InternalFormatParameter.FramebufferBlend,typeof(bool) },
+            { InternalFormatParameter.ReadPixelsFormat,typeof(PixelFormat) },
+            { InternalFormatParameter.ReadPixelsType,typeof(PixelType) },
+            { InternalFormatParameter.TextureImageFormat,typeof(PixelFormat) },
+            { InternalFormatParameter.TextureImageType,typeof(PixelType) },
+            { InternalFormatParameter.GetTextureImageFormat,typeof(PixelFormat) },
+            { InternalFormatParameter.GetTextureImageType,typeof(PixelType) },
+            { InternalFormatParameter.Mipmap,typeof(bool) },
+            { InternalFormatParameter.ManualGenerateMipmap,typeof(All) },
+            { InternalFormatParameter.ColorEncoding,typeof(All) },
+            { InternalFormatParameter.SrgbRead,typeof(All) },
+            { InternalFormatParameter.SrgbWrite,typeof(All) },
+            { InternalFormatParameter.Filter,typeof(All) },
+            { InternalFormatParameter.VertexTexture,typeof(All) },
+            { InternalFormatParameter.TessControlTexture,typeof(All) },
+            { InternalFormatParameter.TessEvaluationTexture,typeof(All) },
+            { InternalFormatParameter.GeometryTexture,typeof(All) },
+            { InternalFormatParameter.FragmentTexture,typeof(All) },
+            { InternalFormatParameter.ComputeTexture,typeof(All) },
+            { InternalFormatParameter.TextureShadow,typeof(bool) },
+            { InternalFormatParameter.TextureGather,typeof(bool) },
+            { InternalFormatParameter.TextureGatherShadow,typeof(bool) },
+            { InternalFormatParameter.ShaderImageLoad,typeof(All) },
+            { InternalFormatParameter.ShaderImageStore,typeof(All) },
+            { InternalFormatParameter.ShaderImageAtomic,typeof(All) },
+            { InternalFormatParameter.ImageTexelSize,typeof(Int32) },
+            { InternalFormatParameter.ImageCompatibilityClass,typeof(All) },
+            { InternalFormatParameter.ImagePixelFormat,typeof(PixelFormat) },
+            { InternalFormatParameter.ImagePixelType,typeof(PixelType) },
+            { InternalFormatParameter.SimultaneousTextureAndDepthTest,typeof(bool) },
+            { InternalFormatParameter.SimultaneousTextureAndStencilTest,typeof(bool) },
+            { InternalFormatParameter.SimultaneousTextureAndStencilWrite,typeof(bool) },
+            { InternalFormatParameter.TextureCompressedBlockWidth,typeof(Int32) },
+            { InternalFormatParameter.TextureCompressedBlockHeight,typeof(Int32) },
+            { InternalFormatParameter.TextureCompressedBlockSize,typeof(Int32) },
+            { InternalFormatParameter.ClearBuffer,typeof(All) },
+            { InternalFormatParameter.TextureView,typeof(All) },
+            { InternalFormatParameter.ViewCompatibilityClass,typeof(All) },
+            { InternalFormatParameter.TextureCompressed,typeof(bool) },
+            { InternalFormatParameter.ImageFormatCompatibilityType,typeof(All) },
+            { InternalFormatParameter.ClearTexture,typeof(All) },
+            { InternalFormatParameter.NumSampleCounts,typeof(Int32) }
+        };
+    }
+}

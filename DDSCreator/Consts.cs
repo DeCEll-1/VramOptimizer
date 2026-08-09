@@ -15,12 +15,6 @@
         public readonly static DirectoryInfo ModsDir = ModDir.Parent!;
         public readonly static DirectoryInfo GameDir = ModsDir.Parent!;
         public readonly static DirectoryInfo StarsectorCoreDir = new(Path.Join(GameDir.FullName, "starsector-core"));
-#elif MAC
-        public readonly static DirectoryInfo AppDir = new(AppContext.BaseDirectory);
-        public readonly static DirectoryInfo ModDir = AppDir!.Parent!;
-        public readonly static DirectoryInfo ModsDir = ModDir.Parent!;
-        public readonly static DirectoryInfo GameDir = ModsDir.Parent!;
-        public readonly static DirectoryInfo StarsectorCoreDir = new(Path.Join(GameDir.FullName, "Contents", "Resources", "Java"));
 #elif LINUX
         public readonly static DirectoryInfo AppDir = new(AppContext.BaseDirectory);
         public readonly static DirectoryInfo ModDir = AppDir!.Parent!;
@@ -31,6 +25,8 @@
 
         // i want the cache to be in the mods folder as to not cause problems with updates
         public readonly static DirectoryInfo CacheDir = new(Path.Join(ModsDir.FullName, "DDSCache"));
+        public readonly static FileInfo DebugLogPath = new(Path.Join(AppDir.FullName, "DebugLog.txt"));
+
 
         public readonly static string Version = File.ReadAllText(Path.Combine(ModDir.FullName, "VOpt_VERSION.txt")).Trim();
 

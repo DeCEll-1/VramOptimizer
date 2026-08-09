@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using OpenTK.Graphics.OpenGL;
 using System.Diagnostics;
 
 namespace DDSCreator
@@ -126,5 +127,7 @@ namespace DDSCreator
             }
         }
 #pragma warning restore CA1416
+
+        
     }
 }

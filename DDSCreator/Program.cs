@@ -2,10 +2,15 @@
 global using static DDSCreator.Misc;
 global using static DDSCreator.Program;
 using DDSCreator.Model;
+using DDSCreator.OpenGL;
 using ImageMagick;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using SharpShaders;
 using Spectre.Console;
+using System.Xml.Linq;
 
 namespace DDSCreator
 {
@@ -23,14 +28,12 @@ namespace DDSCreator
         {
             try { Console.Title = Consts.Version; }
             catch (Exception) { Console.Title = "null"; }
-            // TODO: add a uhhh gpu check if the gpu allows dds textures
-            // i doubt theres any gpus left that cant support dds but eh
             UpdateEnabledMods();
             UpdateMetadataCache();
             UpdateValidMods();
 
             List<MenuChoice> choices = Enum.GetValues<MenuChoice>().ToList();
-#if LINUX || MAC
+#if LINUX
             choices.Remove(Program.MenuChoice.EnableLongPaths);
 #endif
 #if WINDOWS || DEBUG
@@ -110,6 +113,10 @@ namespace DDSCreator
                         HandlePrintDebug();
                         break;
 
+                    case MenuChoice.LogDebug:
+                        HandleLogDebug();
+                        break;
+
                     case MenuChoice.PrintError:
                         PrintErroredMods();
                         break;
@@ -122,7 +129,9 @@ namespace DDSCreator
             }
 
         quit:;
+            SharpS.CloseOGLContext();
         }
+
 
         private enum MenuChoice
         {
@@ -134,6 +143,7 @@ namespace DDSCreator
             ClearMetadata,
             ClearCache,
             PrintDebug,
+            LogDebug,
             PrintError,
             Quit,
         }
@@ -278,6 +288,14 @@ namespace DDSCreator
 #endif
 
 
+            Console.ReadKey();
+        }
+
+        private static void HandleLogDebug()
+        {
+            OpenOGLContextIfClosed();
+            DumpOpenGL.SaveDebugLog();
+            Console.WriteLine("Debug values has been saved to:\n" + DebugLogPath.FullName);
             Console.ReadKey();
         }
 
@@ -445,6 +463,16 @@ namespace DDSCreator
                 AnsiConsole.Write(table);
                 AnsiConsole.WriteLine();
             }
+        }
+
+        private static bool OpenGLContextOpen = false;
+        private static void OpenOGLContextIfClosed()
+        {
+            if (OpenGLContextOpen)
+                return;
+
+            SharpS.OpenOGL();
+            OpenGLContextOpen = true;
         }
         #endregion
     }

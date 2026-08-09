@@ -84,15 +84,16 @@ namespace DDSCreator
         #endregion
         public static List<FileMetadata> ConvertMod(ModInfo mod, List<string> validImageFiles, ChildProgressBar childPbar, Action OnConvert)
         {
-            string metadataPath = Path.Combine(CacheDir.FullName, mod.Dir.Name, DdsMetadataFileName);
+            string modFolderName = mod.ID == "starsector-core" ? "starsector-core" : mod.Dir.Name;
+            DirectoryInfo modCacheFolder = new(Path.Combine(mod.Dir.Parent!.FullName, modFolderName));
+
+            string metadataPath = Path.Combine(CacheDir.FullName, modCacheFolder.Name, DdsMetadataFileName);
 
             FileMetadata[] processed = new FileMetadata[validImageFiles.Count];
 
             int currentImageIndex = 0;
 
-            string modFolderName = mod.ID == "starsector-core" ? "starsector-core" : mod.Dir.Name;
             // set the cache folder to starsector-core as linux and mac causes problems otherwise
-            DirectoryInfo modCacheFolder = new(Path.Combine(mod.Dir.Parent!.FullName, modFolderName));
 
             ParallelOptions parallelOptions = new() { MaxDegreeOfParallelism = Program.ProcessorCountToUse };
             Parallel.ForEach(Enumerable.Range(0, validImageFiles.Count), parallelOptions, i =>
@@ -158,10 +159,13 @@ namespace DDSCreator
 
             if (File.Exists(metadataPath))
                 File.Delete(metadataPath);
-            if (validImageFiles.Count != 0) // need this as otherwise it would try to put the file into a non existing folder
-                                            // and theres no reason to create meaningless folders
-                File.WriteAllText(metadataPath, JsonConvert.SerializeObject(processedFiles, Formatting.Indented));
+            if (validImageFiles.Count != 0)
+            { // need this as otherwise it would try to put the file into a non existing folder
+              // and theres no reason to create meaningless folders
+                Directory.CreateDirectory(Path.GetDirectoryName(metadataPath)!);
 
+                File.WriteAllText(metadataPath, JsonConvert.SerializeObject(processedFiles, Formatting.Indented));
+            }
             return processedFiles;
         }
         #endregion

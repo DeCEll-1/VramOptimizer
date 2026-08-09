@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DDSCreator": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
