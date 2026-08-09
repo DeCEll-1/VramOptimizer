@@ -18,20 +18,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          submodules: false
+          submodules: recursive
           ref: ${{ inputs.tag_name }}
-
-      - name: Force initialize and pull submodules manually
-        run: |
-          git submodule sync --recursive
-          git submodule update --init --recursive --force
-        shell: pwsh
-
-      - name: Debug Folder Structure
-        run: |
-          Write-Host "--- Repository Root ---"
-          Get-ChildItem -Path . -Recurse -Depth 2
-        shell: pwsh
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
