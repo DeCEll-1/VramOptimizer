@@ -18,8 +18,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          submodules: recursive
+          submodules: false
           ref: ${{ inputs.tag_name }}
+
+      - name: Force initialize and pull submodules manually
+        run: |
+          git submodule sync --recursive
+          git submodule update --init --recursive --force
+        shell: pwsh
 
       - name: Debug Folder Structure
         run: |
