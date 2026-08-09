@@ -18,6 +18,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          submodules: recursive
           ref: ${{ inputs.tag_name }}
 
       - name: Setup .NET SDK
