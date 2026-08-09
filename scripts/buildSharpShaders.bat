@@ -1,3 +1,2 @@
-call ./updateSubmodules.bat
-cd ./External/SharpShaders
+cd ../External/SharpShaders
 dotnet build SharpShaders.csproj
