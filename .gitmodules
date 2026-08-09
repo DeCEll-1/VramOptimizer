@@ -1,6 +1,3 @@
-[submodule "External/ColoredLogger"]
-	path = External/ColoredLogger
-	url = https://github.com/DeCEll-1/ColoredLogger.git
 [submodule "External/SharpShaders"]
 	path = External/SharpShaders
 	url = https://github.com/DeCEll-1/SharpShaders.git
