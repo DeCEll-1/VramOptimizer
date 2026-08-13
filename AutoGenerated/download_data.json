@@ -22396,5 +22396,1679 @@
         "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.2/VramOptimizer-win-x86.zip"
       }
     ]
+  },
+  {
+    "SnapshotDate": "2026-08-13T02:24:11Z",
+    "ReleaseTag": "v1.0.31",
+    "PublishedAt": "2026-08-09T22:36:33Z",
+    "TotalDownloads": 1148,
+    "AssetsBreakdown": [
+      {
+        "TagName": "v1.0.31",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 8,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.31/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.31",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.31/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.31",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 60,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.31/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.31",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 43,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.31/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.31",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.31/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.31",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.31/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.30",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 4,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.30/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.30",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.30/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.30",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.30/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.30",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.30/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.30",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 28,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.30/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.30",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 12,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.30/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.30",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.30/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.30",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.30/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.29",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 8,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.29/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.29",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.29/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.29",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.29/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.29",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.29/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.29",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 51,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.29/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.29",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 32,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.29/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.29",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.29/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.29",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.29/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.28",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 7,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.28/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.28",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.28/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.28",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.28/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.28",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.28/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.28",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 22,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.28/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.28",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 20,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.28/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.28",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 4,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.28/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.28",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.28/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.27",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.27/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.27",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.27/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.27",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.27/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.27",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.27/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.27",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.27/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.27",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.27/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.27",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.27/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.27",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.27/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.26",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 5,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.26/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.26",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 4,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.26/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.26",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.26/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.26",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.26/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.26",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 7,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.26/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.26",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 7,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.26/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.26",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.26/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.26",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.26/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.25",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 4,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.25/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.25",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.25/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.25",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.25/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.25",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.25/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.25",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 12,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.25/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.25",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 9,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.25/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.25",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.25/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.25",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.25/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.24",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.24/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.24",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.24/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.24",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.24/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.24",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.24/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.24",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 11,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.24/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.24",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.24/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.24",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.24/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.24",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.24/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.23",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 5,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.23/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.23",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.23/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.23",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.23/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.23",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.23/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.23",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 6,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.23/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.23",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 8,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.23/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.23",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.23/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.23",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.23/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.22",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.22/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.22",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.22/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.22",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.22/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.22",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.22/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.22",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 15,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.22/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.22",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.22/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.22",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.22/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.22",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.22/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.21",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.21/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.21",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.21/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.21",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.21/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.21",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.21/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.21",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 14,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.21/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.21",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 8,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.21/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.21",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.21/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.21",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.21/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.20",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 6,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.20/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.20",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.20/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.20",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.20/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.20",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.20/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.20",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 41,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.20/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.20",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 21,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.20/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.20",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 4,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.20/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.20",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.20/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.19",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.19/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.19",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.19/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.19",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.19/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.19",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.19/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.19",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 33,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.19/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.19",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 19,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.19/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.19",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 4,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.19/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.19",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.19/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.18",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.18/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.18",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.18/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.18",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.18/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.18",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.18/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.18",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 26,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.18/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.18",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 15,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.18/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.18",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.18/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.18",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.18/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.17",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.17/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.17",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.17/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.17",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.17/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.17",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.17/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.17",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.17/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.17",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.17/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.17",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.17/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.17",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.17/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.16",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.16/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.16",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.16/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.16",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.16/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.16",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.16/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.16",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 19,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.16/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.16",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 12,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.16/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.16",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.16/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.16",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.16/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.15",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.15/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.15",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.15/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.15",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.15/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.15",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.15/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.15",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 4,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.15/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.15",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 4,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.15/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.15",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.15/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.15",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.15/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.14",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.14/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.14",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.14/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.14",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.14/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.14",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.14/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.14",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 34,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.14/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.14",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 20,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.14/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.14",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.14/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.14",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.14/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.13",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 5,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.13/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.13",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.13/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.13",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 5,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.13/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.13",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.13/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.13",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 44,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.13/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.13",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 29,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.13/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.13",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.13/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.13",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.13/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.12",
+        "FileName": "VramOptimizer-v1.0.12-linux-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.12/VramOptimizer-v1.0.12-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.12",
+        "FileName": "VramOptimizer-v1.0.12-linux-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.12/VramOptimizer-v1.0.12-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.12",
+        "FileName": "VramOptimizer-v1.0.12-osx-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.12/VramOptimizer-v1.0.12-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.12",
+        "FileName": "VramOptimizer-v1.0.12-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.12/VramOptimizer-v1.0.12-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.12",
+        "FileName": "VramOptimizer-v1.0.12-win-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.12/VramOptimizer-v1.0.12-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.12",
+        "FileName": "VramOptimizer-v1.0.12-win-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.12/VramOptimizer-v1.0.12-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.12",
+        "FileName": "VramOptimizer-v1.0.12-win-x86-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.12/VramOptimizer-v1.0.12-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.12",
+        "FileName": "VramOptimizer-v1.0.12-win-x86.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.12/VramOptimizer-v1.0.12-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.11",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 6,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.11/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.11",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.11/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.11",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.11/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.11",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.11/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.11",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 49,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.11/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.11",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 24,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.11/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.11",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.11/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.11",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.11/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.10",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.10/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.10",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.10/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.10",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.10/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.10",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.10/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.10",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.10/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.10",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.10/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.10",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.10/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.10",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.10/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.9",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.9/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.9",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.9/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.9",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.9/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.9",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.9/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.9",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 11,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.9/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.9",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 4,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.9/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.9",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.9/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.9",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.9/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.8",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.8/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.8",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.8/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.8",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.8/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.8",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.8/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.8",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.8/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.8",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 5,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.8/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.8",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.8/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.8",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.8/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.7",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.7/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.7",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.7/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.7",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.7/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.7",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.7/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.7",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.7/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.7",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.7/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.7",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.7/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.7",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.7/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.6",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.6/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.6",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.6/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.6",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.6/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.6",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.6/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.6",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.6/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.6",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.6/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.6",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.6/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.6",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.6/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.5",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 9,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.5/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.5",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 6,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.5/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.5",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.5/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.5",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.5/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.5",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 41,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.5/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.5",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 38,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.5/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.5",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.5/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.5",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.5/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.4",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.4/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.4",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.4/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.4",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.4/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.4",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.4/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.4",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 3,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.4/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.4",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.4/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.4",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.4/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.4",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.4/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.3",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.3/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.3",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.3/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.3",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.3/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.3",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.3/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.3",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 9,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.3/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.3",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 8,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.3/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.3",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.3/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.3",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.3/VramOptimizer-win-x86.zip"
+      },
+      {
+        "TagName": "v1.0.2",
+        "FileName": "VramOptimizer-linux-x64-sc.zip",
+        "DownloadCount": 2,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.2/VramOptimizer-linux-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.2",
+        "FileName": "VramOptimizer-linux-x64.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.2/VramOptimizer-linux-x64.zip"
+      },
+      {
+        "TagName": "v1.0.2",
+        "FileName": "VramOptimizer-osx-x64-sc.zip",
+        "DownloadCount": 1,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.2/VramOptimizer-osx-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.2",
+        "FileName": "VramOptimizer-osx-x64.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.2/VramOptimizer-osx-x64.zip"
+      },
+      {
+        "TagName": "v1.0.2",
+        "FileName": "VramOptimizer-win-x64-sc.zip",
+        "DownloadCount": 9,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.2/VramOptimizer-win-x64-sc.zip"
+      },
+      {
+        "TagName": "v1.0.2",
+        "FileName": "VramOptimizer-win-x64.zip",
+        "DownloadCount": 7,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.2/VramOptimizer-win-x64.zip"
+      },
+      {
+        "TagName": "v1.0.2",
+        "FileName": "VramOptimizer-win-x86-sc.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.2/VramOptimizer-win-x86-sc.zip"
+      },
+      {
+        "TagName": "v1.0.2",
+        "FileName": "VramOptimizer-win-x86.zip",
+        "DownloadCount": 0,
+        "ContentType": "application/zip",
+        "BrowserDownloadUrl": "https://github.com/DeCEll-1/VramOptimizer/releases/download/v1.0.2/VramOptimizer-win-x86.zip"
+      }
+    ]
   }
 ]
