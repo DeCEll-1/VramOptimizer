@@ -1,0 +1,19 @@
+{
+  # values wrapped in ()s are defaults
+  # (true),false
+  "forceLinearFiltering": true,
+  # mipmap levels
+  # (true),false
+  "forceBaseLevelZero": true,
+  # sharpening
+  # true,(false)
+  "enableAnisotropy": false,
+  # (1)-max driver limit
+  # 1 haves no effect
+  "maxAnisotropyOverride": 16.0,
+  # true,(false)
+  "forceRGBASwizzle": false,
+  # 1,2,(4),8,16
+  # setting this to 1/2 can fix crashes in some drivers
+  "unpackAlignment": 4
+}

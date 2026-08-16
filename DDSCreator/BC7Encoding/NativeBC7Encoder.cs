@@ -203,7 +203,7 @@ namespace DDSCreator
             using var stream = new MemoryStream(dds, 0, DdsHeader.Length);
             using var w = new BinaryWriter(stream);
 
-            const uint DDSD_CAPS = 0x1, DDSD_HEIGHT = 0x2, DDSD_WIDTH = 0x4, DDSD_PIXELFORMAT = 0x1000, DDSD_MIPMAPCOUNT = 0x20000, DDSD_LINEARSIZE = 0x80000;
+            const uint DDSD_CAPS = 0x1, DDSD_HEIGHT = 0x2, DDSD_WIDTH = 0x4, DDSD_PIXELFORMAT = 0x1000, DDSD_LINEARSIZE = 0x80000;
             const uint DDPF_FOURCC = 0x4;
             const uint DDSCAPS_TEXTURE = 0x1000;
             const uint DXGI_FORMAT_BC7_UNORM = 98;
@@ -211,7 +211,7 @@ namespace DDSCreator
 
             w.Write(0x20534444u); // "DDS "
             w.Write(124u); // header struct size
-            w.Write(DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH | DDSD_PIXELFORMAT | DDSD_MIPMAPCOUNT | DDSD_LINEARSIZE);
+            w.Write(DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH | DDSD_PIXELFORMAT | DDSD_LINEARSIZE);
             w.Write((uint)height);
             w.Write((uint)width);
             w.Write((uint)payloadBytes);

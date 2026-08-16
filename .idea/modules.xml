@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/UI/UI.iml" filepath="$PROJECT_DIR$/UI/UI.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/VramOptimizer.iml" filepath="$PROJECT_DIR$/.idea/VramOptimizer.iml" />
       <module fileurl="file://$PROJECT_DIR$/VFXCommons/_VFXCommons.iml" filepath="$PROJECT_DIR$/VFXCommons/_VFXCommons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Commons/_~Game.iml" filepath="$PROJECT_DIR$/Commons/_~Game.iml" />
     </modules>
   </component>
 </project>

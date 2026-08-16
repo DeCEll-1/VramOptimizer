@@ -10,5 +10,6 @@
     "jars/VFXCommons.jar",
     "jars/UI.jar",
     "jars/VOpt.jar",
+    "jars/GameFunctions.jar",
   ]
 }

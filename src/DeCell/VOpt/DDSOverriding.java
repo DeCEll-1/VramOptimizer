@@ -1,5 +1,6 @@
 package DeCell.VOpt;
 
+import DeCell.VOpt.Commons.Rendering.Textures;
 import com.fs.graphics.Sprite;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.ModSpecAPI;
@@ -7,9 +8,7 @@ import com.fs.starfarer.api.graphics.SpriteAPI;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL42;
+import org.lwjgl.opengl.*;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -19,6 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static DeCell.VOpt.VramCalculator.getTotalTextureVRAM;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL42.GL_COMPRESSED_RGBA_BPTC_UNORM;
 
 public class DDSOverriding {
     private static String starsectorDirectory;
@@ -34,6 +34,8 @@ public class DDSOverriding {
             VOpt.Log("FR found, skipping texture object field overriding");
         else
             UpdateHandles();
+
+        Textures.Init();
 
         List<ModSpecAPI> mods = Global.getSettings().getModManager().getEnabledModsCopy();
         mods.sort(Comparator.comparing(ModSpecAPI::getName));
@@ -167,7 +169,7 @@ public class DDSOverriding {
                 return newTextureSource;
             });
         }
-        uploadDDSTexture(texID, fileMetadata.Width, fileMetadata.Height, bytes);
+        uploadDDSTexture(texID, fileMetadata.Width, fileMetadata.Height, bytes, path);
     }
 
     private static List<FileMetadata> parseFileList(String jsonString) throws JSONException {
@@ -202,7 +204,7 @@ public class DDSOverriding {
         return metadataList;
     }
 
-    private static void uploadDDSTexture(int textureId, int width, int height, byte[] ddsBytes) {
+    private static void uploadDDSTexture(int textureId, int width, int height, byte[] ddsBytes, String path) {
         glGetError(); // clear older errors
         // 1. Bind the existing texture ID so modifications apply to it
         GL11.glBindTexture(GL_TEXTURE_2D, textureId);
@@ -225,7 +227,11 @@ public class DDSOverriding {
         // border         = 0 (Must always be 0)
         // data           = direct ByteBuffer containing the compressed payload bytes
 
-        GL13.glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL42.GL_COMPRESSED_RGBA_BPTC_UNORM, width, height, 0, dataBuffer);
+        Textures.BeforeTextureUpload(width, height, textureId, path, GL_COMPRESSED_RGBA_BPTC_UNORM);
+
+        GL13.glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGBA_BPTC_UNORM, width, height, 0, dataBuffer);
+
+        Textures.AfterTextureUpload(width, height, textureId, path, GL_COMPRESSED_RGBA_BPTC_UNORM);
 
         int error = glGetError();
         if (error != GL_NO_ERROR)

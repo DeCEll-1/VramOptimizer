@@ -11,9 +11,9 @@ namespace DDSCreator.OpenGL
     {
         public class CapabilityResult
         {
-            public string Name { get; set; }
-            public string Type { get; set; }
-            public string Value { get; set; }
+            public required string Name { get; set; }
+            public required string Type { get; set; }
+            public required string Value { get; set; }
             public bool Success { get; set; }
         }
         public static List<CapabilityResult> DumpAllGPUCapabilities()
@@ -34,7 +34,6 @@ namespace DDSCreator.OpenGL
 
                 if (name == null) continue;
                 string type = "Unknown";
-                string valStr = "N/A";
                 bool success = true;
 
                 try
@@ -254,7 +253,7 @@ namespace DDSCreator.OpenGL
             int intValue = (int)formatValue;
             var matchingField = typeof(All)
                 .GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
-                .FirstOrDefault(f => (int)f.GetValue(null) == intValue);
+                .FirstOrDefault(f => (int)f.GetValue(null)! == intValue);
 
             return matchingField?.Name ?? formatValue.ToString();
         }
@@ -262,7 +261,7 @@ namespace DDSCreator.OpenGL
         {
             if (rawValue == -999) return "N/A";
 
-            if (!formatParamaterTypePairings.TryGetValue(param, out Type targetType))
+            if (!formatParamaterTypePairings.TryGetValue(param, out Type? targetType))
             {
                 return rawValue.ToString();
             }
