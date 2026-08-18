@@ -6,11 +6,8 @@ using DDSCreator.OpenGL;
 using ImageMagick;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
 using SharpShaders;
 using Spectre.Console;
-using System.Xml.Linq;
 
 namespace DDSCreator
 {

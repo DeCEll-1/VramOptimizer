@@ -17,6 +17,7 @@ public class ModPlugin extends BaseModPlugin {
         VOpt.isVerbose = Global.getSettings().getBoolean("VOpt_verbose");
 
         DeCellUI.Init();
+
         if (VOpt.frEnabled) {
             String frVersion = "0.7.0";
             try {

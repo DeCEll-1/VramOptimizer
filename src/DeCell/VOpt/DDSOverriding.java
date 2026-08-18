@@ -16,6 +16,8 @@ import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static DeCell.VOpt.Reflection.ReflectionUtils.*;
+import static DeCell.VOpt.Reflection.TextureUtils.*;
 import static DeCell.VOpt.VramCalculator.getTotalTextureVRAM;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL42.GL_COMPRESSED_RGBA_BPTC_UNORM;
@@ -42,9 +44,9 @@ public class DDSOverriding {
         VOpt.Log("VRAM usage before dds replacement: " + (getTotalTextureVRAM() / 1024 / 1024) + "MB");
 
         try {
-            if (Reflections.fileExists(ddsCacheDirectory + "starsector-core/dds_metadata.json")) {
+            if (fileExists(ddsCacheDirectory + "starsector-core/dds_metadata.json")) {
 
-                String DDSMetadata = Reflections.readAllText(ddsCacheDirectory + "starsector-core/dds_metadata.json");
+                String DDSMetadata = readAllText(ddsCacheDirectory + "starsector-core/dds_metadata.json");
 
                 List<FileMetadata> starsectorFiles = parseFileList(DDSMetadata); // handle starsector specifically
 
@@ -69,8 +71,8 @@ public class DDSOverriding {
 
             try {
                 // since wwe have the cache in the mod folder we need reflection
-                if (Reflections.fileExists(ddsCacheDirectory + modFolderName + "/dds_metadata.json")) {
-                    DDSMetadata = Reflections.readAllText(ddsCacheDirectory + modFolderName + "/dds_metadata.json");
+                if (fileExists(ddsCacheDirectory + modFolderName + "/dds_metadata.json")) {
+                    DDSMetadata = readAllText(ddsCacheDirectory + modFolderName + "/dds_metadata.json");
                     VOpt.Log("Processing " + modFolderName);
                 } else {
                     VOpt.LogWarn("No metadata found for " + modFolderName + ", be sure to generate it if you feel like it");
@@ -94,9 +96,9 @@ public class DDSOverriding {
 
     private static void UpdateHandles() {
         SpriteAPI handleFinderSprite = Global.getSettings().getSprite("graphics/asteroids/asteroid1.png");
-        Sprite tex = Reflections.extractSprite(handleFinderSprite); // we use that specific texture to get the handles for the padding amounts
-        Reflections.extractTextureDimensionsHandles(tex.getTexture());
-        Reflections.extractTextureFloatHandles(tex.getTexture());
+        Sprite tex = extractSprite(handleFinderSprite); // we use that specific texture to get the handles for the padding amounts
+        extractTextureDimensionsHandles(tex.getTexture());
+        extractTextureFloatHandles(tex.getTexture());
     }
 
     private static void updatePaths() {
@@ -136,12 +138,12 @@ public class DDSOverriding {
             currLoadedImage.setTexWidth(fileMetadata.Width);
             currLoadedImage.setTexHeight(fileMetadata.Height);
 
-            Sprite tex = Reflections.extractSprite(currLoadedImage);
-            Reflections.setTextureFloat1(tex.getTexture(), 1);
-            Reflections.setTextureFloat2(tex.getTexture(), 1);
+            Sprite tex = extractSprite(currLoadedImage);
+            setTextureFloat1(tex.getTexture(), 1);
+            setTextureFloat2(tex.getTexture(), 1);
 
-            Reflections.setTextureWidth(tex.getTexture(), fileMetadata.Width);
-            Reflections.setTextureHeight(tex.getTexture(), fileMetadata.Height);
+            setTextureWidth(tex.getTexture(), fileMetadata.Width);
+            setTextureHeight(tex.getTexture(), fileMetadata.Height);
         }
 
         // since SettingsAPI does not have any way to load binary files, ill have to do it manually, using reflection
@@ -150,7 +152,7 @@ public class DDSOverriding {
         // who needs unsigned bytes?
         byte[] bytes = null;
         try {
-            bytes = Reflections.readAllBytes((starsectorDirectory + fileMetadata.DDSFilePath).replaceAll("\\\\", "/"));
+            bytes = readAllBytes((starsectorDirectory + fileMetadata.DDSFilePath).replaceAll("\\\\", "/"));
         } catch (Exception bruh) {
             VOpt.LogErr("Error while trying to load metadata:");
             VOpt.LogErr(fileMetadata.toString());
