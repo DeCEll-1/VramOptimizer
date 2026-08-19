@@ -15,5 +15,5 @@
   "forceRGBASwizzle": false,
   # 1,2,(4),8,16
   # setting this to 1/2 can fix crashes in some drivers
-  "unpackAlignment": 4
+  "unpackAlignment": 0
 }
