@@ -14,6 +14,7 @@ public class ModPlugin extends BaseModPlugin {
         VOpt.Log("VOpt Loaded");
         VOpt.isDebug = Global.getSettings().getBoolean("VOpt_debug");
         VOpt.isVerbose = Global.getSettings().getBoolean("VOpt_verbose");
+        VOpt.printVRAMUsage = Global.getSettings().getBoolean("VOpt_printVRAMUsage");
 
         if (VOpt.frEnabled) {
             String frVersion = "0.7.0";

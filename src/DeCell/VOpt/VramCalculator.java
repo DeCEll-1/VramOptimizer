@@ -56,6 +56,9 @@ public class VramCalculator {
     }
 
     public static long getTotalTextureVRAM() {
+        if (!VOpt.printVRAMUsage)
+            return 0;
+
         long totalVRAMBytes = 0;
         int consecutiveFailures = 0;
         final int MAX_CONSECUTIVE_FAILURES = 100;
@@ -89,6 +92,8 @@ public class VramCalculator {
         }
 
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+
+        while (GL11.glGetError() != GL11.GL_NO_ERROR) {}
 
         return totalVRAMBytes;
     }

@@ -1,6 +1,7 @@
 {
     "VOpt_debug": false,
     "VOpt_verbose": false,
+    "VOpt_printVRAMUsage": true,
     "DeCellUI_debug": false,
     "DeCellUI_debug_charlie": false
 }
