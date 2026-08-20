@@ -30,7 +30,7 @@ foreach ($p in $profiles) {
     if (!(Test-Path -LiteralPath $binDir)) {
         New-Item -Path "$profileDir" -Name "bin" -ItemType Directory | Out-Null
     }
-    Move-Item -Path "$profileDir/DDSCreator*", "$profileDir/Magick.Native*" -Destination $binDir
+    Move-Item -Path "$profileDir/DDSCreator*", "$profileDir/Magick.Native*", "$profileDir/SharpShaders*" -Destination $binDir
     # since i forget to update the settings.json just copy it
     Copy-Item -Path "$profileDir/data/config/defaultSettings.json" -Destination "$profileDir/data/config/settings.json" -Force
 

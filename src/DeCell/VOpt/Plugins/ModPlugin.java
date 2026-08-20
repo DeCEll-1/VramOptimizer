@@ -1,6 +1,5 @@
 package DeCell.VOpt.Plugins;
 
-import DeCell.UI.DeCellUI;
 import DeCell.VOpt.VOpt;
 import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
@@ -16,22 +15,18 @@ public class ModPlugin extends BaseModPlugin {
         VOpt.isDebug = Global.getSettings().getBoolean("VOpt_debug");
         VOpt.isVerbose = Global.getSettings().getBoolean("VOpt_verbose");
 
-        DeCellUI.Init();
-
         if (VOpt.frEnabled) {
             String frVersion = "0.7.0";
             try {
                 frVersion = com.genir.renderer.Version.getVersion();
-            } catch (Throwable ignore) {
-
-            }
+            } catch (Throwable ignore) {}
             VOpt.Log("FR Version: " + frVersion);
             if (!isVersionStrictlyAbove(frVersion, 0, 8, 1)) {
                 VOpt.Log("FR Version 0.8.1 or below, handing DDS files manually (be sure to update to the latest version!)");
                 HandleDDS();
             } else {
                 VOpt.Log("Suitable FR Version found, skipping DDS file handling");
-                VOpt.Log("VRAM usage " + (getTotalTextureVRAM() / 1024 / 1024) + "MB");
+//                VOpt.Log("VRAM usage " + (getTotalTextureVRAM() / 1024 / 1024) + "MB");
             }
         } else {
             VOpt.Log("FR not enabled, handling DDS files manually");
@@ -54,11 +49,5 @@ public class ModPlugin extends BaseModPlugin {
             return minor > targetMinor;
         }
         return patch > targetPatch;
-    }
-
-    @Override
-    public void onGameLoad(boolean newGame) {
-        if (true) return;
-        Global.getSector().getListenerManager().addListener(new VRAMViewerSpawner(), true);
     }
 }

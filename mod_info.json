@@ -7,8 +7,6 @@
   "gameVersion": "0.98a-RC5",
   "modPlugin": "DeCell.VOpt.Plugins.ModPlugin",
   "jars": [
-    "jars/VFXCommons.jar",
-    "jars/UI.jar",
     "jars/VOpt.jar",
     "jars/GameFunctions.jar",
   ]

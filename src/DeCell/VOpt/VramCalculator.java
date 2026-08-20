@@ -56,40 +56,38 @@ public class VramCalculator {
     }
 
     public static long getTotalTextureVRAM() {
-        // 1. Generate a brand new texture ID to find the upper bound boundary
-        int maxId = GL11.glGenTextures();
-
         long totalVRAMBytes = 0;
+        int consecutiveFailures = 0;
+        final int MAX_CONSECUTIVE_FAILURES = 100;
 
-        // 2. Iterate through all potential texture IDs from 1 up to (maxId - 1)
-        for (int id = 1; id < maxId; id++) {
-            // Check if this integer ID is recognized as a valid active OpenGL texture
+        int id = 1;
+        while (consecutiveFailures < MAX_CONSECUTIVE_FAILURES) {
             if (GL11.glIsTexture(id)) {
-                // Bind it to query its parameters
+                // Found a valid texture handle -> reset failure counter
+                consecutiveFailures = 0;
+
+                // Bind to inspect parameters
                 GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
 
-                // Query current texture width and height from OpenGL state
+                // Fetch metadata for mip level 0
                 int width = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH);
                 int height = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT);
-
-                // Query internal format to map accurately to your calculator
                 int internalFormat = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_INTERNAL_FORMAT);
 
-                String formatName = translateGLFormatToString(internalFormat);
-
-                // Accumulate VRAM
-                totalVRAMBytes += calculateDDSVRAMUsage(width, height, formatName);
+                // Avoid processing 0x0 or deleted/uninitialized textures
+                if (width > 0 && height > 0) {
+                    String formatName = translateGLFormatToString(internalFormat);
+                    totalVRAMBytes += calculateDDSVRAMUsage(width, height, formatName);
+                }
+            } else {
+                // Increment failure count for consecutive misses
+                consecutiveFailures++;
             }
+
+            // Increment ID for next iteration
+            id++;
         }
 
-        // 3. Clean up the temporary tracking texture ID you just generated
-        GL11.glGetError(); // clear older errors
-        GL11.glDeleteTextures(maxId);
-        int error = GL11.glGetError();
-        if (error != GL11.GL_NO_ERROR) {
-            // Placeholder for your logger
-            System.err.println("Got error " + error + " while trying to delete temporary texture");
-        }
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 
         return totalVRAMBytes;
