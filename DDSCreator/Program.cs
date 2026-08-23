@@ -33,6 +33,7 @@ namespace DDSCreator
             List<MenuChoice> choices = Enum.GetValues<MenuChoice>().ToList();
 #if LINUX
             choices.Remove(Program.MenuChoice.EnableLongPaths);
+            choices.Remove(Program.MenuChoice.CompactCache);
 #endif
 #if WINDOWS || DEBUG
             if (AreLongPathsEnabled())
@@ -73,6 +74,9 @@ namespace DDSCreator
                                         return $"[gray]Purge metadata[/]";
                                     case MenuChoice.ClearCache:
                                         return $"[DarkRed_1]Purge texture cache[/]";
+                                    case MenuChoice.CompactCache:
+                                        return $"Compact cache folder";
+
                                     default:
                                         return s.ToString();
                                 }
@@ -113,6 +117,10 @@ namespace DDSCreator
                         HandleClearCache();
                         break;
 
+                    case MenuChoice.CompactCache:
+                        HandleCompactCache();
+                        break;
+
                     case MenuChoice.PrintDebug:
                         HandlePrintDebug();
                         break;
@@ -147,6 +155,7 @@ namespace DDSCreator
             ChangeCompressionQuality,
             ClearMetadata,
             ClearCache,
+            CompactCache,
             PrintDebug,
             LogDebug,
             PrintError,
@@ -290,6 +299,92 @@ namespace DDSCreator
             }
 
             Console.ReadKey();
+        }
+
+        private static void HandleCompactCache()
+        {
+            AnsiConsole.MarkupLine($"Compacting the cache folder will reduce storage usage using Windows Overlay Filter LZX compression.\nIt has no in-game performance change, it [b]only[/] changes disk space usage.\nYou will need to recompress after updating your cache.");
+
+            var choice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("")
+                    .PageSize(5)
+                    .AddChoices(new[]
+                    {
+                        "[green]Compress cache[/]",
+                        "[yellow]Decompress cache[/]",
+                        "[grey]Cancel[/]"
+                    }));
+
+            if (choice.Contains("Cancel", StringComparison.OrdinalIgnoreCase))
+                return;
+
+            bool isCompressing = choice.Contains("Compress", StringComparison.OrdinalIgnoreCase) && !choice.Contains("Decompress", StringComparison.OrdinalIgnoreCase);
+            string actionVerb = isCompressing ? "Compressing" : "Decompressing";
+            string flag = isCompressing ? "/c" : "/u";
+
+            RunCompactProcess(flag, actionVerb);
+
+            Console.ReadKey();
+        }
+
+        private static void RunCompactProcess(string flag, string actionVerb)
+        {
+            var allOutputLines = new List<string>();
+
+            AnsiConsole.Status()
+                .Start($"{actionVerb} cache folder (this may take a while)...", ctx =>
+                {
+                    try
+                    {
+                        var startInfo = new System.Diagnostics.ProcessStartInfo
+                        {
+                            FileName = "compact.exe",
+                            Arguments = $"{flag} /q /s /i /a /exe:lzx \"{CacheDir.FullName}\\*\"",
+                            UseShellExecute = false,
+                            CreateNoWindow = true,
+                            RedirectStandardOutput = true,
+                            RedirectStandardError = true
+                        };
+
+                        using var process = new System.Diagnostics.Process { StartInfo = startInfo };
+
+                        process.OutputDataReceived += (sender, e) =>
+                        {
+                            if (!string.IsNullOrWhiteSpace(e.Data))
+                            {
+                                string line = e.Data.Trim();
+                                lock (allOutputLines)
+                                {
+                                    allOutputLines.Add(line);
+                                }
+
+                                ctx.Status($"[grey]{Markup.Escape(line)}[/]");
+                            }
+                        };
+
+                        process.Start();
+                        process.BeginOutputReadLine();
+                        process.WaitForExit();
+                    }
+                    catch (Exception ex)
+                    {
+                        AnsiConsole.MarkupLine($"[red]Failed to modify cache compression: {Markup.Escape(ex.Message)}[/]");
+                    }
+                });
+
+            AnsiConsole.MarkupLine("[green]Cache compression operation finished![/]\n");
+
+            lock (allOutputLines)
+            {
+                if (allOutputLines.Count >= 5)
+                {
+                    IEnumerable<string> lastFiveLines = allOutputLines.TakeLast(3);
+                    string panelContent = string.Join("\n", lastFiveLines.Select(l => Markup.Escape(l)));
+
+                    AnsiConsole.Write(panelContent);
+                }
+            }
         }
 
         private static void HandlePrintDebug()
