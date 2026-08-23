@@ -122,9 +122,7 @@ namespace DDSCreator
             if (!Directory.Exists(Path.GetDirectoryName(ddsOutputPath)))
                 Directory.CreateDirectory(Path.GetDirectoryName(ddsOutputPath)!);
 
-            File.WriteAllBytes(ddsOutputPath, NativeBc7Encoder.EncodeToDds(pixelBytes, width, height, ProcessorCountToUse));
-
-
+            File.WriteAllBytes(ddsOutputPath, NativeBc7Encoder.EncodeToDds(pixelBytes, width, height, Program.TextureTaskCount));
         }
 
         private static void GetInfoAboutMagickImage(MagickImage magickImage, out int width, out int height, out byte[] pixelBytes)

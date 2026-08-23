@@ -95,13 +95,11 @@ namespace DDSCreator
 
             // set the cache folder to starsector-core as linux and mac causes problems otherwise
 
-            ParallelOptions parallelOptions = new() { MaxDegreeOfParallelism = Program.ProcessorCountToUse };
+            ParallelOptions parallelOptions = new() { MaxDegreeOfParallelism = Program.ConcurrentFileLimit };
             Parallel.ForEach(Enumerable.Range(0, validImageFiles.Count), parallelOptions, i =>
             {
                 string imagePath = validImageFiles[i];
 
-
-                #region Metadata creation
                 int currentIndex = Interlocked.Increment(ref currentImageIndex);
                 string relativeImagePath = Path.GetRelativePath(mod.Dir.FullName, imagePath);
 
@@ -150,7 +148,6 @@ namespace DDSCreator
                 };
 
                 processed[i] = metadata;
-                #endregion
             });
 
             List<FileMetadata> processedFiles = processed.Where(file => file is not null).Select(file => file!).ToList();

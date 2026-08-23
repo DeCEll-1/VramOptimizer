@@ -19,7 +19,8 @@ namespace DDSCreator
         public static List<ModInfo> FailedToLoadMods = [];
         public static List<ModInfo> ValidMods = []; // this is just the mods that have mod_info.json
         public static List<string> EnabledMods = [];
-        public static int ProcessorCountToUse = Environment.ProcessorCount;
+        public static int ConcurrentFileLimit = Environment.ProcessorCount;
+        public static int TextureTaskCount = Environment.ProcessorCount;
         public static CompressionPreset CurrentCompressionPreset = CompressionPreset.Default;
         static void Main(string[] args)
         {
@@ -43,7 +44,7 @@ namespace DDSCreator
                 MenuChoice option = AnsiConsole.Prompt(
                         new SelectionPrompt<MenuChoice>()
                             .Title("What would you like to do?")
-                            .PageSize(10)
+                            .PageSize(20)
                             .WrapAround()
                             .AddChoices(choices)
                             .UseConverter(s =>
@@ -62,8 +63,10 @@ namespace DDSCreator
                                             return $"Display Loading Errors ({FailedToLoadMods.Count})";
                                         else
                                             return $"No Errors Found";
-                                    case MenuChoice.ChangeProcessorCount:
-                                        return $"Change amount of processors to use (currently using {ProcessorCountToUse} cores)";
+                                    case MenuChoice.ChangeFileParallelCount:
+                                        return $"Change max files processed in parallel (currently: {ConcurrentFileLimit})";
+                                    case MenuChoice.ChangeDDSLineParallelCount:
+                                        return $"Change max threads per texture encoding (currently: {TextureTaskCount})";
                                     case MenuChoice.ChangeCompressionQuality:
                                         return $"Change the compression quality (Current: {Program.CurrentCompressionPreset})";
                                     case MenuChoice.ClearMetadata:
@@ -90,8 +93,12 @@ namespace DDSCreator
                         HandleLongPathsChoice();
                         break;
 
-                    case MenuChoice.ChangeProcessorCount:
-                        HandleProcessorCountChoice();
+                    case MenuChoice.ChangeFileParallelCount:
+                        HandleFileParallelCountChoice();
+                        break;
+
+                    case MenuChoice.ChangeDDSLineParallelCount:
+                        HandleDDSLineParallelCountChoice();
                         break;
 
                     case MenuChoice.ChangeCompressionQuality:
@@ -135,7 +142,8 @@ namespace DDSCreator
             EditMods,
             ProcessMods,
             EnableLongPaths,
-            ChangeProcessorCount,
+            ChangeFileParallelCount,
+            ChangeDDSLineParallelCount,
             ChangeCompressionQuality,
             ClearMetadata,
             ClearCache,
@@ -166,18 +174,33 @@ namespace DDSCreator
             Console.ReadKey();
         }
 
-        private static void HandleProcessorCountChoice()
+        private static void HandleFileParallelCountChoice()
         {
             int[] threadChoices = Enumerable.Range(1, Environment.ProcessorCount).ToArray();
 
-            int selectedThreads = AnsiConsole.Prompt(
+            int selected = AnsiConsole.Prompt(
                 new SelectionPrompt<int>()
-                    .Title("Select task count for [green]BC7 encoding[/]:")
+                    .Title("Select max concurrent files to process for [green]Batch Concurrency[/]:")
                     .PageSize(10).WrapAround()
                     .AddChoices(threadChoices));
 
-            ProcessorCountToUse = selectedThreads;
-            ResourceLimits.Thread = (ulong)ProcessorCountToUse;
+            ConcurrentFileLimit = selected;
+
+            ResourceLimits.Thread = (ulong)TextureTaskCount;
+        }
+
+        private static void HandleDDSLineParallelCountChoice()
+        {
+            int[] threadChoices = Enumerable.Range(1, Environment.ProcessorCount).ToArray();
+
+            int selected = AnsiConsole.Prompt(
+                new SelectionPrompt<int>()
+                    .Title("Select max thread count per texture for [green]BC7 Encoder Threads[/]:")
+                    .PageSize(10).WrapAround()
+                    .AddChoices(threadChoices));
+
+            TextureTaskCount = selected;
+
         }
 
         private static void HandleCompressionQualityChoice()
