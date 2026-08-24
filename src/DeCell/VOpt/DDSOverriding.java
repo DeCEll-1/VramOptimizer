@@ -18,7 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static DeCell.VOpt.Reflection.ReflectionUtils.*;
 import static DeCell.VOpt.Reflection.TextureUtils.*;
-import static DeCell.VOpt.VramCalculator.getTotalTextureVRAM;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL42.GL_COMPRESSED_RGBA_BPTC_UNORM;
 
@@ -41,7 +40,7 @@ public class DDSOverriding {
 
         List<ModSpecAPI> mods = Global.getSettings().getModManager().getEnabledModsCopy();
         mods.sort(Comparator.comparing(ModSpecAPI::getName));
-        VOpt.Log("VRAM usage before dds replacement: " + (getTotalTextureVRAM() / 1024 / 1024) + "MB");
+        VOpt.Log("Starting DDS texture replacement");
 
         try {
             if (fileExists(ddsCacheDirectory + "starsector-core/dds_metadata.json")) {
@@ -91,7 +90,7 @@ public class DDSOverriding {
             }
         }
 
-        VOpt.Log("VRAM usage after dds replacement: " + (getTotalTextureVRAM() / 1024 / 1024) + "MB");
+        VOpt.Log("Ending DDS texture replacement");
     }
 
     private static void UpdateHandles() {

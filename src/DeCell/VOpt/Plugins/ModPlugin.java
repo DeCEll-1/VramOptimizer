@@ -5,7 +5,6 @@ import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
 
 import static DeCell.VOpt.DDSOverriding.HandleDDS;
-import static DeCell.VOpt.VramCalculator.getTotalTextureVRAM;
 
 public class ModPlugin extends BaseModPlugin {
 
@@ -27,7 +26,6 @@ public class ModPlugin extends BaseModPlugin {
                 HandleDDS();
             } else {
                 VOpt.Log("Suitable FR Version found, skipping DDS file handling");
-//                VOpt.Log("VRAM usage " + (getTotalTextureVRAM() / 1024 / 1024) + "MB");
             }
         } else {
             VOpt.Log("FR not enabled, handling DDS files manually");
