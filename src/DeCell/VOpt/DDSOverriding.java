@@ -1,6 +1,6 @@
 package DeCell.VOpt;
 
-import DeCell.VOpt.Commons.Rendering.Textures;
+import DeCell.VOpt.Commons.Rendering.*;
 import com.fs.graphics.Sprite;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.ModSpecAPI;
@@ -8,10 +8,7 @@ import com.fs.starfarer.api.graphics.SpriteAPI;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.lwjgl.opengl.*;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,7 +16,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import static DeCell.VOpt.Reflection.ReflectionUtils.*;
 import static DeCell.VOpt.Reflection.TextureUtils.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL42.GL_COMPRESSED_RGBA_BPTC_UNORM;
 
 public class DDSOverriding {
     private static String starsectorDirectory;
@@ -35,8 +31,6 @@ public class DDSOverriding {
             VOpt.Log("FR found, skipping texture object field overriding");
         else
             UpdateHandles();
-
-        Textures.Init();
 
         List<ModSpecAPI> mods = Global.getSettings().getModManager().getEnabledModsCopy();
         mods.sort(Comparator.comparing(ModSpecAPI::getName));
@@ -206,35 +200,7 @@ public class DDSOverriding {
     }
 
     private static void uploadDDSTexture(int textureId, int width, int height, byte[] ddsBytes, String path) {
-        glGetError(); // clear older errors
-        // 1. Bind the existing texture ID so modifications apply to it
-        GL11.glBindTexture(GL_TEXTURE_2D, textureId);
-
-        // 128 (Standard Header) + 20 (DX10 Header) = 148 bytes total
-        int headerLength = 148;
-        int imageSize = ddsBytes.length - headerLength;
-
-        // 3. Allocate a direct native ByteBuffer for the compressed payload
-        ByteBuffer dataBuffer = ByteBuffer.allocateDirect(imageSize);
-        dataBuffer.order(ByteOrder.nativeOrder());
-        dataBuffer.put(ddsBytes, headerLength, imageSize);
-        dataBuffer.flip(); // Set position to 0, limit to imageSize
-
-        // 4. Call OpenGL using your specified parameters:
-        // target         = GL_TEXTURE_2D (0x0DE1)
-        // level          = 0 (Base image level)
-        // width          = metadata.Width
-        // height         = metadata.Height
-        // border         = 0 (Must always be 0)
-        // data           = direct ByteBuffer containing the compressed payload bytes
-
-        Textures.BeforeTextureUpload(width, height, textureId, path, GL_COMPRESSED_RGBA_BPTC_UNORM);
-
-        GL13.glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGBA_BPTC_UNORM, width, height, 0, dataBuffer);
-
-        Textures.AfterTextureUpload(width, height, textureId, path, GL_COMPRESSED_RGBA_BPTC_UNORM);
-
-        int error = glGetError();
+        int error = TextureLoading.UploadDDSTexture(textureId, ddsBytes);
         if (error != GL_NO_ERROR)
             VOpt.LogErr("Got error " + error + " while trying to update regular texture with dds texture");
     }

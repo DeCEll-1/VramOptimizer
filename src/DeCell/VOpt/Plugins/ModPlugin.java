@@ -3,6 +3,7 @@ package DeCell.VOpt.Plugins;
 import DeCell.VOpt.VOpt;
 import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
+import org.lwjgl.opengl.*;
 
 import static DeCell.VOpt.DDSOverriding.HandleDDS;
 
@@ -13,7 +14,6 @@ public class ModPlugin extends BaseModPlugin {
         VOpt.Log("VOpt Loaded");
         VOpt.isDebug = Global.getSettings().getBoolean("VOpt_debug");
         VOpt.isVerbose = Global.getSettings().getBoolean("VOpt_verbose");
-        VOpt.printVRAMUsage = Global.getSettings().getBoolean("VOpt_printVRAMUsage");
 
         if (VOpt.frEnabled) {
             String frVersion = "0.7.0";

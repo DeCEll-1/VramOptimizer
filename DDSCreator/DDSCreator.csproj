@@ -30,6 +30,7 @@
 ..\UI\**\*.*;
 ..\VFXCommons\**\*.*;
 ..\Commons\**\*.*;
+..\docs\**\*.*;
 ..\Deprecated\**\*.*;
 
 ..\External\SharpShaders\**\*.*;
@@ -50,6 +51,8 @@
 ..\.git\**\*.*;
 ..\.gitignore;
 ..\.gitmodules;
+..\.markdownlint.jsonc;
+..\_icon.jpg;
 
 ..\bin\**\*.*;
 ..\out\**\*.*;

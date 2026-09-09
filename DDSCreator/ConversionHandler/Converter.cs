@@ -122,7 +122,47 @@ namespace DDSCreator
             if (!Directory.Exists(Path.GetDirectoryName(ddsOutputPath)))
                 Directory.CreateDirectory(Path.GetDirectoryName(ddsOutputPath)!);
 
-            File.WriteAllBytes(ddsOutputPath, NativeBc7Encoder.EncodeToDds(pixelBytes, width, height, Program.TextureTaskCount));
+            List<byte[]> mipBuffers = new List<byte[]>();
+            int targetMips = CalculateOptimalMipLevels(width,height);
+            int maxPossibleMips = (int)(Math.Floor(Math.Log(Math.Max(width, height), 2))) + 1;
+            targetMips = Math.Min(targetMips, maxPossibleMips);
+
+            using (var magickImage = new MagickImage())
+            {
+                var readSettings = new PixelReadSettings((uint)width, (uint)height, StorageType.Char, "RGBA");
+                magickImage.ReadPixels(pixelBytes, readSettings);
+
+                for (int i = 0; i < targetMips; i++)
+                {
+                    using var clone = new MagickImage(magickImage);
+                    int currentW = Math.Max(1, width >> i);
+                    int currentH = Math.Max(1, height >> i);
+
+                    if (i > 0)
+                    {
+                        clone.Resize((uint)currentW, (uint)currentH);
+                    }
+
+                    clone.Format = MagickFormat.Rgba;
+                    byte[] levelBytes = clone.ToByteArray();
+
+                    // Clean up non-zero color data on transparent pixels for each mip level
+                    for (int p = 0; p < levelBytes.Length; p += 4)
+                    {
+                        if (levelBytes[p + 3] == 0)
+                        {
+                            levelBytes[p] = 0;
+                            levelBytes[p + 1] = 0;
+                            levelBytes[p + 2] = 0;
+                        }
+                    }
+
+                    mipBuffers.Add(levelBytes);
+                }
+            }
+
+            byte[] ddsData = NativeBc7Encoder.EncodeToDds(mipBuffers, width, height, Program.TextureTaskCount);
+            File.WriteAllBytes(ddsOutputPath, ddsData);
         }
 
         private static void GetInfoAboutMagickImage(MagickImage magickImage, out int width, out int height, out byte[] pixelBytes)
@@ -154,6 +194,23 @@ namespace DDSCreator
             }
 
             return matrix;
+        }
+
+        private static int CalculateOptimalMipLevels(int width, int height)
+        {
+            int minSize = Program.SmallestMipmapSize;
+            int targetMips = 0;
+            int currentW = width;
+            int currentH = height;
+
+            while (currentW >= minSize && currentH >= minSize)
+            {
+                targetMips++;
+                currentW >>= 1;
+                currentH >>= 1;
+            }
+
+            return Math.Max(1, targetMips);
         }
 
         public class ConversionResult

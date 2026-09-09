@@ -109,67 +109,92 @@ namespace DDSCreator
 
         // encodes RGBA pixels to BC7 and returns a complete DDS file (148-byte
         // DX10 header + blocks), same layout the BCnEncoder path produces
-        public static unsafe byte[] EncodeToDds(byte[] rgbaPixels, int width, int height, int taskCount)
+        public static unsafe byte[] EncodeToDds(List<byte[]> mipPixelBuffers, int baseWidth, int baseHeight, int taskCount)
         {
             GetSettingsForPreset(Program.CurrentCompressionPreset, out Bc7Settings settings);
 
-            // the encoder needs dimensions in whole 4x4 blocks, so images with odd
-            // sizes get their edge pixels repeated out to the block boundary
-            int paddedWidth = (width + BlockSize - 1) / BlockSize * BlockSize;
-            int paddedHeight = (height + BlockSize - 1) / BlockSize * BlockSize;
+            int mipCount = mipPixelBuffers.Count;
+            int totalPayloadBytes = 0;
 
-            byte[] pixels = rgbaPixels;
-            if (paddedWidth != width || paddedHeight != height)
-                pixels = PadWithEdgePixels(rgbaPixels, width, height, paddedWidth, paddedHeight);
+            int[] mipWidths = new int[mipCount];
+            int[] mipHeights = new int[mipCount];
+            int[] paddedMipWidths = new int[mipCount];
+            int[] paddedMipHeights = new int[mipCount];
+            int[] levelPayloadBytes = new int[mipCount];
 
-            int blockRows = paddedHeight / BlockSize;
-            int blockColumns = paddedWidth / BlockSize;
-            int payloadBytes = blockRows * blockColumns * BytesPerBlock;
+            for (int i = 0; i < mipCount; i++)
+            {
+                mipWidths[i] = Math.Max(1, baseWidth >> i);
+                mipHeights[i] = Math.Max(1, baseHeight >> i);
 
-            byte[] dds = new byte[DdsHeader.Length + payloadBytes];
-            WriteDdsHeader(dds, width, height, payloadBytes);
+                paddedMipWidths[i] = (mipWidths[i] + BlockSize - 1) / BlockSize * BlockSize;
+                paddedMipHeights[i] = (mipHeights[i] + BlockSize - 1) / BlockSize * BlockSize;
 
-            fixed (byte* pixelPtr = pixels)
+                int blockRows = paddedMipHeights[i] / BlockSize;
+                int blockColumns = paddedMipWidths[i] / BlockSize;
+                levelPayloadBytes[i] = blockRows * blockColumns * BytesPerBlock;
+                totalPayloadBytes += levelPayloadBytes[i];
+            }
+
+            byte[] dds = new byte[DdsHeader.Length + totalPayloadBytes];
+            WriteDdsHeader(dds, baseWidth, baseHeight, totalPayloadBytes, (uint)mipCount);
+
             fixed (byte* ddsPtr = dds)
             {
                 byte* payloadPtr = ddsPtr + DdsHeader.Length;
-                int stride = paddedWidth * BytesPerPixel;
+                long currentPayloadOffset = 0;
 
-                // one native call encodes on one thread, so big images are split
-                // into bands of rows and encoded on several cores at once. taskCount
-                // is the core count the user picked in the menu.
-                int bandCount = Math.Min(Math.Max(1, taskCount), Math.Max(1, paddedHeight / MinRowsPerBand));
-
-                if (bandCount <= 1)
+                for (int i = 0; i < mipCount; i++)
                 {
-                    var surface = new RgbaSurface { Pixels = pixelPtr, Width = paddedWidth, Height = paddedHeight, StrideBytes = stride };
-                    CompressBlocksBC7(ref surface, payloadPtr, ref settings);
-                }
-                else
-                {
-                    int blockRowsPerBand = (blockRows + bandCount - 1) / bandCount;
+                    int pWidth = paddedMipWidths[i];
+                    int pHeight = paddedMipHeights[i];
+                    int stride = pWidth * BytesPerPixel;
 
-                    // locals so the parallel lambda doesn't capture fixed pointers directly
-                    byte* bandPixelBase = pixelPtr;
-                    byte* bandPayloadBase = payloadPtr;
-
-                    Parallel.For(0, bandCount, band =>
+                    byte[] pixels = mipPixelBuffers[i];
+                    if (pWidth != mipWidths[i] || pHeight != mipHeights[i])
                     {
-                        int firstBlockRow = band * blockRowsPerBand;
-                        int bandBlockRows = Math.Min(blockRowsPerBand, blockRows - firstBlockRow);
-                        if (bandBlockRows <= 0)
-                            return;
+                        pixels = PadWithEdgePixels(pixels, mipWidths[i], mipHeights[i], pWidth, pHeight);
+                    }
 
-                        var bandSettings = settings;
-                        var surface = new RgbaSurface
+                    int blockRows = pHeight / BlockSize;
+                    int blockColumns = pWidth / BlockSize;
+                    byte* levelDestPtr = payloadPtr + currentPayloadOffset;
+
+                    fixed (byte* pixelPtr = pixels)
+                    {
+                        int bandCount = Math.Min(Math.Max(1, taskCount), Math.Max(1, pHeight / MinRowsPerBand));
+
+                        if (bandCount <= 1)
                         {
-                            Pixels = bandPixelBase + (long)firstBlockRow * BlockSize * stride,
-                            Width = paddedWidth,
-                            Height = bandBlockRows * BlockSize,
-                            StrideBytes = stride,
-                        };
-                        CompressBlocksBC7(ref surface, bandPayloadBase + (long)firstBlockRow * blockColumns * BytesPerBlock, ref bandSettings);
-                    });
+                            var surface = new RgbaSurface { Pixels = pixelPtr, Width = pWidth, Height = pHeight, StrideBytes = stride };
+                            CompressBlocksBC7(ref surface, levelDestPtr, ref settings);
+                        }
+                        else
+                        {
+                            int blockRowsPerBand = (blockRows + bandCount - 1) / bandCount;
+                            byte* bandPixelBase = pixelPtr;
+                            byte* bandPayloadBase = levelDestPtr;
+
+                            Parallel.For(0, bandCount, band =>
+                            {
+                                int firstBlockRow = band * blockRowsPerBand;
+                                int bandBlockRows = Math.Min(blockRowsPerBand, blockRows - firstBlockRow);
+                                if (bandBlockRows <= 0) return;
+
+                                var bandSettings = settings;
+                                var surface = new RgbaSurface
+                                {
+                                    Pixels = bandPixelBase + (long)firstBlockRow * BlockSize * stride,
+                                    Width = pWidth,
+                                    Height = bandBlockRows * BlockSize,
+                                    StrideBytes = stride,
+                                };
+                                CompressBlocksBC7(ref surface, bandPayloadBase + (long)firstBlockRow * blockColumns * BytesPerBlock, ref bandSettings);
+                            });
+                        }
+                    }
+
+                    currentPayloadOffset += levelPayloadBytes[i];
                 }
             }
 
@@ -198,44 +223,58 @@ namespace DDSCreator
             public const int Length = 148;
         }
 
-        private static void WriteDdsHeader(byte[] dds, int width, int height, int payloadBytes)
+        private static void WriteDdsHeader(byte[] dds, int width, int height, int payloadBytes, uint mipCount)
         {
             using var stream = new MemoryStream(dds, 0, DdsHeader.Length);
             using var w = new BinaryWriter(stream);
 
-            const uint DDSD_CAPS = 0x1, DDSD_HEIGHT = 0x2, DDSD_WIDTH = 0x4, DDSD_PIXELFORMAT = 0x1000, DDSD_LINEARSIZE = 0x80000;
-            const uint DDPF_FOURCC = 0x4;
-            const uint DDSCAPS_TEXTURE = 0x1000;
-            const uint DXGI_FORMAT_BC7_UNORM = 98;
-            const uint D3D10_RESOURCE_DIMENSION_TEXTURE2D = 3;
+            // DDS Flag definitions indicating which fields in the header are valid
+            const uint DDSD_CAPS = 0x1, DDSD_HEIGHT = 0x2, DDSD_WIDTH = 0x4, DDSD_PIXELFORMAT = 0x1000, DDSD_LINEARSIZE = 0x80000, DDSD_MIPMAPCOUNT = 0x20000;
+            const uint DDPF_FOURCC = 0x4; // Indicates compressed data format using a FourCC code
+            const uint DDSCAPS_TEXTURE = 0x1000; // Required for all textures
+            const uint DDSCAPS_COMPLEX = 0x8; // Required for textures with multiple surfaces (like mipmaps)
+            const uint DDSCAPS_MIPMAP = 0x400000; // Marks this texture as having mipmaps
+            const uint DXGI_FORMAT_BC7_UNORM = 98; // DirectX format identifier for BC7 compression
+            const uint D3D10_RESOURCE_DIMENSION_TEXTURE2D = 3; // Specifies a 2D texture resource for the DX10 extension
 
-            w.Write(0x20534444u); // "DDS "
-            w.Write(124u); // header struct size
-            w.Write(DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH | DDSD_PIXELFORMAT | DDSD_LINEARSIZE);
-            w.Write((uint)height);
-            w.Write((uint)width);
-            w.Write((uint)payloadBytes);
-            w.Write(0u); // depth
-            w.Write(1u); // mip count
-            for (int i = 0; i < 11; i++)
-                w.Write(0u); // reserved
+            // Base capabilities and flags required for a standard texture
+            uint caps = DDSCAPS_TEXTURE;
+            uint flags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH | DDSD_PIXELFORMAT | DDSD_LINEARSIZE;
 
-            w.Write(32u); // pixel format struct size
-            w.Write(DDPF_FOURCC);
-            w.Write(0x30315844u); // "DX10"
-            for (int i = 0; i < 5; i++)
-                w.Write(0u); // rgb bit counts and masks, unused with a fourCC
+            // Enable complex/mipmap flags and mipmap count header flag if multiple mip levels exist
+            if (mipCount > 1)
+            {
+                caps |= DDSCAPS_COMPLEX | DDSCAPS_MIPMAP;
+                flags |= DDSD_MIPMAPCOUNT;
+            }
 
-            w.Write(DDSCAPS_TEXTURE);
-            for (int i = 0; i < 4; i++)
-                w.Write(0u); // caps2-4 and reserved
+            // --- Standard DDS Header (128 bytes total) ---
+            w.Write(0x20534444u); // Magic value "DDS " marking the start of the file
+            w.Write(124u); // Size of the DDS header structure itself (always 124)
+            w.Write(flags); // Bitwise flags indicating active header fields
+            w.Write((uint)height); // Base image height in pixels
+            w.Write((uint)width); // Base image width in pixels
+            w.Write((uint)payloadBytes); // Total size in bytes of all compressed texture blocks combined
+            w.Write(0u); // Depth (unused for 2D textures)
+            w.Write(mipCount); // Total number of mipmap levels included
+            for (int i = 0; i < 11; i++) w.Write(0u); // Reserved/unused header slots
 
-            // DX10 extension
-            w.Write(DXGI_FORMAT_BC7_UNORM);
-            w.Write(D3D10_RESOURCE_DIMENSION_TEXTURE2D);
-            w.Write(0u); // misc flags
-            w.Write(1u); // array size
-            w.Write(0u); // alpha mode: unknown
+            // --- Pixel Format Sub-structure (32 bytes) ---
+            w.Write(32u); // Size of the pixel format structure (always 32)
+            w.Write(DDPF_FOURCC); // Specifies that data uses a FourCC format instead of raw RGBA masks
+            w.Write(0x30315844u); // FourCC signature "DX10", pointing parsers to look at the DX10 extension
+            for (int i = 0; i < 5; i++) w.Write(0u); // Unused RGB bit counts and masks when using FourCC/DX10
+
+            // --- Surface Capabilities ---
+            w.Write(caps); // Capabilities flags (includes texture, complex, and mipmaps if applicable)
+            for (int i = 0; i < 4; i++) w.Write(0u); // Reserved/unused caps2, caps3, caps4 fields
+
+            // --- DX10 Extension Header (20 bytes) ---
+            w.Write(DXGI_FORMAT_BC7_UNORM); // The precise DXGI pixel format (BC7 block compression)
+            w.Write(D3D10_RESOURCE_DIMENSION_TEXTURE2D); // Resource type: standard 2D texture
+            w.Write(0u); // Misc flags (e.g., cube maps)
+            w.Write(1u); // Texture array size (1 for a single texture map)
+            w.Write(0u); // Alpha mode (0 = unknown/not specified)
         }
     }
 }

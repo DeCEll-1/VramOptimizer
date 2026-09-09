@@ -18,22 +18,26 @@ By leveraging native GPU-supported texture compression, this mod reduces VRAM us
 
 ## 📦 Installation & Setup
 
-1. Choose the correct download archive for your operating system and architecture. *(Files ending with `-sc` are self-contained and do not require a separate C# runtime installed on your system, though they have a larger file size).*
+1. Choose the correct download archive for your operating system and architecture.
 
-   * **Windows (64-bit):**
-   * Framework-dependent: [`VramOptimizer-win-x64.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-win-x64.zip)
-   * Self-contained: [`VramOptimizer-win-x64-sc.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-win-x64-sc.zip)
+* **Framework-dependent versions** require **.NET 8** and the [latest Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-supported-redistributable-version) installed on your system.
 
-   * **Windows (32-bit):**
-   * Framework-dependent: [`VramOptimizer-win-x86.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-win-x86.zip)
-   * Self-contained: [`VramOptimizer-win-x86-sc.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-win-x86-sc.zip)
+* **Self-contained versions** (files ending with `-sc`) include the necessary runtime and do not require separate installations, though they have a larger file size.
+* **Windows (64-bit):**
+* Framework-dependent: [`VramOptimizer-win-x64.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-win-x64.zip)
+* Self-contained: [`VramOptimizer-win-x64-sc.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-win-x64-sc.zip)
 
-   * **Linux (64-bit):**
-   * Framework-dependent: [`VramOptimizer-linux-x64.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-linux-x64.zip)
-   * Self-contained: [`VramOptimizer-linux-x64-sc.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-linux-x64-sc.zip)
+* **Windows (32-bit):**
+* Framework-dependent: [`VramOptimizer-win-x86.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-win-x86.zip)
+* Self-contained: [`VramOptimizer-win-x86-sc.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-win-x86-sc.zip)
+
+* **Linux (64-bit):**
+* Framework-dependent: [`VramOptimizer-linux-x64.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-linux-x64.zip)
+* Self-contained: [`VramOptimizer-linux-x64-sc.zip`](https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/VramOptimizer-linux-x64-sc.zip)
 
 2. Extract the archive. Inside, you will find the main mod folder named **`VramOptimizer`**.
-3. Move or copy the **`VramOptimizer`** folder directly into your Starsector **`mods/`** directory
+
+3. Move or copy the **`VramOptimizer`** folder directly into your Starsector **`mods/`** directory.
 
 **Run the Generator:**
 
