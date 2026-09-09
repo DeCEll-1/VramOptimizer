@@ -42,7 +42,7 @@ By leveraging native GPU-supported texture compression, this mod reduces VRAM us
 **Run the Generator:**
 
 * Navigate into your Starsector `mods/VramOptimizer/bin/` folder.
-* Run the executable (`DDSCreator.exe` on Windows or the equivalent binary on Linux/macOS).
+* Run the executable (`DDSCreator.exe` on Windows or the equivalent binary on Linux).
 * Use the interactive menu to review or edit your enabled mods, then select **ProcessMods** to generate your DDS textures.
 * This may take quite long especially depending on your hardware
 
