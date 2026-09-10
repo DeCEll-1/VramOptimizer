@@ -23,11 +23,17 @@ namespace DDSCreator
         public static int ConcurrentFileLimit = Environment.ProcessorCount;
         public static int TextureTaskCount = Environment.ProcessorCount;
         public static CompressionPreset CurrentCompressionPreset = CompressionPreset.Default;
-        public static int SmallestMipmapSize = 1; 
+        public static int SmallestMipmapSize = 1;
         static void Main(string[] args)
         {
             try { Console.Title = Consts.Version; }
             catch (Exception) { Console.Title = "null"; }
+            AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+            {
+                var ex = (Exception)args.ExceptionObject;
+                File.AppendAllText("./err.log", ex.ToString());
+            };
+
             UpdateEnabledMods();
             UpdateMetadataCache();
             UpdateValidMods();
