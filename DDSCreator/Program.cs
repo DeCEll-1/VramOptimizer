@@ -31,7 +31,8 @@ namespace DDSCreator
             AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
             {
                 var ex = (Exception)args.ExceptionObject;
-                File.AppendAllText("./err.log", ex.ToString());
+                string logPath = Path.Combine(AppContext.BaseDirectory, "err.log");
+                File.AppendAllText(logPath, ex.ToString());
             };
 
             UpdateEnabledMods();
