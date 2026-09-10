@@ -36,7 +36,7 @@ public class TextureLoading {
         dataBuffer.put(fileBytes, info.headerSize, dataSize);
         dataBuffer.flip();
 
-        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 4); // this only effects performance for upload
+        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1); // this only effects performance for upload
 
         int currentOffset = 0;
         for (int i = 0; i < info.mipCount; i++) {
