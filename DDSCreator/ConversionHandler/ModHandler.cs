@@ -129,21 +129,34 @@ namespace DDSCreator
                 FileMetadata metadata = new()
                 {
                     ModID = mod.ID,
+                    // not the mod NAME, its the mod folder name
                     ModFolderName = modCacheFolder.Name,
+                    // relative dir from the mod folder, not from the /mods/ directory
                     RelativeImagePath = relativeImagePath,
+                    // all dates are UTC
                     ImageCreationDate = File.GetCreationTimeUtc(imagePath),
                     ImageEditDateDate = File.GetLastWriteTimeUtc(imagePath),
                     DDSCreationDate = File.GetCreationTimeUtc(result.DdsFilePath),
                     DDSEditDate = File.GetLastWriteTimeUtc(result.DdsFilePath),
                     DDSFilePath = result.DdsFilePath.Replace(GameDir.FullName, ""),
+                    // original image type
                     ImageType = imageFileType,
+                    // right now compression is always BC7
                     CompressionFormat = "BC7",
+                    // the width and height BEFORE its resized to be multiple of 4, read DDS metadata to get the mipmap0 width & heigth
+                    // the mipmaps sizes are calculated as:
+                    //private static int GetNextMultipleOf4(int n) => (int)Math.Max(4, (Math.Ceiling((n) / 4d) * 4));
+                    // GetNextMultipleOf4(width >> mipSize);
                     Width = result.Width,
+                    // GetNextMultipleOf4(height >> mipSize);
                     Height = result.Height,
+                    // these are needed by the game, i dont know how theyre calculated or what theyre for, but genir needs them
                     Mean = result.Colors![0],
                     Weighted = result.Colors[1],
                     Median = result.Colors[2],
+                    // the hash for the texture
                     ImageHash = result.Signature,
+                    // creation version
                     VOptVersion = Consts.Version
                 };
 

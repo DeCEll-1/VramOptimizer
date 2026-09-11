@@ -25,6 +25,11 @@ public class TextureLoading {
         wrapBuffer.order(ByteOrder.LITTLE_ENDIAN);
         DDSInfo info = new DDSInfo(wrapBuffer);
 
+        assert info.width % 4 == 0 : "original DDS texture width MUST be divisable by 4" +
+                "\n" + info.toString();
+        assert info.height % 4 == 0 : "original DDS texture height MUST be divisable by 4" +
+                "\n" + info.toString();
+
         if (!info.isValid) {
             return -1;
         }
@@ -36,17 +41,26 @@ public class TextureLoading {
         dataBuffer.put(fileBytes, info.headerSize, dataSize);
         dataBuffer.flip();
 
-        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1); // this only effects performance for upload
+        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 4); // this only effects performance for upload
 
         int currentOffset = 0;
         for (int i = 0; i < info.mipCount; i++) {
-            int mipWidth = Math.max(1, info.width >> i);
-            int mipHeight = Math.max(1, info.height >> i);
 
-            // BC7 block calculation (4x4 blocks, 16 bytes per block)
-            int paddedWidth = (mipWidth + 3) / 4 * 4;
-            int paddedHeight = (mipHeight + 3) / 4 * 4;
-            int levelSize = (paddedWidth / 4) * (paddedHeight / 4) * 16;
+            int mipWidth = GetNextMultipleOf4(info.width >> i);
+            int mipHeight = GetNextMultipleOf4(info.height >> i);
+
+            assert mipWidth % 4 == 0 : "DDS texture width MUST be divisible by 4" +
+                    "\nmipWidth: " + mipWidth +
+                    "\nMipmap: " + i +
+                    "\n" + info.toString();
+            assert mipHeight % 4 == 0 : "DDS texture height MUST be divisible by 4" +
+                    "\nmipHeight: " + mipHeight +
+                    "\nMipmap: " + i +
+                    "\n" + info.toString();
+
+            // Since mipWidth and mipHeight are already multiples of 4,
+            // no extra padding math is required.
+            int levelSize = (mipWidth / 4) * (mipHeight / 4) * 16;
 
             dataBuffer.position(currentOffset);
             dataBuffer.limit(currentOffset + levelSize);
@@ -67,8 +81,12 @@ public class TextureLoading {
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL14.GL_GENERATE_MIPMAP, 0);
 
-        return glGetError();
+        int err = glGetError();
+        return err;
     }
+
+    private static int GetNextMultipleOf4(int n) {return (int) Math.max(4, (Math.ceil((n) / 4d) * 4));}
+
 
     public static boolean IsDDSFile(byte[] fileBytes) {
         // Check if the array is null or too short to contain the 4-byte signature

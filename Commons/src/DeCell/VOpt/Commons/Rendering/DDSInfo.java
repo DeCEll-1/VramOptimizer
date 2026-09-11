@@ -65,4 +65,17 @@ public class DDSInfo {
         this.headerSize = 0;
         this.isValid = false;
     }
+
+    @Override
+    public String toString() {
+        return "DDSInfo {" +
+                "isValid=" + isValid +
+                ", width=" + width +
+                ", height=" + height +
+                ", mipCount=" + mipCount +
+                ", payloadSize=" + payloadSize +
+                ", dxgiFormat=" + dxgiFormat +
+                ", headerSize=" + headerSize +
+                '}';
+    }
 }

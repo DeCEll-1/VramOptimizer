@@ -118,20 +118,15 @@ namespace DDSCreator
 
             int[] mipWidths = new int[mipCount];
             int[] mipHeights = new int[mipCount];
-            int[] paddedMipWidths = new int[mipCount];
-            int[] paddedMipHeights = new int[mipCount];
             int[] levelPayloadBytes = new int[mipCount];
 
             for (int i = 0; i < mipCount; i++)
             {
-                mipWidths[i] = Math.Max(1, baseWidth >> i);
-                mipHeights[i] = Math.Max(1, baseHeight >> i);
+                mipWidths[i] =  GetNextMultipleOf4(baseWidth  >> i);
+                mipHeights[i] = GetNextMultipleOf4(baseHeight >> i);
 
-                paddedMipWidths[i] = (mipWidths[i] + BlockSize - 1) / BlockSize * BlockSize;
-                paddedMipHeights[i] = (mipHeights[i] + BlockSize - 1) / BlockSize * BlockSize;
-
-                int blockRows = paddedMipHeights[i] / BlockSize;
-                int blockColumns = paddedMipWidths[i] / BlockSize;
+                int blockRows = mipWidths[i] / BlockSize;
+                int blockColumns = mipHeights[i] / BlockSize;
                 levelPayloadBytes[i] = blockRows * blockColumns * BytesPerBlock;
                 totalPayloadBytes += levelPayloadBytes[i];
             }
@@ -146,15 +141,11 @@ namespace DDSCreator
 
                 for (int i = 0; i < mipCount; i++)
                 {
-                    int pWidth = paddedMipWidths[i];
-                    int pHeight = paddedMipHeights[i];
+                    int pWidth = mipWidths[i];
+                    int pHeight = mipHeights[i];
                     int stride = pWidth * BytesPerPixel;
 
                     byte[] pixels = mipPixelBuffers[i];
-                    if (pWidth != mipWidths[i] || pHeight != mipHeights[i])
-                    {
-                        pixels = PadWithEdgePixels(pixels, mipWidths[i], mipHeights[i], pWidth, pHeight);
-                    }
 
                     int blockRows = pHeight / BlockSize;
                     int blockColumns = pWidth / BlockSize;
@@ -199,21 +190,6 @@ namespace DDSCreator
             }
 
             return dds;
-        }
-
-        private static unsafe byte[] PadWithEdgePixels(byte[] rgbaPixels, int width, int height, int paddedWidth, int paddedHeight)
-        {
-            byte[] padded = new byte[paddedWidth * paddedHeight * BytesPerPixel];
-
-            fixed (byte* srcPtr = rgbaPixels)
-            fixed (byte* dstPtr = padded)
-            {
-                var src = new RgbaSurface { Pixels = srcPtr, Width = width, Height = height, StrideBytes = width * BytesPerPixel };
-                var dst = new RgbaSurface { Pixels = dstPtr, Width = paddedWidth, Height = paddedHeight, StrideBytes = paddedWidth * BytesPerPixel };
-                ReplicateBorders(ref dst, ref src, 0, 0, 32);
-            }
-
-            return padded;
         }
 
         private static class DdsHeader

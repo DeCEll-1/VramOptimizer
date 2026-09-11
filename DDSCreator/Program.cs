@@ -26,13 +26,24 @@ namespace DDSCreator
         public static int SmallestMipmapSize = 1;
         static void Main(string[] args)
         {
+            //TriggerNativeCrash();
+            Run();
+        }
+
+        static void SaveException(Exception ex)
+        {
+            string logPath = Path.Combine(AppContext.BaseDirectory, "err.log");
+            File.AppendAllText(logPath, ex.ToString());
+        }
+
+        static void Run()
+        {
             try { Console.Title = Consts.Version; }
             catch (Exception) { Console.Title = "null"; }
             AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
             {
                 var ex = (Exception)args.ExceptionObject;
-                string logPath = Path.Combine(AppContext.BaseDirectory, "err.log");
-                File.AppendAllText(logPath, ex.ToString());
+                SaveException(ex);
             };
 
             UpdateEnabledMods();
@@ -47,6 +58,8 @@ namespace DDSCreator
 #if WINDOWS || DEBUG
             if (AreLongPathsEnabled())
                 choices.Remove(MenuChoice.EnableLongPaths);
+            if (IsNativeCrashLoggingEnabled())
+                choices.Remove(MenuChoice.EnableNativeCrashLogging);
 #endif
 
             while (true)
@@ -63,11 +76,16 @@ namespace DDSCreator
                                 {
                                     case MenuChoice.ProcessMods:
                                         return $"Process Mods";
-                                    case MenuChoice.EnableLongPaths: // this should not be a choice in linux || mac
+                                    case MenuChoice.EnableLongPaths: // this should not be a choice in linux
                                         if (AreLongPathsEnabled())
                                             return $"[grey]Long paths are enabled[/]";
                                         else
                                             return $"[red]Long paths are not enabled, may cause problems, select this to enable[/]";
+                                    case MenuChoice.EnableNativeCrashLogging: // this should not be a choice in linux
+                                        if (IsNativeCrashLoggingEnabled())
+                                            return $"[grey]Native crash logging is enabled[/]";
+                                        else
+                                            return $"[red]Native crash logging is not enabled, please enable it incase the application crashes so I can fix the problems[/]";
                                     case MenuChoice.PrintError:
                                         if (FailedToLoadMods.Count > 0)
                                             return $"Display Loading Errors ({FailedToLoadMods.Count})";
@@ -104,6 +122,10 @@ namespace DDSCreator
 
                     case MenuChoice.EnableLongPaths: // this should not be in the selection for linux || mac
                         HandleLongPathsChoice();
+                        break;
+
+                    case MenuChoice.EnableNativeCrashLogging: // this should not be in the selection for linux || mac
+                        HandleNativeCrashLoggingChoice();
                         break;
 
                     case MenuChoice.ChangeFileParallelCount:
@@ -153,12 +175,12 @@ namespace DDSCreator
             SharpS.CloseOGLContext();
         }
 
-
         private enum MenuChoice
         {
             EditMods,
             ProcessMods,
             EnableLongPaths,
+            EnableNativeCrashLogging,
             ChangeFileParallelCount,
             ChangeDDSLineParallelCount,
             ChangeCompressionQuality,
@@ -188,6 +210,18 @@ namespace DDSCreator
                 Console.WriteLine("Long paths are already enabled");
             else
                 EnableLongPathsViaPowerShell();
+
+            Console.ReadKey();
+        }
+
+        private static void HandleNativeCrashLoggingChoice()
+        {
+            if (IsNativeCrashLoggingEnabled())
+                Console.WriteLine("Native crash logging is already enabled");
+            else
+                EnableNativeCrashLogging();
+
+            Console.WriteLine("Press any key to continue");
 
             Console.ReadKey();
         }

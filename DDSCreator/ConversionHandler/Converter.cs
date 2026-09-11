@@ -1,5 +1,6 @@
 ﻿using DDSCreator.Model;
 using ImageMagick;
+using System.Diagnostics;
 
 namespace DDSCreator
 {
@@ -123,25 +124,44 @@ namespace DDSCreator
                 Directory.CreateDirectory(Path.GetDirectoryName(ddsOutputPath)!);
 
             List<byte[]> mipBuffers = new List<byte[]>();
-            int targetMips = CalculateOptimalMipLevels(width,height);
-            int maxPossibleMips = (int)(Math.Floor(Math.Log(Math.Max(width, height), 2))) + 1;
-            targetMips = Math.Min(targetMips, maxPossibleMips);
 
             using (var magickImage = new MagickImage())
             {
                 var readSettings = new PixelReadSettings((uint)width, (uint)height, StorageType.Char, "RGBA");
                 magickImage.ReadPixels(pixelBytes, readSettings);
 
+                width = GetNextMultipleOf4(width);
+                height = GetNextMultipleOf4(height);
+                MagickGeometry noAspectRationGeometry = new((uint)width, (uint)height)
+                {
+                    IgnoreAspectRatio = true
+                };
+
+                magickImage.Resize(noAspectRationGeometry);
+
+                ////
+
+                int targetMips = CalculateOptimalMipLevels(width, height);
+                int maxPossibleMips = (int)(Math.Floor(Math.Log(Math.Max(width, height), 2))) + 1;
+                targetMips = Math.Min(targetMips, maxPossibleMips);
+
                 for (int i = 0; i < targetMips; i++)
                 {
                     using var clone = new MagickImage(magickImage);
-                    int currentW = Math.Max(1, width >> i);
-                    int currentH = Math.Max(1, height >> i);
 
-                    if (i > 0)
-                    {
-                        clone.Resize((uint)currentW, (uint)currentH);
-                    }
+                    int currentW = GetNextMultipleOf4(width  >> i);
+                    int currentH = GetNextMultipleOf4(height >> i);
+
+                    Debug.Assert(currentW % 4 == 0, $"{nameof(currentW)} Must be divisible by 4");
+                    Debug.Assert(currentH % 4 == 0, $"{nameof(currentH)} Must be divisible by 4");
+
+
+                    noAspectRationGeometry.Width = (uint)currentW;
+                    noAspectRationGeometry.Height= (uint)currentH;
+                    //if (i > 0)
+                    clone.Resize(
+                        noAspectRationGeometry
+                        );
 
                     clone.Format = MagickFormat.Rgba;
                     byte[] levelBytes = clone.ToByteArray();
@@ -198,21 +218,25 @@ namespace DDSCreator
 
         private static int CalculateOptimalMipLevels(int width, int height)
         {
-            int minSize = Program.SmallestMipmapSize;
             int targetMips = 0;
-            int currentW = width;
-            int currentH = height;
+            int i = 0;
 
-            while (currentW >= minSize && currentH >= minSize)
+            while (true)
             {
                 targetMips++;
-                currentW >>= 1;
-                currentH >>= 1;
+
+                // Stop once the shifted dimensions reach or drop below 4 
+                // to prevent duplicate 4x4 minimum mip levels or infinite loops.
+                if ((width >> i) <= 4 || (height >> i) <= 4)
+                {
+                    break;
+                }
+
+                i++;
             }
 
             return Math.Max(1, targetMips);
         }
-
         public class ConversionResult
         {
             public string DdsFilePath { get; set; } = string.Empty;

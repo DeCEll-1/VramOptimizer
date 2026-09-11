@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace DDSCreator
@@ -125,8 +126,53 @@ namespace DDSCreator
                 return false;
             }
         }
+
+        public static bool IsNativeCrashLoggingEnabled()
+        {
+            string regPath = @"SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps\DDSCreator.exe";
+
+            using RegistryKey? key = Registry.LocalMachine.OpenSubKey(regPath);
+
+            return key != null;
+        }
+
+        public static bool EnableNativeCrashLogging()
+        {
+            string batPath = Path.Combine(AppContext.BaseDirectory, "add_native_crash_dumping.bat");
+
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                Arguments = $"/c \"{batPath}\"",
+                UseShellExecute = true,
+                Verb = "runas" // Triggers the UAC elevation prompt
+            };
+
+            try
+            {
+                using var process = Process.Start(startInfo);
+                process?.WaitForExit();
+            }
+            catch (Win32Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
 #pragma warning restore CA1416
 
+        public static int GetNextMultipleOf4(int n) => (int)Math.Max(4, (Math.Ceiling((n) / 4d) * 4));
 
+        public static void TriggerNativeCrash()
+        {
+            // Allocate a small buffer or use IntPtr.Zero, then try to write to an invalid address
+            // This triggers a native access violation (0xC0000005)
+            unsafe
+            {
+                int* invalidPtr = (int*)IntPtr.Zero;
+                *invalidPtr = 42; // Writing to address 0 crashes natively
+            }
+        }
     }
 }
