@@ -1,6 +1,5 @@
 ﻿using DDSCreator.Model;
 using ImageMagick;
-using System.Diagnostics;
 
 namespace DDSCreator
 {
@@ -136,8 +135,6 @@ namespace DDSCreator
                 };
 
                 magickImage.Resize(noAspectRationGeometry);
-
-                ////
 
                 int targetMips = CalculateOptimalMipLevels(width, height);
 

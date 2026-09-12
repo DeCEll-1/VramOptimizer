@@ -18,7 +18,6 @@ public class TextureLoading {
         if (!IsDDSFile(fileBytes))
             return -2;
         while (glGetError() != GL_NO_ERROR) ; // clear older errors
-        System.out.println(textureID);
 
         glBindTexture(GL_TEXTURE_2D, textureID);
 
