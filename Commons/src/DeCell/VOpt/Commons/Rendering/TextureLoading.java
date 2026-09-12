@@ -1,5 +1,6 @@
 package DeCell.VOpt.Commons.Rendering;
 
+import com.fs.starfarer.api.*;
 import org.lwjgl.opengl.*;
 
 import java.nio.*;
@@ -41,15 +42,19 @@ public class TextureLoading {
         dataBuffer.put(fileBytes, info.headerSize, dataSize);
         dataBuffer.flip();
 
-//        GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 4); // this only effects performance for upload
-//        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 4);
+        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1); // this only effects performance for upload
 
         int calculatedPayloadSize = 0;
         int currentOffset = 0;
+        int uploadedMipCount = 0;
         for (int i = 0; i < info.mipCount; i++) {
 
             int mipWidth = (info.width >> i);
             int mipHeight = (info.height >> i);
+
+            if (mipWidth < 4 || mipHeight < 4) {
+                break;
+            }
 
             int paddedWidth = (mipWidth + 3) / 4 * 4;
             int paddedHeight = (mipHeight + 3) / 4 * 4;
@@ -64,13 +69,19 @@ public class TextureLoading {
             // Pass loop index 'i' as the mipmap level parameter
             GL13.glCompressedTexImage2D(GL_TEXTURE_2D, i, textureType, mipWidth, mipHeight, 0, levelBuffer);
 
+
+
             int glErr = glGetError();
             if (glErr != GL_NO_ERROR) {
                 return glErr;
             }
 
             currentOffset += mipSize;
+            uploadedMipCount++;
             if (currentOffset >= info.payloadSize) break;
+            if (Global.getSettings().getBoolean("VOpt_no_mipmap")) {
+                break;
+            }
         }
 
         assert calculatedPayloadSize == info.payloadSize :
@@ -78,7 +89,7 @@ public class TextureLoading {
                         ", Expected in header/file: " + info.payloadSize;
 
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_BASE_LEVEL, 0);
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_MAX_LEVEL, info.mipCount - 1);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_MAX_LEVEL, uploadedMipCount - 1);
 
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);

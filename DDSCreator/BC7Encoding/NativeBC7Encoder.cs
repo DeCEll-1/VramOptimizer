@@ -127,7 +127,7 @@ namespace DDSCreator
                 mipWidths[i] = (baseWidth >> i);
                 mipHeights[i] = (baseHeight >> i);
 
-                paddedMipWidths[i] = (mipWidths[i] + BlockSize - 1) / BlockSize * BlockSize;
+                paddedMipWidths[i] =  (mipWidths[i] + BlockSize - 1) / BlockSize * BlockSize;
                 paddedMipHeights[i] = (mipHeights[i] + BlockSize - 1) / BlockSize * BlockSize;
 
                 int blockRows = paddedMipHeights[i] / BlockSize;
