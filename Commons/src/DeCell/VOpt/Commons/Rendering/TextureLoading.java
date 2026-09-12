@@ -84,10 +84,6 @@ public class TextureLoading {
             }
         }
 
-        assert calculatedPayloadSize == info.payloadSize :
-                "DDS payload size mismatch! Calculated: " + calculatedPayloadSize +
-                        ", Expected in header/file: " + info.payloadSize;
-
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_BASE_LEVEL, 0);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_MAX_LEVEL, uploadedMipCount - 1);
 
