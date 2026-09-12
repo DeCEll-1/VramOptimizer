@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SharpShaders;
 using Spectre.Console;
-
+// TODO: https://github.com/copilot/share/822451b6-4200-80d2-b102-140604482053
 namespace DDSCreator
 {
     internal class Program
