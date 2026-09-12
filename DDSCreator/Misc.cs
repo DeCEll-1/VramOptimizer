@@ -162,7 +162,6 @@ namespace DDSCreator
 
 #pragma warning restore CA1416
 
-        public static int GetNextMultipleOf4(int n) => (int)Math.Max(4, (Math.Ceiling((n) / 4d) * 4));
 
         public static void TriggerNativeCrash()
         {

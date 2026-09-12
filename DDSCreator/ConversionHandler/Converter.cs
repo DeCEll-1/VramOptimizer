@@ -130,8 +130,6 @@ namespace DDSCreator
                 var readSettings = new PixelReadSettings((uint)width, (uint)height, StorageType.Char, "RGBA");
                 magickImage.ReadPixels(pixelBytes, readSettings);
 
-                width = GetNextMultipleOf4(width);
-                height = GetNextMultipleOf4(height);
                 MagickGeometry noAspectRationGeometry = new((uint)width, (uint)height)
                 {
                     IgnoreAspectRatio = true
@@ -142,18 +140,13 @@ namespace DDSCreator
                 ////
 
                 int targetMips = CalculateOptimalMipLevels(width, height);
-                int maxPossibleMips = (int)(Math.Floor(Math.Log(Math.Max(width, height), 2))) + 1;
-                targetMips = Math.Min(targetMips, maxPossibleMips);
 
                 for (int i = 0; i < targetMips; i++)
                 {
                     using var clone = new MagickImage(magickImage);
 
-                    int currentW = GetNextMultipleOf4(width  >> i);
-                    int currentH = GetNextMultipleOf4(height >> i);
-
-                    Debug.Assert(currentW % 4 == 0, $"{nameof(currentW)} Must be divisible by 4");
-                    Debug.Assert(currentH % 4 == 0, $"{nameof(currentH)} Must be divisible by 4");
+                    int currentW = (width  >> i);
+                    int currentH = (height >> i);
 
 
                     noAspectRationGeometry.Width = (uint)currentW;
@@ -164,6 +157,7 @@ namespace DDSCreator
                         );
 
                     clone.Format = MagickFormat.Rgba;
+
                     byte[] levelBytes = clone.ToByteArray();
 
                     // Clean up non-zero color data on transparent pixels for each mip level

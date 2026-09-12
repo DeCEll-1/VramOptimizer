@@ -18,6 +18,7 @@ public class TextureLoading {
         if (!IsDDSFile(fileBytes))
             return -2;
         while (glGetError() != GL_NO_ERROR) ; // clear older errors
+        System.out.println(textureID);
 
         glBindTexture(GL_TEXTURE_2D, textureID);
 
@@ -41,38 +42,41 @@ public class TextureLoading {
         dataBuffer.put(fileBytes, info.headerSize, dataSize);
         dataBuffer.flip();
 
-        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 4); // this only effects performance for upload
+//        GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 4); // this only effects performance for upload
+//        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 4);
 
+        int calculatedPayloadSize = 0;
         int currentOffset = 0;
         for (int i = 0; i < info.mipCount; i++) {
 
-            int mipWidth = GetNextMultipleOf4(info.width >> i);
-            int mipHeight = GetNextMultipleOf4(info.height >> i);
+            int mipWidth = (info.width >> i);
+            int mipHeight = (info.height >> i);
 
-            assert mipWidth % 4 == 0 : "DDS texture width MUST be divisible by 4" +
-                    "\nmipWidth: " + mipWidth +
-                    "\nMipmap: " + i +
-                    "\n" + info.toString();
-            assert mipHeight % 4 == 0 : "DDS texture height MUST be divisible by 4" +
-                    "\nmipHeight: " + mipHeight +
-                    "\nMipmap: " + i +
-                    "\n" + info.toString();
-
-            // Since mipWidth and mipHeight are already multiples of 4,
-            // no extra padding math is required.
-            int levelSize = (mipWidth / 4) * (mipHeight / 4) * 16;
+            int paddedWidth = (mipWidth + 3) / 4 * 4;
+            int paddedHeight = (mipHeight + 3) / 4 * 4;
+            int mipSize = (paddedWidth / 4) * (paddedHeight / 4) * 16;
+            calculatedPayloadSize += mipSize;
 
             dataBuffer.position(currentOffset);
-            dataBuffer.limit(currentOffset + levelSize);
+            dataBuffer.limit(currentOffset + mipSize);
             ByteBuffer levelBuffer = dataBuffer.slice();
             levelBuffer.order(ByteOrder.nativeOrder());
 
             // Pass loop index 'i' as the mipmap level parameter
             GL13.glCompressedTexImage2D(GL_TEXTURE_2D, i, textureType, mipWidth, mipHeight, 0, levelBuffer);
 
-            currentOffset += levelSize;
+            int glErr = glGetError();
+            if (glErr != GL_NO_ERROR) {
+                return glErr;
+            }
+
+            currentOffset += mipSize;
             if (currentOffset >= info.payloadSize) break;
         }
+
+        assert calculatedPayloadSize == info.payloadSize :
+                "DDS payload size mismatch! Calculated: " + calculatedPayloadSize +
+                        ", Expected in header/file: " + info.payloadSize;
 
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_BASE_LEVEL, 0);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_MAX_LEVEL, info.mipCount - 1);
