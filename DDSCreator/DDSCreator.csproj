@@ -13,7 +13,7 @@
 		<!-- <PublishSingleFile>true</PublishSingleFile> -->
 	</PropertyGroup>
 
-	<!-- RuntimeIdentifier gets populated with its proper -r linux-x64 flag (or whatever), linux is defined, and conts.cs should resolve all its directory fields properly --snark5885 -->
+	<!-- RuntimeIdentifier gets populated with its proper -r linux-x64 flag (or whatever), linux is defined, and conts.cs should resolve all its directory fields properly snark5885 -->
 	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('win'))">
 		<DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
 	</PropertyGroup>
