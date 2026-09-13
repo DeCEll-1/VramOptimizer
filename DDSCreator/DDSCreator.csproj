@@ -9,6 +9,16 @@
 		<LangVersion>preview</LangVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+		<!-- uncomment this to default to packaging a single file --snark5885  -->
+		<!-- <PublishSingleFile>true</PublishSingleFile> -->
+	</PropertyGroup>
+
+	<!-- RuntimeIdentifier gets populated with its proper -r linux-x64 flag (or whatever), linux is defined, and conts.cs should resolve all its directory fields properly --snark5885 -->
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('win'))">
+		<DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+		<DefineConstants>$(DefineConstants);LINUX</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -20,6 +30,18 @@
 		<PackageReference Include="ShellProgressBar" Version="5.2.0" />
 		<PackageReference Include="Spectre.Console" Version="0.57.2" />
 	</ItemGroup>
+
+	<!-- move DDSCreator and the other stuff to bin so we don't have to move it manually afterward --snark5885 -->
+	<Target Name="MoveExeToBin" AfterTargets="Publish">
+		<ItemGroup>
+			<FilesToBin Include="$(PublishDir)$(AssemblyName)" Condition="Exists('$(PublishDir)$(AssemblyName)')" />
+			<FilesToBin Include="$(PublishDir)$(AssemblyName).exe" Condition="Exists('$(PublishDir)$(AssemblyName).exe')" />
+			<FilesToBin Include="$(PublishDir)$(AssemblyName).pdb" Condition="Exists('$(PublishDir)$(AssemblyName).pdb')" />
+			<FilesToBin Include="$(PublishDir)SharpShaders.pdb" Condition="Exists('$(PublishDir)SharpShaders.pdb')"/>
+		</ItemGroup>
+		<MakeDir Directories="$(PublishDir)bin" />
+		<Move SourceFiles="@(FilesToBin)" DestinationFolder="$(PublishDir)bin" />
+	</Target>
 
 	<ItemGroup>
 		<Content Include="..\**\*.*" Exclude="..\DDSCreator\**\*.*;
