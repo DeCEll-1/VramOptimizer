@@ -31,7 +31,7 @@
 		<PackageReference Include="Spectre.Console" Version="0.57.2" />
 	</ItemGroup>
 
-	<!-- move DDSCreator and the other stuff to bin so we don't have to move it manually afterward --snark5885 -->
+	<!-- move DDSCreator and the other stuff to bin so we don't have to move it manually afterward snark5885 -->
 	<Target Name="MoveExeToBin" AfterTargets="Publish">
 		<ItemGroup>
 			<FilesToBin Include="$(PublishDir)$(AssemblyName)" Condition="Exists('$(PublishDir)$(AssemblyName)')" />
