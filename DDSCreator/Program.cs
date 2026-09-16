@@ -54,8 +54,10 @@ namespace DDSCreator
 #if LINUX
             choices.Remove(Program.MenuChoice.EnableLongPaths);
             choices.Remove(Program.MenuChoice.CompactCache);
+            choices.Remove(Program.MenuChoice.EnableNativeCrashLogging);
 #endif
 #if WINDOWS || DEBUG
+            // remember to add exception to linux when adding stuff to here
             if (AreLongPathsEnabled())
                 choices.Remove(MenuChoice.EnableLongPaths);
             if (IsNativeCrashLoggingEnabled())

@@ -134,9 +134,11 @@ namespace DDSCreator
                     IgnoreAspectRatio = true
                 };
 
-                magickImage.Resize(noAspectRationGeometry);
+                //magickImage.Resize(noAspectRationGeometry);
 
-                int targetMips = CalculateOptimalMipLevels(width, height);
+                //int targetMips = CalculateOptimalMipLevels(width, height);
+                int targetMips = Math.Max(1, CalculateOptimalMipLevels(width, height));
+                //int targetMips = Math.Min(1, CalculateOptimalMipLevels(width, height));
 
                 for (int i = 0; i < targetMips; i++)
                 {
@@ -148,10 +150,11 @@ namespace DDSCreator
 
                     noAspectRationGeometry.Width = (uint)currentW;
                     noAspectRationGeometry.Height= (uint)currentH;
+
                     //if (i > 0)
                     clone.Resize(
-                        noAspectRationGeometry
-                        );
+                    noAspectRationGeometry
+                    );
 
                     clone.Format = MagickFormat.Rgba;
 
@@ -216,9 +219,11 @@ namespace DDSCreator
             {
                 targetMips++;
 
+                const int size = 4;
+
                 // Stop once the shifted dimensions reach or drop below 4 
                 // to prevent duplicate 4x4 minimum mip levels or infinite loops.
-                if ((width >> i) <= 4 || (height >> i) <= 4)
+                if ((width >> i) <= size || (height >> i) <= size)
                 {
                     break;
                 }

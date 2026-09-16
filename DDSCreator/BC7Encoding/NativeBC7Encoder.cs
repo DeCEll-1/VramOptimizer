@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using OpenTK.Graphics.ES20;
+using System.Runtime.InteropServices;
 
 namespace DDSCreator
 {
@@ -111,96 +112,97 @@ namespace DDSCreator
         // DX10 header + blocks), same layout the BCnEncoder path produces
         public static unsafe byte[] EncodeToDds(List<byte[]> mipPixelBuffers, int baseWidth, int baseHeight, int taskCount)
         {
-            GetSettingsForPreset(Program.CurrentCompressionPreset, out Bc7Settings settings);
-
-            int mipCount = mipPixelBuffers.Count;
+            int mipAmount = mipPixelBuffers.Count;
+            byte[][] mipmaps = new byte[mipAmount][];
             int totalPayloadBytes = 0;
 
-            int[] mipWidths = new int[mipCount];
-            int[] mipHeights = new int[mipCount];
-            int[] paddedMipWidths = new int[mipCount];
-            int[] paddedMipHeights = new int[mipCount];
-            int[] levelPayloadBytes = new int[mipCount];
-
-            for (int i = 0; i < mipCount; i++)
+            for (int i = 0; i<mipAmount; i++)
             {
-                mipWidths[i] = (baseWidth >> i);
-                mipHeights[i] = (baseHeight >> i);
+                int mipWidth = Math.Max(1, baseWidth >> i);
+                int mipHeight = Math.Max(1, baseHeight >> i);
 
-                paddedMipWidths[i] =  (mipWidths[i] + BlockSize - 1) / BlockSize * BlockSize;
-                paddedMipHeights[i] = (mipHeights[i] + BlockSize - 1) / BlockSize * BlockSize;
-
-                int blockRows = paddedMipHeights[i] / BlockSize;
-                int blockColumns = paddedMipWidths[i] / BlockSize;
-                levelPayloadBytes[i] = blockRows * blockColumns * BytesPerBlock;
-                totalPayloadBytes += levelPayloadBytes[i];
+                mipmaps[i] = EncodeImageToDDS(mipPixelBuffers[i], mipWidth, mipHeight, taskCount);
+                totalPayloadBytes += mipmaps[i].Length;
             }
 
-            byte[] dds = new byte[DdsHeader.Length + totalPayloadBytes];
-            WriteDdsHeader(dds, baseWidth, baseHeight, totalPayloadBytes, (uint)mipCount);
+            int headerSize = DdsHeader.Length;
+            byte[] dds = new byte[headerSize + totalPayloadBytes];
+            WriteDdsHeader(dds, baseWidth, baseHeight, totalPayloadBytes, (uint)mipAmount);
 
+            int offset = headerSize;
+            for (int i = 0; i < mipAmount; i++)
+            {
+                System.Buffer.BlockCopy(mipmaps[i], 0, dds, offset, mipmaps[i].Length);
+                offset += mipmaps[i].Length;
+            }
+
+            return dds;
+        }
+        public static unsafe byte[] EncodeImageToDDS(byte[] rgbaPixels, int width, int height, int taskCount)
+        {
+            GetSettingsForPreset(Program.CurrentCompressionPreset, out Bc7Settings settings);
+
+            // the encoder needs dimensions in whole 4x4 blocks, so images with odd
+            // sizes get their edge pixels repeated out to the block boundary
+            int paddedWidth = (width + BlockSize - 1) / BlockSize * BlockSize;
+            int paddedHeight = (height + BlockSize - 1) / BlockSize * BlockSize;
+
+            byte[] pixels = rgbaPixels;
+            if (paddedWidth != width || paddedHeight != height)
+                pixels = PadWithEdgePixels(rgbaPixels, width, height, paddedWidth, paddedHeight);
+
+            int blockRows = paddedHeight / BlockSize;
+            int blockColumns = paddedWidth / BlockSize;
+            int payloadBytes = blockRows * blockColumns * BytesPerBlock;
+
+            byte[] dds = new byte[payloadBytes];
+
+            fixed (byte* pixelPtr = pixels)
             fixed (byte* ddsPtr = dds)
             {
-                byte* payloadPtr = ddsPtr + DdsHeader.Length;
-                long currentPayloadOffset = 0;
+                byte* payloadPtr = ddsPtr;
+                int stride = paddedWidth * BytesPerPixel;
 
-                for (int i = 0; i < mipCount; i++)
+                // one native call encodes on one thread, so big images are split
+                // into bands of rows and encoded on several cores at once. taskCount
+                // is the core count the user picked in the menu.
+                int bandCount = Math.Min(Math.Max(1, taskCount), Math.Max(1, paddedHeight / MinRowsPerBand));
+
+                if (bandCount <= 1)
                 {
-                    int pWidth = paddedMipWidths[i];
-                    int pHeight = paddedMipHeights[i];
-                    int stride = pWidth * BytesPerPixel;
+                    var surface = new RgbaSurface { Pixels = pixelPtr, Width = paddedWidth, Height = paddedHeight, StrideBytes = stride };
+                    CompressBlocksBC7(ref surface, payloadPtr, ref settings);
+                }
+                else
+                {
+                    int blockRowsPerBand = (blockRows + bandCount - 1) / bandCount;
 
-                    byte[] pixels = mipPixelBuffers[i];
-                    if (pWidth != mipWidths[i] || pHeight != mipHeights[i])
+                    // locals so the parallel lambda doesn't capture fixed pointers directly
+                    byte* bandPixelBase = pixelPtr;
+                    byte* bandPayloadBase = payloadPtr;
+
+                    Parallel.For(0, bandCount, band =>
                     {
-                        pixels = PadWithEdgePixels(pixels, mipWidths[i], mipHeights[i], pWidth, pHeight);
-                    }
+                        int firstBlockRow = band * blockRowsPerBand;
+                        int bandBlockRows = Math.Min(blockRowsPerBand, blockRows - firstBlockRow);
+                        if (bandBlockRows <= 0)
+                            return;
 
-                    int blockRows = pHeight / BlockSize;
-                    int blockColumns = pWidth / BlockSize;
-                    byte* levelDestPtr = payloadPtr + currentPayloadOffset;
-
-                    fixed (byte* pixelPtr = pixels)
-                    {
-                        int bandCount = Math.Min(Math.Max(1, taskCount), Math.Max(1, pHeight / MinRowsPerBand));
-
-                        if (bandCount <= 1)
+                        var bandSettings = settings;
+                        var surface = new RgbaSurface
                         {
-                            var surface = new RgbaSurface { Pixels = pixelPtr, Width = pWidth, Height = pHeight, StrideBytes = stride };
-                            CompressBlocksBC7(ref surface, levelDestPtr, ref settings);
-                        }
-                        else
-                        {
-                            int blockRowsPerBand = (blockRows + bandCount - 1) / bandCount;
-                            byte* bandPixelBase = pixelPtr;
-                            byte* bandPayloadBase = levelDestPtr;
-
-                            Parallel.For(0, bandCount, band =>
-                            {
-                                int firstBlockRow = band * blockRowsPerBand;
-                                int bandBlockRows = Math.Min(blockRowsPerBand, blockRows - firstBlockRow);
-                                if (bandBlockRows <= 0) return;
-
-                                var bandSettings = settings;
-                                var surface = new RgbaSurface
-                                {
-                                    Pixels = bandPixelBase + (long)firstBlockRow * BlockSize * stride,
-                                    Width = pWidth,
-                                    Height = bandBlockRows * BlockSize,
-                                    StrideBytes = stride,
-                                };
-                                CompressBlocksBC7(ref surface, bandPayloadBase + (long)firstBlockRow * blockColumns * BytesPerBlock, ref bandSettings);
-                            });
-                        }
-                    }
-
-                    currentPayloadOffset += levelPayloadBytes[i];
+                            Pixels = bandPixelBase + (long)firstBlockRow * BlockSize * stride,
+                            Width = paddedWidth,
+                            Height = bandBlockRows * BlockSize,
+                            StrideBytes = stride,
+                        };
+                        CompressBlocksBC7(ref surface, bandPayloadBase + (long)firstBlockRow * blockColumns * BytesPerBlock, ref bandSettings);
+                    });
                 }
             }
 
             return dds;
         }
-
         private static unsafe byte[] PadWithEdgePixels(byte[] rgbaPixels, int width, int height, int paddedWidth, int paddedHeight)
         {
             byte[] padded = new byte[paddedWidth * paddedHeight * BytesPerPixel];

@@ -1,5 +1,5 @@
 {
   "VOpt_debug": true,
   "VOpt_verbose": true,
-  "VOpt_no_mipmap": true
+  "VOpt_no_mipmap": false
 }

@@ -1,10 +1,8 @@
 package DeCell.VOpt.Commons.Rendering;
 
+import com.fs.starfarer.api.*;
 import org.lwjgl.*;
-import org.lwjgl.opengl.EXTTextureFilterAnisotropic;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GL33;
+import org.lwjgl.opengl.*;
 
 import java.nio.*;
 import java.util.*;
@@ -85,25 +83,121 @@ public class Textures {
         ByteBuffer buffer;
 
         if (isTextureCompressed(target, textureId, level)) {
-            // 1. Query the exact size in bytes required for compressed blocks (e.g., BC1/BC7)
-            int imageSize = glGetTexLevelParameteri(target, level, GL_TEXTURE_COMPRESSED_IMAGE_SIZE);
-            buffer = BufferUtils.createByteBuffer(imageSize * 4 + 1);
-
-            // 2. Pull compressed data from GPU to CPU
-            glGetCompressedTexImage(target, level, buffer);
+            // Decompress via FBO (returns a buffer of width * height * 4 bytes)
+            buffer = GetRGBAPixelsWithFBO(textureId, width, height);
+            // Ensure position is at 0 ready for reading
+            buffer.rewind();
         } else {
-            // 1. Calculate uncompressed size (e.g., RGBA8 = 4 bytes per pixel)
             int bytesPerPixel = getBytesPerPixel(format);
             int imageSize = width * height * bytesPerPixel;
             buffer = BufferUtils.createByteBuffer(imageSize);
 
-            // 2. Pull uncompressed data from GPU to CPU
-            // Note: You must provide the correct pixel format and type (e.g., GL_RGBA, GL_UNSIGNED_BYTE)
             glGetTexImage(target, level, format, GL_UNSIGNED_BYTE, buffer);
+
+            // Reset position to 0 so caller can read from the buffer
+            buffer.rewind();
         }
 
-        buffer.flip(); // Prepare buffer for reading
         return buffer;
+    }
+
+    static int fboID = -1;
+    static int fboTextureID = -1;
+    static int fboWidth = -1;
+    static int fboHeight = -1;
+
+    private static void EnsureFBOExists(int w, int h) {
+        if (fboWidth >= w && fboHeight >= h && fboID != -1)
+            return;
+
+
+        if (fboID != -1) {
+            GL30.glDeleteFramebuffers(fboID);
+            GL11.glDeleteTextures(fboTextureID);
+        }
+
+        fboWidth = w;
+        fboHeight = h;
+
+
+        // create the texture that the FBO will write unto
+        fboTextureID = GL11.glGenTextures();
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, fboTextureID);
+        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, w, h, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer) null);
+
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+
+
+        fboID = glGenFramebuffers();
+        GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, fboID);
+        GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, fboTextureID, 0);
+
+        int status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+        if (status != GL_FRAMEBUFFER_COMPLETE)
+            throw new RuntimeException("Failed to create FBO, status code: " + status);
+
+        GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
+    }
+
+    private static ByteBuffer GetRGBAPixelsWithFBO(int sourceTextureId, int width, int height) {
+        EnsureFBOExists(width, height);
+
+        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+        GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1); // these CANNOT be saved with push attrib
+
+        // 1. Save state (attribs, matrices, viewport)
+        GL11.glPushAttrib(GL11.GL_VIEWPORT_BIT | GL11.GL_ENABLE_BIT | GL11.GL_COLOR_BUFFER_BIT);
+
+        GL11.glMatrixMode(GL11.GL_PROJECTION); // set the matrix mode to projection
+        GL11.glPushMatrix(); // push the current matrix onto the stack
+        GL11.glLoadIdentity(); // reset the current matrix
+        GL11.glOrtho(0, width, 0, height, -1, 1); // change the projection
+
+        GL11.glMatrixMode(GL11.GL_MODELVIEW); // set the matrix mode to model
+        GL11.glPushMatrix(); // push the current matrix onto the stack
+        GL11.glLoadIdentity(); // reset the matrix
+
+        // fbo
+        GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, fboID);
+        GL11.glViewport(0, 0, width, height);
+
+        // property settings
+        int previousShader = GL11.glGetInteger(GL20.GL_CURRENT_PROGRAM);
+        GL20.glUseProgram(0);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, sourceTextureId);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+        // render
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glTexCoord2f(0.0f, 0.0f); GL11.glVertex2f(0.0f, 0.0f);
+        GL11.glTexCoord2f(1.0f, 0.0f); GL11.glVertex2f(width, 0.0f);
+        GL11.glTexCoord2f(1.0f, 1.0f); GL11.glVertex2f(width, height);
+        GL11.glTexCoord2f(0.0f, 1.0f); GL11.glVertex2f(0.0f, height);
+        GL11.glEnd();
+
+        // read the fbo
+        ByteBuffer pixels = BufferUtils.createByteBuffer(width * height * 4);
+        GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, pixels);
+
+        // restore
+        GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
+//        int mainWindowW = (int) Global.getSettings().getScreenWidth();
+//        int mainWindowH = (int) Global.getSettings().getScreenHeight();
+//        glViewport(0, 0, mainWindowW, mainWindowH); // glPushAttrib GL11.GL_VIEWPORT_BIT should restore this
+
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        GL11.glPopMatrix();
+        GL11.glMatrixMode(GL11.GL_PROJECTION);
+        GL11.glPopMatrix(); // pull back from the matrix stack
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        GL11.glPopAttrib();
+
+        GL20.glUseProgram(previousShader);
+        return pixels;
     }
 
     private static int getBytesPerPixel(int format) {
