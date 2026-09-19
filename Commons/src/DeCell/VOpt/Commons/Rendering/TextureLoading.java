@@ -25,8 +25,6 @@ public class TextureLoading {
 
         glDeleteTextures(textureID);
 
-        textureID = glGenTextures();
-
         // Clear pre-existing OpenGL errors
         while (glGetError() != GL_NO_ERROR) ;
 
