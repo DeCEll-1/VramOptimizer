@@ -126,13 +126,14 @@ namespace DDSCreator
                 return false;
             }
         }
-
+        // use funky .NET "is it windows" instead  --snark5885
         public static bool IsNativeCrashLoggingEnabled()
         {
+            if (!OperatingSystem.IsWindows())
+                return false;
+
             string regPath = @"SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps\DDSCreator.exe";
-
             using RegistryKey? key = Registry.LocalMachine.OpenSubKey(regPath);
-
             return key != null;
         }
 
