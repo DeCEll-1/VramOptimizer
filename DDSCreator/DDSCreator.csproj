@@ -9,6 +9,16 @@
 		<LangVersion>preview</LangVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+		<!-- uncomment this to default to packaging a single file --snark5885  -->
+		<!-- <PublishSingleFile>true</PublishSingleFile> -->
+	</PropertyGroup>
+
+	<!-- RuntimeIdentifier gets populated with its proper -r linux-x64 flag (or whatever), linux is defined, and conts.cs should resolve all its directory fields properly snark5885 -->
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('win'))">
+		<DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+		<DefineConstants>$(DefineConstants);LINUX</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>
