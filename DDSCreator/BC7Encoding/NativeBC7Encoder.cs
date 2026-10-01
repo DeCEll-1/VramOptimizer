@@ -1,4 +1,4 @@
-﻿using OpenTK.Graphics.ES20;
+﻿using DDSCreator.Entrypoint;
 using System.Runtime.InteropServices;
 
 namespace DDSCreator

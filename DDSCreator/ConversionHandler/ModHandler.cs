@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using DDSCreator.Entrypoint;
 using DDSCreator.GLib;
 using DDSCreator.Model;
 using Newtonsoft.Json;

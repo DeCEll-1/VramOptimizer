@@ -1,4 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL;
+using System.Reflection;
 
 namespace DDSCreator.OpenGL
 {
@@ -305,51 +306,77 @@ namespace DDSCreator.OpenGL
 
         public static void SaveDebugLog()
         {
-            List<CapabilityResult> capabilities = DumpAllGPUCapabilities().OrderBy(s => s.Name).ToList();
-            List<string> extensions = GetGPUExtensions();
-            Dictionary<string, string> strings = GetGPUStrings();
-            List<string> formats = DumpAllFormats();
+            var logger = new DebugLogBuilder();
 
-            //capabilities = capabilities.FindAll(s => s.Success);
-            int capabilitiesMaxName = capabilities.Aggregate((longest, next) => next.Name.Length > longest.Name.Length ? next : longest).Name.Length;
-            int extensionsMaxName = extensions.Aggregate((longest, next) => next.Length > longest.Length ? next : longest).Length;
-            int stringsMaxName = strings.Aggregate((longest, next) => next.Key.Length > longest.Key.Length ? next : longest).Key.Length;
+            // 1. Paths Section
+            logger.AddSection("PATHS", new Dictionary<string, string>
+            {
+                [nameof(AppDir)] = AppDir.FullName,
+                [nameof(ModDir)] = ModDir.FullName,
+                [nameof(ModsDir)] = ModsDir.FullName,
+                [nameof(GameDir)] = GameDir.FullName,
+                [nameof(StarsectorCoreDir)] = StarsectorCoreDir.FullName,
+                [nameof(CacheDir)] = CacheDir.FullName
+            });
 
-            int maxNameLenth = Math.Max(Math.Max(capabilitiesMaxName, extensionsMaxName), stringsMaxName);
+            // 2. Embedded Data Section
+            var assembly = Assembly.GetExecutingAssembly();
+            var resources = assembly.GetManifestResourceNames()
+                .Select(name =>
+                {
+                    using Stream? stream = assembly.GetManifestResourceStream(name);
+                    if (stream == null) return (Name: name, Content: null);
+                    using StreamReader reader = new(stream);
+                    return (Name: name, Content: Environment.NewLine + reader.ReadToEnd());
+                })
+                .Where(r => r.Content != null)
+                .ToDictionary(r => r.Name, r => r.Content!);
 
+            logger.AddSection("EMBEDDED_DATA", resources);
 
-            List<string> capabilitiesText = capabilities.Select(s => $"{s.Name.PadRight(maxNameLenth+ 2)}:  {s.Value}").ToList();
+            // 3. GPU Data Sections
+            var capabilities = DumpAllGPUCapabilities().OrderBy(s => s.Name);
+            logger.AddSection("GPU CAPABILITIES", capabilities.DistinctBy(c => c.Name).ToDictionary(c => c.Name, c => c.Value?.ToString() ?? "null"));
 
-            List<string> stringsText = strings.Select(s => $"{s.Key.PadRight(maxNameLenth+ 2)}:  {s.Value}").ToList();
+            logger.AddSection("EXTENSIONS", GetGPUExtensions());
+            logger.AddSection("FORMATS", DumpAllFormats());
+            logger.AddSection("STRINGS", GetGPUStrings());
 
-            const int pathPadding = 17 + 3;
-
-            List<string> paths = [
-                $"{nameof(AppDir),-pathPadding}:  {AppDir}",
-                $"{nameof(ModDir),-pathPadding}:  {ModDir}",
-                $"{nameof(ModsDir),-pathPadding}:  {ModsDir}",
-                $"{nameof(GameDir),-pathPadding}:  {GameDir}",
-                $"{nameof(StarsectorCoreDir),-pathPadding}:  {StarsectorCoreDir}",
-                $"{nameof(CacheDir),-pathPadding}:  {CacheDir}"
-                ];
-
-
-            List<string> text = [
-                "PATHS".PadRight(pathPadding, '/'),
-                ..paths,
-                "GPU CAPABILITIES".PadRight(maxNameLenth, '/'),
-                .. capabilitiesText,
-                "EXTENSIONS".PadRight(maxNameLenth, '/'),
-                .. extensions,
-                "FORMATS".PadRight(maxNameLenth, '/'),
-                .. formats,
-                "STRINGS".PadRight(maxNameLenth, '/'),
-                ..stringsText
-                ];
-
-            File.WriteAllText(DebugLogPath.FullName, string.Join(Environment.NewLine, text));
+            // Build and Save
+            File.WriteAllText(DebugLogPath.FullName, logger.ToString());
         }
 
+        public class DebugLogBuilder
+        {
+            private readonly List<string> _lines = new();
+
+            // Adds key-value sections with automatic padding alignment
+            public DebugLogBuilder AddSection(string title, IEnumerable<KeyValuePair<string, string>> items)
+            {
+                var list = items.ToList();
+                int maxKeyLength = list.Count > 0 ? list.Max(kvp => kvp.Key.Length) : 0;
+                int headerPadding = Math.Max(maxKeyLength + 2, 20);
+
+                _lines.Add(title.PadRight(headerPadding, '/'));
+                foreach (var (key, value) in list)
+                {
+                    _lines.Add($"{key.PadRight(headerPadding)}:  {value}");
+                }
+                _lines.Add(string.Empty); // Spacing between sections
+                return this;
+            }
+
+            // Adds list-based sections (e.g. Extensions, Formats)
+            public DebugLogBuilder AddSection(string title, IEnumerable<string> items)
+            {
+                _lines.Add(title.PadRight(20, '/'));
+                _lines.AddRange(items);
+                _lines.Add(string.Empty);
+                return this;
+            }
+
+            public override string ToString() => string.Join(Environment.NewLine, _lines);
+        }
 
 
     }

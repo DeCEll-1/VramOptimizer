@@ -1,6 +1,10 @@
-﻿using Microsoft.Win32;
+﻿using ImageMagick;
+using Microsoft.Win32;
+using SharpShaders;
+using SharpShaders.Textures;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace DDSCreator
 {
@@ -173,5 +177,25 @@ namespace DDSCreator
                 *invalidPtr = 42; // Writing to address 0 crashes natively
             }
         }
+
+        public static string ReadFromManifest(string name)
+        {
+            using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(name)!;
+            using StreamReader sr = new StreamReader(stream!);
+            return sr.ReadToEnd();
+        }
+
+        private static bool OpenGLContextOpen = false;
+        public static void OpenOGLContextIfClosed()
+        {
+            if (OpenGLContextOpen)
+                return;
+
+            StreamWriter streamWriter = new StreamWriter("./GPU_log.txt", false) { AutoFlush = true };
+            SharpS.LibLogWriter = streamWriter;
+            SharpS.OpenOGL();
+            OpenGLContextOpen = true;
+        }
+
     }
 }

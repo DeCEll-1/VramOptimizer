@@ -1,4 +1,5 @@
-﻿using DDSCreator.Model;
+﻿using DDSCreator.Entrypoint;
+using DDSCreator.Model;
 using ImageMagick;
 
 namespace DDSCreator

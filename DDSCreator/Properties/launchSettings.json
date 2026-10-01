@@ -3,6 +3,14 @@
     "DDSCreator": {
       "commandName": "Project",
       "nativeDebugging": true
+    },
+    "Heightmap": {
+      "commandName": "Project",
+      "commandLineArgs": "--create-test-heightmap"
+    },
+    "Normalmap": {
+      "commandName": "Project",
+      "commandLineArgs": "--create-test-normalmap"
     }
   }
 }
