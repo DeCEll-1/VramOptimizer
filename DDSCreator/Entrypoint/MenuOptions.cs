@@ -1,5 +1,6 @@
 ﻿using DDSCreator.Model;
 using DDSCreator.OpenGL;
+using DDSCreator.Resources;
 using ImageMagick;
 using Spectre.Console;
 
@@ -13,34 +14,34 @@ namespace DDSCreator.Entrypoint
             switch (s)
             {
                 case MenuChoice.ProcessMods:
-                    return $"Process Mods";
+                    return Strings.MenuChoice_ProcessMods;
                 case MenuChoice.EnableLongPaths: // this should not be a choice in linux
                     if (AreLongPathsEnabled())
-                        return $"[grey]Long paths are enabled[/]";
+                        return Strings.MenuChoice_EnableLongPaths_Enabled;
                     else
-                        return $"[red]Long paths are not enabled, may cause problems, select this to enable[/]";
+                        return Strings.MenuChoice_EnableLongPaths_Disabled;
                 case MenuChoice.EnableNativeCrashLogging: // this should not be a choice in linux
                     if (IsNativeCrashLoggingEnabled())
-                        return $"[grey]Native crash logging is enabled[/]";
+                        return Strings.MenuChoice_EnableNativeCrashLogging_Enabled;
                     else
-                        return $"[red]Native crash logging is not enabled, please enable it incase the application crashes so I can fix the problems[/]";
+                        return Strings.MenuChoice_EnableNativeCrashLogging_Disabled;
                 case MenuChoice.PrintError:
                     if (FailedToLoadMods.Count > 0)
-                        return $"Display Loading Errors ({FailedToLoadMods.Count})";
+                        return string.Format(Strings.MenuChoice_PrintError_WithErrors, FailedToLoadMods.Count);
                     else
-                        return $"No Errors Found";
+                        return Strings.MenuChoice_PrintError_NoErrors;
                 case MenuChoice.ChangeFileParallelCount:
-                    return $"Change max files processed in parallel (currently: {ConcurrentFileLimit})";
+                    return string.Format(Strings.MenuChoice_ChangeFileParallelCount, ConcurrentFileLimit);
                 case MenuChoice.ChangeDDSLineParallelCount:
-                    return $"Change max threads per texture encoding (currently: {TextureTaskCount})";
+                    return string.Format(Strings.MenuChoice_ChangeDDSLineParallelCount, TextureTaskCount);
                 case MenuChoice.ChangeCompressionQuality:
-                    return $"Change the compression quality (Current: {CurrentCompressionPreset})";
+                    return string.Format(Strings.MenuChoice_ChangeCompressionQuality, CurrentCompressionPreset);
                 case MenuChoice.ClearMetadata:
-                    return $"[gray]Purge metadata[/]";
+                    return Strings.MenuChoice_ClearMetadata;
                 case MenuChoice.ClearCache:
-                    return $"[DarkRed_1]Purge texture cache[/]";
+                    return Strings.MenuChoice_ClearCache;
                 case MenuChoice.CompactCache:
-                    return $"Compact cache folder";
+                    return Strings.MenuChoice_CompactCache;
 
                 default:
                     return s.ToString();
@@ -137,21 +138,22 @@ namespace DDSCreator.Entrypoint
         private static void HandleLongPathsChoice()
         {
             if (AreLongPathsEnabled())
-                Console.WriteLine("Long paths are already enabled");
+                Console.WriteLine(Strings.MenuChoice_Handle_LongPaths_Enabled);
             else
                 EnableLongPathsViaPowerShell();
 
+            Console.WriteLine(Strings.General_PressAnyKeyToGoBackToMenu);
             Console.ReadKey();
         }
 
         private static void HandleNativeCrashLoggingChoice()
         {
             if (IsNativeCrashLoggingEnabled())
-                Console.WriteLine("Native crash logging is already enabled");
+                Console.WriteLine(Strings.MenuChoice_Handle_NativeCrashLogging_Enabled);
             else
                 EnableNativeCrashLogging();
 
-            Console.WriteLine("Press any key to continue");
+            Console.WriteLine(Strings.General_PressAnyKeyToGoBackToMenu);
 
             Console.ReadKey();
         }
@@ -162,7 +164,7 @@ namespace DDSCreator.Entrypoint
 
             int selected = AnsiConsole.Prompt(
                 new SelectionPrompt<int>()
-                    .Title("Select max concurrent files to process for [green]Batch Concurrency[/]:")
+                    .Title(Strings.MenuChoice_Handle_ChangeFileParallelCount_Title)
                     .PageSize(10).WrapAround()
                     .AddChoices(threadChoices));
 
@@ -177,19 +179,18 @@ namespace DDSCreator.Entrypoint
 
             int selected = AnsiConsole.Prompt(
                 new SelectionPrompt<int>()
-                    .Title("Select max thread count per texture for [green]BC7 Encoder Threads[/]:")
+                    .Title(Strings.MenuChoice_Handle_ChangeDDSLineParallelCount)
                     .PageSize(10).WrapAround()
                     .AddChoices(threadChoices));
 
             TextureTaskCount = selected;
-
         }
 
         private static void HandleCompressionQualityChoice()
         {
             CompressionPreset compQualityRes = AnsiConsole.Prompt(
                 new SelectionPrompt<CompressionPreset>()
-                    .Title("Select compression speed.\nFaster compression may cause more graphical artifacts.")
+                    .Title(Strings.MenuChoice_Handle_ChangeCompressionQuality_Title)
                     .PageSize(10)
                     .WrapAround()
                     .AddChoices(Enum.GetValues<CompressionPreset>())
@@ -198,15 +199,15 @@ namespace DDSCreator.Entrypoint
                         switch (s)
                         {
                             case CompressionPreset.Slow:
-                                return "Slow";
+                                return Strings.MenuChoice_Handle_ChangeCompressionQuality_Slow;
                             case CompressionPreset.Default:
-                                return "Default";
+                                return Strings.MenuChoice_Handle_ChangeCompressionQuality_Default;
                             case CompressionPreset.Fast:
-                                return "Fast";
+                                return Strings.MenuChoice_Handle_ChangeCompressionQuality_Fast;
                             case CompressionPreset.Faster:
-                                return "Faster";
+                                return Strings.MenuChoice_Handle_ChangeCompressionQuality_Faster;
                             case CompressionPreset.Fastest:
-                                return "Fastest";
+                                return Strings.MenuChoice_Handle_ChangeCompressionQuality_Fastest;
                             default:
                                 return "";
                         }
@@ -226,12 +227,12 @@ namespace DDSCreator.Entrypoint
 
         private static void HandleClearMetadata()
         {
-            AnsiConsole.MarkupLine("This will [red]delete[/] your metadata files, you will need to re generate them using [blue]Process Mods[/].\n\nThis is generally needed when you change mod folder names or if the cache location changes.\n");
+            AnsiConsole.MarkupLine(Strings.MenuChoice_Handle_ClearMetadata_Warning);
 
-            if (AnsiConsole.Confirm("Are you sure you want to [red]purge[/] the metadata?", false))
+            if (AnsiConsole.Confirm(Strings.MenuChoice_Handle_ClearMetadata_Confirmation, false))
             {
                 AnsiConsole.Status()
-                .Start("Deleting cache files...", ctx =>
+                .Start(Strings.MenuChoice_Handle_ClearMetadata_Status_Title, ctx =>
                 {
                     foreach (ModInfo mod in ValidMods)
                     {
@@ -240,35 +241,35 @@ namespace DDSCreator.Entrypoint
                         if (!File.Exists(cachePath))
                             continue;
 
-                        ctx.Status($"Deleting: {Markup.Escape(cachePath)}");
+                        ctx.Status(string.Format(Strings.MenuChoice_Handle_ClearMetadata_Status_Deleting, Markup.Escape(cachePath)));
 
                         File.Delete(cachePath);
                     }
                     UpdateMetadataCache();
 
                 });
-                AnsiConsole.MarkupLine("[green]Cache cleared successfully![/]\nBe sure to run Process Mods again for cache to be regenerated.");
+                AnsiConsole.MarkupLine(Strings.MenuChoice_Handle_ClearMetadata_Success);
             }
             Console.ReadKey();
         }
 
         private static void HandleClearCache()
         {
-            AnsiConsole.MarkupLine("This will [red]delete[/] your cached texture files, you will need to re generate them using [blue]Process Mods[/].\n\nThis should only be necessary if every texture thats generated needs to be regenerated.\n");
+            AnsiConsole.MarkupLine(Strings.MenuChoice_Handle_ClearCache_Warning);
 
-            string confirmationText = "DELETE";
-            string res = AnsiConsole.Ask<string>($"To purge cached textures, please type [red]'{confirmationText}'[/] to confirm (anything else to quit):");
+            string confirmationText = Strings.MenuChoice_Handle_ClearCache_ConfirmationText;
+            string res = AnsiConsole.Ask<string>(string.Format(Strings.MenuChoice_Handle_ClearCache_Confirmation, confirmationText));
 
             if (confirmationText == res)
             {
-                AnsiConsole.MarkupLine($"Deleting: {CacheDir.FullName}");
+                AnsiConsole.MarkupLine(string.Format(Strings.MenuChoice_Handle_ClearCache_Deleting, CacheDir.FullName));
                 CacheDir.Delete(true);
                 CacheDir.Create();
-                AnsiConsole.MarkupLine("[green]Cache cleared successfully![/]\nBe sure to run Process Mods again to regenerate textures.");
+                AnsiConsole.MarkupLine(Strings.MenuChoice_Handle_ClearCache_Success);
             }
             else
             {
-                AnsiConsole.MarkupLine("Press any key to return back to menu.");
+                AnsiConsole.MarkupLine(Strings.General_PressAnyKeyToGoBackToMenu);
             }
 
             Console.ReadKey();
@@ -276,24 +277,24 @@ namespace DDSCreator.Entrypoint
 
         private static void HandleCompactCache()
         {
-            AnsiConsole.MarkupLine($"Compacting the cache folder will reduce storage usage using Windows Overlay Filter LZX compression.\nIt has no in-game performance change, it [b]only[/] changes disk space usage.\nYou will need to recompress after updating your cache.");
+            AnsiConsole.MarkupLine(Strings.MenuChoice_Handle_CompactCache_Title);
 
             var choice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("")
                     .PageSize(5)
-                    .AddChoices(new[]
-                    {
-                        "[green]Compress cache[/]",
-                        "[yellow]Decompress cache[/]",
-                        "[grey]Cancel[/]"
-                    }));
+                    .AddChoices(
+                    [
+                        Strings.MenuChoice_Handle_CompactCache_CompressCache,
+                        Strings.MenuChoice_Handle_CompactCache_DecompressCache,
+                        Strings.MenuChoice_Handle_CompactCache_CacheCancel
+                    ]));
 
-            if (choice.Contains("Cancel", StringComparison.OrdinalIgnoreCase))
+            if (choice.Contains(Strings.MenuChoice_Handle_CompactCache_CacheCancel_Contains, StringComparison.OrdinalIgnoreCase))
                 return;
 
-            bool isCompressing = choice.Contains("Compress", StringComparison.OrdinalIgnoreCase) && !choice.Contains("Decompress", StringComparison.OrdinalIgnoreCase);
-            string actionVerb = isCompressing ? "Compressing" : "Decompressing";
+            bool isCompressing = choice.Contains(Strings.MenuChoice_Handle_CompactCache_CompressCache_Contains, StringComparison.OrdinalIgnoreCase) && !choice.Contains(Strings.MenuChoice_Handle_CompactCache_DecompressCache_Contains, StringComparison.OrdinalIgnoreCase);
+            string actionVerb = isCompressing ? Strings.MenuChoice_Handle_CompactCache_Verb_Compressing : Strings.MenuChoice_Handle_CompactCache_Verb_Decompressing;
             string flag = isCompressing ? "/c" : "/u";
 
             RunCompactProcess(flag, actionVerb);
@@ -306,7 +307,7 @@ namespace DDSCreator.Entrypoint
             var allOutputLines = new List<string>();
 
             AnsiConsole.Status()
-                .Start($"{actionVerb} cache folder (this may take a while)...", ctx =>
+                .Start(string.Format(Strings.MenuChoice_Handle_CompactCache_Run_Status_Title, actionVerb), ctx =>
                 {
                     try
                     {
@@ -342,11 +343,11 @@ namespace DDSCreator.Entrypoint
                     }
                     catch (Exception ex)
                     {
-                        AnsiConsole.MarkupLine($"[red]Failed to modify cache compression: {Markup.Escape(ex.Message)}[/]");
+                        AnsiConsole.MarkupLine(string.Format(Strings.MenuChoice_Handle_CompactCache_Run_Status_Fail, Markup.Escape(ex.Message)));
                     }
                 });
 
-            AnsiConsole.MarkupLine("[green]Cache compression operation finished![/]\n");
+            AnsiConsole.MarkupLine(Strings.MenuChoice_Handle_CompactCache_Run_Status_Success);
 
             lock (allOutputLines)
             {
@@ -383,7 +384,7 @@ namespace DDSCreator.Entrypoint
         {
             OpenOGLContextIfClosed();
             DumpOpenGL.SaveDebugLog();
-            Console.WriteLine("Debug values has been saved to:\n" + DebugLogPath.FullName);
+            Console.WriteLine(string.Format(Strings.Log_DebugValuesSaved, DebugLogPath.FullName));
             Console.ReadKey();
         }
 

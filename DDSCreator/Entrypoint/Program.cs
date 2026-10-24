@@ -3,8 +3,10 @@ global using static DDSCreator.Consts;
 global using static DDSCreator.Entrypoint.Program;
 global using static DDSCreator.Misc;
 using CommandLine;
+using DDSCreator.Resources;
 using SharpShaders;
 using Spectre.Console;
+using System.Globalization;
 // TODO: https://github.com/copilot/share/822451b6-4200-80d2-b102-140604482053
 namespace DDSCreator.Entrypoint
 {
@@ -19,6 +21,11 @@ namespace DDSCreator.Entrypoint
 
                     if (Options.TriggerNativeCrash.ExecuteIf(Misc.TriggerNativeCrash))
                         return;
+
+                    if (!AnsiConsole.Profile.Capabilities.Interactive)
+                        throw new InvalidOperationException(
+                            Strings.AnsiConsole_Profile_Capabilities_Interactive_False
+                        );
 
                     Run();
                 });
@@ -63,7 +70,7 @@ namespace DDSCreator.Entrypoint
             {
                 MenuChoice option = AnsiConsole.Prompt(
                         new SelectionPrompt<MenuChoice>()
-                            .Title("What would you like to do?")
+                            .Title(Strings.MenuChoice_What_To_Do)
                             .PageSize(20)
                             .WrapAround()
                             .AddChoices(choices)

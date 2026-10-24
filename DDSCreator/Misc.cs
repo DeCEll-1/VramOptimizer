@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using DDSCreator.Resources;
+using Microsoft.Win32;
 using SharpShaders;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -105,12 +106,12 @@ namespace DDSCreator
 
                     if (process.ExitCode == 0)
                     {
-                        Console.WriteLine("Successfully enabled long paths.");
+                        Console.WriteLine(Strings.MenuChoice_Handle_LongPaths_Success);
                         return true;
                     }
                     else
                     {
-                        Console.WriteLine($"Failed or user cancelled the elevation. Exit code: {process.ExitCode}");
+                        Console.WriteLine(string.Format(Strings.MenuChoice_Handle_LongPaths_Fail, process.ExitCode));
                         return false;
                     }
                 }
@@ -153,12 +154,21 @@ namespace DDSCreator
             {
                 using var process = Process.Start(startInfo);
                 process?.WaitForExit();
+                if (process?.ExitCode == 0)
+                {
+                    Console.WriteLine(Strings.MenuChoice_Handle_NativeCrashLogging_Success);
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine(string.Format(Strings.MenuChoice_Handle_NativeCrashLogging_Fail, process.ExitCode));
+                    return false;
+                }
             }
             catch (Win32Exception)
             {
                 return false;
             }
-            return true;
         }
 
 #pragma warning restore CA1416
