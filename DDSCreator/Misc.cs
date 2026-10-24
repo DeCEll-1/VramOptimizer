@@ -173,7 +173,6 @@ namespace DDSCreator
 
 #pragma warning restore CA1416
 
-
         public static void TriggerNativeCrash()
         {
             // Allocate a small buffer or use IntPtr.Zero, then try to write to an invalid address
@@ -197,5 +196,28 @@ namespace DDSCreator
             OpenGLContextOpen = true;
         }
 
+        public static int CalculateOptimalMipLevels(int width, int height)
+        {
+            int targetMips = 0;
+            int i = 0;
+
+            while (true)
+            {
+                targetMips++;
+
+                const int size = 4;
+
+                // Stop once the shifted dimensions reach or drop below 4 
+                // to prevent duplicate 4x4 minimum mip levels or infinite loops.
+                if ((width >> i) <= size || (height >> i) <= size)
+                {
+                    break;
+                }
+
+                i++;
+            }
+
+            return Math.Max(1, targetMips);
+        }
     }
 }

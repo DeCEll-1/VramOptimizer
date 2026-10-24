@@ -59,12 +59,14 @@ By leveraging native GPU-supported texture compression, this mod reduces VRAM us
 ## 📜 Credits
 
 * **Libraries Used:**
-* `CsvHelper` (v33.1.0) - Data parsing
-* `JsonRepairSharp` (1.2.4) - JSON Fixing
-* `Magick.NET-Q16-AnyCPU` (v14.15.0) - Image manipulation
-* `Newtonsoft.Json` (v13.0.5-beta1) - JSON serialization/deserialization
-* `ShellProgressBar` (v5.2.0) - CLI progress bars
-* `Spectre.Console` (v0.57.2) - Interactive CLI UI
+* `CommandLineParser` (v2.9.1)
+* `CsvHelper` (v33.1.0)
+* `JsonRepairSharp` (v1.2.4)
+* `Magick.NET-Q8-AnyCPU` (v14.16.0)
+* `Newtonsoft.Json` (v13.0.5-beta1)
+* `OpenTK` (v4.9.4)
+* `ShellProgressBar` (v5.2.0)
+* `Spectre.Console` (v0.57.2)
 
 ## Special thanks to
 

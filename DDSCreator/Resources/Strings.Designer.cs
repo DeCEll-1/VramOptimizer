@@ -152,6 +152,15 @@ namespace DDSCreator.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [red]D[/][orange1]o[/][yellow]n[/][green]a[/][blue]t[/][purple]e[/].
+        /// </summary>
+        public static string MenuChoice_Donate {
+            get {
+                return ResourceManager.GetString("MenuChoice_Donate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to [red]Long paths are not enabled, may cause problems, select this to enable[/].
         /// </summary>
         public static string MenuChoice_EnableLongPaths_Disabled {

@@ -26,7 +26,6 @@ namespace DDSCreator.Entrypoint
                         throw new InvalidOperationException(
                             Strings.AnsiConsole_Profile_Capabilities_Interactive_False
                         );
-
                     Run();
                 });
 

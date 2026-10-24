@@ -211,29 +211,6 @@ namespace DDSCreator
             return matrix;
         }
 
-        private static int CalculateOptimalMipLevels(int width, int height)
-        {
-            int targetMips = 0;
-            int i = 0;
-
-            while (true)
-            {
-                targetMips++;
-
-                const int size = 4;
-
-                // Stop once the shifted dimensions reach or drop below 4 
-                // to prevent duplicate 4x4 minimum mip levels or infinite loops.
-                if ((width >> i) <= size || (height >> i) <= size)
-                {
-                    break;
-                }
-
-                i++;
-            }
-
-            return Math.Max(1, targetMips);
-        }
         public class ConversionResult
         {
             public string DdsFilePath { get; set; } = string.Empty;

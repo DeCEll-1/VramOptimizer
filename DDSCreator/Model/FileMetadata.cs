@@ -20,6 +20,7 @@ namespace DDSCreator.Model
         public required string CompressionFormat { get; init; }
         public required int Width { get; init; }
         public required int Height { get; init; }
+        public required int MipCount { get; init; }
 
         public required float[] Mean { get; init; } // color0
         public required float[] Weighted { get; init; } // color1

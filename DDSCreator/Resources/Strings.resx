@@ -248,6 +248,9 @@ This should only be necessary if every texture thats generated needs to be regen
     <value>[green]Cache cleared successfully![/]
 Be sure to run Process Mods again to regenerate textures.</value>
   </data>
+  <data name="MenuChoice_Donate" xml:space="preserve">
+    <value>[red]D[/][orange1]o[/][yellow]n[/][green]a[/][blue]t[/][purple]e[/]</value>
+  </data>
   <data name="General_PressAnyKeyToGoBackToMenu" xml:space="preserve">
     <value>Press any key to return back to menu.</value>
   </data>

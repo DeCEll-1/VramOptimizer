@@ -151,6 +151,7 @@ namespace DDSCreator
                     Width = result.Width,
                     // GetNextMultipleOf4(height >> mipSize);
                     Height = result.Height,
+                    MipCount = CalculateOptimalMipLevels(result.Width, result.Height),
                     // these are needed by the game, i dont know how theyre calculated or what theyre for, but genir needs them
                     Mean = result.Colors![0],
                     Weighted = result.Colors[1],

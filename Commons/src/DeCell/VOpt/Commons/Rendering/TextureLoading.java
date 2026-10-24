@@ -53,20 +53,7 @@ public class TextureLoading {
 
         GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
 
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_BASE_LEVEL, 0);
-
-        if (nomips) {
-            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_MAX_LEVEL, 0);
-            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-        } else {
-            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_MAX_LEVEL, info.mipCount - 1);
-            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
-        }
-
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL14.GL_GENERATE_MIPMAP, GL_FALSE);
+        SetDDSTextureParamaters(textureID, mipLevelsToLoad, false);
 
         int currentOffset = 0;
 
@@ -118,7 +105,9 @@ public class TextureLoading {
         return payloadByteAmount;
     }
 
-    private static int GetNextMultipleOf4(int n) {return (int) Math.max(4, (Math.ceil((n) / 4d) * 4));}
+    private static int GetNextMultipleOf4(int n) {
+        return (int) Math.max(4, (Math.ceil((n) / 4d) * 4));
+    }
 
     public static boolean IsDDSFile(byte[] fileBytes) {
         // Check if the array is null or too short to contain the 4-byte signature
@@ -131,5 +120,27 @@ public class TextureLoading {
                 fileBytes[1] == 0x44 &&
                 fileBytes[2] == 0x53 &&
                 fileBytes[3] == 0x20;
+    }
+
+    public static void SetDDSTextureParamaters(int textureID, int mipCount, boolean bind) {
+        final boolean nomips = Global.getSettings().getBoolean("VOpt_no_mipmap");
+
+        if (bind)
+            GL11.glBindTexture(GL_TEXTURE_2D, textureID);
+
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_BASE_LEVEL, 0);
+
+        if (nomips) {
+            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_MAX_LEVEL, 0);
+            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+        } else {
+            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_MAX_LEVEL, mipCount - 1);
+            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
+        }
+
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL14.GL_GENERATE_MIPMAP, GL_FALSE);
     }
 }

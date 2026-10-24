@@ -3,6 +3,7 @@ using DDSCreator.OpenGL;
 using DDSCreator.Resources;
 using ImageMagick;
 using Spectre.Console;
+using System.Diagnostics;
 
 namespace DDSCreator.Entrypoint
 {
@@ -40,9 +41,10 @@ namespace DDSCreator.Entrypoint
                     return Strings.MenuChoice_ClearMetadata;
                 case MenuChoice.ClearCache:
                     return Strings.MenuChoice_ClearCache;
+                case MenuChoice.Donate:
+                    return Strings.MenuChoice_Donate;
                 case MenuChoice.CompactCache:
                     return Strings.MenuChoice_CompactCache;
-
                 default:
                     return s.ToString();
             }
@@ -88,6 +90,10 @@ namespace DDSCreator.Entrypoint
                     HandleClearCache();
                     break;
 
+                case MenuChoice.Donate:
+                    HandleDonate();
+                    break;
+
                 case MenuChoice.CompactCache:
                     HandleCompactCache();
                     break;
@@ -119,6 +125,7 @@ namespace DDSCreator.Entrypoint
             ChangeCompressionQuality,
             ClearMetadata,
             ClearCache,
+            Donate,
             CompactCache,
             PrintDebug,
             LogDebug,
@@ -274,7 +281,14 @@ namespace DDSCreator.Entrypoint
 
             Console.ReadKey();
         }
-
+        private static void HandleDonate()
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://www.patreon.com/cw/DeCell",
+                UseShellExecute = true
+            });
+        }
         private static void HandleCompactCache()
         {
             AnsiConsole.MarkupLine(Strings.MenuChoice_Handle_CompactCache_Title);
