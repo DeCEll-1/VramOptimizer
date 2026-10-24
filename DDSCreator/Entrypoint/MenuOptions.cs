@@ -370,7 +370,7 @@ namespace DDSCreator.Entrypoint
             Console.WriteLine();
             AnsiConsole.MarkupLine($"[cyan]{nameof(CurrentCompressionPreset),-20}[/] {CurrentCompressionPreset}");
 
-#if WINDOWS || DEBUG
+#if WINDOWS
             Console.WriteLine();
             AnsiConsole.MarkupLine($"[cyan]{nameof(AreLongPathsEnabled),-20}[/] {AreLongPathsEnabled()}");
 #endif

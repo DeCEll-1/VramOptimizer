@@ -1,13 +1,1 @@
-{
-  "id": "VramOptimizer",
-  "name": "~Vram Optimizer", # better load last ye?
-  "author": "DeCell",
-  "totalConversion": "false",
-  "description": "Vram Optimizer",
-  "gameVersion": "0.98a-RC5",
-  "modPlugin": "DeCell.VOpt.Plugins.ModPlugin",
-  "jars": [
-    "jars/VOpt.jar",
-    "jars/GameFunctions.jar",
-  ]
-}
+{"jars":["jars/VOpt.jar","jars/GameFunctions.jar"],"id":"VramOptimizer","totalConversion":"false","version":{"minor":1,"patch":1,"major":1},"gameVersion":"0.98a-RC5","description":"Vram Optimizer","author":"DeCell","name":"~Vram Optimizer","utility":"true","modPlugin":"DeCell.VOpt.Plugins.ModPlugin"}

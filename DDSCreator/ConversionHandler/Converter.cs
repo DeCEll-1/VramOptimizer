@@ -145,12 +145,12 @@ namespace DDSCreator
                 {
                     using var clone = new MagickImage(magickImage);
 
-                    int currentW = (width  >> i);
+                    int currentW = (width >> i);
                     int currentH = (height >> i);
 
 
                     noAspectRationGeometry.Width = (uint)currentW;
-                    noAspectRationGeometry.Height= (uint)currentH;
+                    noAspectRationGeometry.Height = (uint)currentH;
 
                     //if (i > 0)
                     clone.Resize(

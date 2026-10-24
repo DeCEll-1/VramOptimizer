@@ -1,7 +1,6 @@
 ﻿using DDSCreator.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SharpShaders;
 using Spectre.Console;
 
 namespace DDSCreator.Entrypoint

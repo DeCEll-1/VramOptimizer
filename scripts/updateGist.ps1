@@ -28,6 +28,7 @@ foreach ($p in $profiles) {
     $fileContent = @{
         masterVersionFile = "https://gist.githubusercontent.com/DeCEll-1/$gistId/raw/$fileName"
         directDownloadURL = "https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/$p.zip"
+        changelogURL      = "https://raw.githubusercontent.com/DeCEll-1/VramOptimizer/refs/heads/master/Changelog.md"
         modName           = "~Vram Optimizer"
         modThreadId       = 35788
         modVersion        = @{

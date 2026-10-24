@@ -5,6 +5,10 @@ param (
 
 & "./buildSharpShaders.bat"
 Set-Location "../DDSCreator"
+
+dotnet clean
+dotnet restore
+
 # this exists to check if everything builds correctly
 $profiles = @("VramOptimizer-win-x64", "VramOptimizer-win-x86", "VramOptimizer-linux-x64",
     "VramOptimizer-win-x64-sc", "VramOptimizer-win-x86-sc", "VramOptimizer-linux-x64-sc"
@@ -38,9 +42,10 @@ foreach ($p in $profiles) {
     $fileName = "$p.version"
     
     # Generate the file content for this profile
-    $fileContent = @{
+    $versionFileContent = @{
         masterVersionFile = "https://gist.githubusercontent.com/DeCEll-1/$gistId/raw/$fileName"
         directDownloadURL = "https://github.com/DeCEll-1/VramOptimizer/releases/latest/download/$p.zip"
+        changelogURL      = "https://raw.githubusercontent.com/DeCEll-1/VramOptimizer/refs/heads/master/Changelog.md"
         modName           = "~Vram Optimizer"
         modThreadId       = 35788
         modVersion        = @{
@@ -50,7 +55,29 @@ foreach ($p in $profiles) {
         }
     } | ConvertTo-Json -Compress
     
-    Set-Content -LiteralPath "$profileDir/VOpt.version" -Value $fileContent
+    Set-Content -LiteralPath "$profileDir/VOpt.version" -Value $versionFileContent
+
+    $modInfoContent = [ordered]@{
+        id              = "VramOptimizer"
+        name            = "~Vram Optimizer"
+        author          = "DeCell"
+        totalConversion = "false"
+        utility         = "true"
+        version         = [ordered]@{
+            major = [int]$major
+            minor = [int]$minor
+            patch = [int]$patch
+        }
+        description     = "Vram Optimizer"
+        gameVersion     = "0.98a-RC5"
+        jars            = @(
+            "jars/VOpt.jar",
+            "jars/GameFunctions.jar"
+        )
+        modPlugin       = "DeCell.VOpt.Plugins.ModPlugin"
+    } | ConvertTo-Json
+
+    Set-Content -LiteralPath "$profileDir/mod_info.json" -Value $modInfoContent
 
     #update the version
     Set-Content -LiteralPath "$profileDir/VOpt_VERSION.txt" -Value "VOpt $TagName"

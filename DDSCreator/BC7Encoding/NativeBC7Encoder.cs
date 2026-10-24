@@ -116,7 +116,7 @@ namespace DDSCreator
             byte[][] mipmaps = new byte[mipAmount][];
             int totalPayloadBytes = 0;
 
-            for (int i = 0; i<mipAmount; i++)
+            for (int i = 0; i < mipAmount; i++)
             {
                 int mipWidth = Math.Max(1, baseWidth >> i);
                 int mipHeight = Math.Max(1, baseHeight >> i);

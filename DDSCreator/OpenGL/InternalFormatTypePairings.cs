@@ -1,6 +1,4 @@
-﻿using OpenTK.Graphics.OpenGL;
-
-namespace DDSCreator.OpenGL
+﻿namespace DDSCreator.OpenGL
 {
     public partial class DumpOpenGL
     {
