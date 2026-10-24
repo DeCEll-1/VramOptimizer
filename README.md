@@ -20,7 +20,7 @@ By leveraging native GPU-supported texture compression, this mod reduces VRAM us
 
 1. Choose the correct download archive for your operating system and architecture.
 
-* **Framework-dependent versions** require **.NET 8** and the [latest Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-supported-redistributable-version) installed on your system.
+* **Framework-dependent versions** require **.NET 10** and the [latest Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-supported-redistributable-version) installed on your system.
 
 * **Self-contained versions** (files ending with `-sc`) include the necessary runtime and do not require separate installations, though they have a larger file size.
 * **Windows (64-bit):**
