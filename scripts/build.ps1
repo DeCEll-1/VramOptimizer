@@ -59,7 +59,7 @@ foreach ($p in $profiles) {
 
     $modInfoContent = [ordered]@{
         id              = "VramOptimizer"
-        name            = "~Vram Optimizer"
+        name            = "～Vram Optimizer"
         author          = "DeCell"
         totalConversion = "false"
         utility         = "true"

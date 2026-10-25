@@ -7,6 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ## [1.0.46]
 
+### Fixed
+- Linux crashing
+
+## [1.0.46]
+
 ### Action Needed
 - ``Metadata`` must be regenerated, using ``Purge Metadata`` option in the application
 
