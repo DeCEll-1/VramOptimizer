@@ -34,12 +34,28 @@ public class ModPlugin extends BaseModPlugin {
     }
 
     public static boolean isVersionStrictlyAbove(String versionStr, int targetMajor, int targetMinor, int targetPatch) {
-        String cleanVersion = versionStr.replaceAll("[a-zA-Z]", "");
+        if (versionStr == null || versionStr.isEmpty()) {
+            return false;
+        }
+
+        String cleanVersion = versionStr.trim();
+        if (cleanVersion.startsWith("v") || cleanVersion.startsWith("V")) {
+            cleanVersion = cleanVersion.substring(1);
+        }
+
+        int dashIndex = cleanVersion.indexOf('-');
+        if (dashIndex != -1) {
+            cleanVersion = cleanVersion.substring(0, dashIndex);
+        }
+        int plusIndex = cleanVersion.indexOf('+');
+        if (plusIndex != -1) {
+            cleanVersion = cleanVersion.substring(0, plusIndex);
+        }
 
         String[] parts = cleanVersion.split("\\.");
-        int major = parts.length > 0 ? Integer.parseInt(parts[0]) : 0;
-        int minor = parts.length > 1 ? Integer.parseInt(parts[1]) : 0;
-        int patch = parts.length > 2 ? Integer.parseInt(parts[2]) : 0;
+        int major = parts.length > 0 && !parts[0].isEmpty() ? Integer.parseInt(parts[0].replaceAll("\\D+", "")) : 0;
+        int minor = parts.length > 1 && !parts[1].isEmpty() ? Integer.parseInt(parts[1].replaceAll("\\D+", "")) : 0;
+        int patch = parts.length > 2 && !parts[2].isEmpty() ? Integer.parseInt(parts[2].replaceAll("\\D+", "")) : 0;
 
         if (major != targetMajor) {
             return major > targetMajor;

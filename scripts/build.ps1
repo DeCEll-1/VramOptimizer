@@ -69,7 +69,7 @@ foreach ($p in $profiles) {
             patch = [int]$patch
         }
         description     = "Vram Optimizer"
-        gameVersion     = "0.98a-RC5"
+        gameVersion     = "0.98.5a-RC3"
         jars            = @(
             "jars/VOpt.jar",
             "jars/GameFunctions.jar"
