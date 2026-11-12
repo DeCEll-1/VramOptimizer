@@ -3,29 +3,29 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.v1.0/)
 
-## [1.0.49]
+## [v1.0.50]
 
 ## Added
 - Skip image files whose names end in `.d.jpg`, `.d.jpeg`, `.d.webp`, or `.d.png` when collecting valid images.
 
-## [1.0.49]
+## [v1.0.49]
 
 ## Changed
 - Mod info for the latest game version
 
-## [1.0.48]
+## [v1.0.48]
 
 ## Added
 - Oats for genir
 
-## [1.0.47]
+## [v1.0.47]
 
 ### Fixed
 - Linux crashing
 
-## [1.0.46]
+## [v1.0.46]
 
 ### Action Needed
 - ``Metadata`` must be regenerated, using ``Purge Metadata`` option in the application
