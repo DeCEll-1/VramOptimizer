@@ -7,6 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ## [1.0.49]
 
+## Added
+- Skip image files whose names end in `.d.jpg`, `.d.jpeg`, `.d.webp`, or `.d.png` when collecting valid images.
+
+## [1.0.49]
+
 ## Changed
 - Mod info for the latest game version
 

@@ -17,6 +17,7 @@ namespace DDSCreator
         #region per mod handling
         #region misc
         private static readonly HashSet<string> FileFormats = new(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".webp", ".png" };
+        private static readonly HashSet<string> DiscardedFileFormats = new(StringComparer.OrdinalIgnoreCase) { ".d.jpg", ".d.jpeg", ".d.webp", ".d.png" };
 
         private static readonly HashSet<string> DiscardedFolderPaths = new(StringComparer.OrdinalIgnoreCase)
             {
@@ -49,7 +50,7 @@ namespace DDSCreator
         public static List<string> GetValidImageFiles(DirectoryInfo modPath)
         {
             List<string> images = Directory.EnumerateFiles(modPath.FullName, "*.*", SearchOption.AllDirectories)
-                    .Where(file => FileFormats.Contains(Path.GetExtension(file)) && !IsDiscarded(modPath.FullName, file))
+                    .Where(file => FileFormats.Contains(Path.GetExtension(file)) && !IsDiscarded(modPath.FullName, file) && DiscardedFileFormats.All(z => !Path.GetFileName(file).EndsWith(z, StringComparison.OrdinalIgnoreCase)))
                     .ToList();
 
             string csvPath = Path.Combine(modPath.FullName, "data", "lights", "core_texture_data.csv");
