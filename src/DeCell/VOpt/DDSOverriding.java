@@ -90,8 +90,8 @@ public class DDSOverriding {
     private static void UpdateHandles() {
         SpriteAPI handleFinderSprite = Global.getSettings().getSprite("graphics/asteroids/asteroid1.png");
         Sprite tex = extractSprite(handleFinderSprite); // we use that specific texture to get the handles for the padding amounts
-        extractTextureDimensionsHandles(tex.getTexture());
-        extractTextureFloatHandles(tex.getTexture());
+        extractTextureDimensionsHandles(invokeMethod("getTexture", tex));
+        extractTextureFloatHandles(invokeMethod("getTexture", tex));
     }
 
     private static void updatePaths() {
