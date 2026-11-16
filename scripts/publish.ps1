@@ -13,7 +13,6 @@ $profiles = @("VramOptimizer-win-x64", "VramOptimizer-win-x86", "VramOptimizer-l
     "VramOptimizer-win-x64-sc", "VramOptimizer-win-x86-sc", "VramOptimizer-linux-x64-sc"
 )
 
-
 Write-Host "Compressing profile folders into zip archives..." -ForegroundColor Cyan
 foreach ($p in $profiles) {
     $folderPath = "../bin/Publish/$p"

@@ -188,7 +188,7 @@ namespace DDSCreator
             magickImage.ColorType = ColorType.TrueColorAlpha;
             magickImage.Depth = 8;
             if (!magickImage.HasAlpha)
-                magickImage.Alpha(AlphaOption.On);
+                magickImage.Alpha(AlphaAction.On);
 
             width = (int)magickImage.Width;
             height = (int)magickImage.Height;
