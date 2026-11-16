@@ -1,0 +1,26 @@
+name: CI Build Check
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-check:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Run publish script (Dry Run Check)
+        shell: pwsh
+        working-directory: ./scripts
+        run: ./publish.ps1 -TagName "0.0.0"
