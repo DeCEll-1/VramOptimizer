@@ -1,6 +1,6 @@
 # Texture Optimization Mod for Starsector
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) ![wakatime](https://wakatime.com/badge/user/031e2989-d7de-482e-b163-53be0a26f8aa/project/0ada6441-05a6-4d80-94c7-6efebf21afeb.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) ![wakatime](https://wakatime.com/badge/user/031e2989-d7de-482e-b163-53be0a26f8aa/project/0ada6441-05a6-4d80-94c7-6efebf21afeb.svg) ![downloads](https://img.shields.io/github/downloads/DECEll-1/VRAMOptimizer/total?logo=github&color=blue)
 ![80% less vram usage!!!](/Promotional/Card.GIF)
 
 A memory optimization mod for **Starsector** that converts vanilla and modded textures into the **DirectDraw Surface (DDS)** format with BC7 compression.
