@@ -6,6 +6,10 @@ param (
 Write-Host "Building release for tag: $TagName"
 
 & "$PSScriptRoot/build.ps1" $TagName
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "build failed $LASTEXITCODE"
+    exit 1
+}
 
 Set-Location "../DDSCreator"
 

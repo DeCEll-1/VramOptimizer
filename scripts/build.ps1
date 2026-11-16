@@ -40,7 +40,7 @@ foreach ($p in $profiles) {
     dotnet publish DDSCreator.csproj /p:PublishProfile="$p"
     if ($LASTEXITCODE -ne 0) {
         Write-Error "dotnet publish failed for profile $p with exit code $LASTEXITCODE"
-        exit 1
+        exit 2
     }
     $binDir = "$profileDir/bin"
     if (!(Test-Path -LiteralPath $binDir)) {
