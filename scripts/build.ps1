@@ -3,7 +3,15 @@ param (
     [string]$TagName
 )
 
+$ErrorActionPreference = 'Stop'
+$PSNativeCommandUseErrorActionPreference = $true
+
 & "./buildSharpShaders.bat"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "buildSharpShaders.bat failed with exit code $LASTEXITCODE"
+    exit 1
+}
+
 Set-Location "../DDSCreator"
 
 dotnet clean
@@ -30,6 +38,10 @@ foreach ($p in $profiles) {
         Remove-Item -LiteralPath $profileDir -Recurse -Force
     }
     dotnet publish DDSCreator.csproj /p:PublishProfile="$p"
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "dotnet publish failed for profile $p with exit code $LASTEXITCODE"
+        exit 1
+    }
     $binDir = "$profileDir/bin"
     if (!(Test-Path -LiteralPath $binDir)) {
         New-Item -Path "$profileDir" -Name "bin" -ItemType Directory | Out-Null
