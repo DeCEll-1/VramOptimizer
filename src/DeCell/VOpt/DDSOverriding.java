@@ -132,11 +132,12 @@ public class DDSOverriding {
             currLoadedImage.setTexHeight(fileMetadata.Height);
 
             Sprite tex = extractSprite(currLoadedImage);
-            setTextureFloat1(tex.getTexture(), 1);
-            setTextureFloat2(tex.getTexture(), 1);
+            Object texO = invokeMethod("getTexture", tex);
+            setTextureFloat1(texO, 1);
+            setTextureFloat2(texO, 1);
 
-            setTextureWidth(tex.getTexture(), fileMetadata.Width);
-            setTextureHeight(tex.getTexture(), fileMetadata.Height);
+            setTextureWidth(texO, fileMetadata.Width);
+            setTextureHeight(texO, fileMetadata.Height);
         }
 
         // since SettingsAPI does not have any way to load binary files, ill have to do it manually, using reflection
