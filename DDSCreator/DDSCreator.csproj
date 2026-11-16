@@ -18,7 +18,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommandLineParser" Version="2.9.1" />
-		<PackageReference Include="CsvHelper" Version="33.1.0" />
+		<PackageReference Include="CsvHelper" Version="34.0.0" />
 		<PackageReference Include="JsonRepairSharp" Version="1.2.4" />
 		<PackageReference Include="Magick.NET-Q8-AnyCPU" Version="15.1.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.5-beta1" />
